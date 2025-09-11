@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador de Asociaciones Ornitológicas - COM Internacional</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to bottom, #0a3d2f, #1a5c48);
+      color: #333;
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+      background: white;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo-container img {
+      height: 80px;
+      width: auto;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .search-section {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      margin-bottom: 30px;
+    }
+
+    .search-bar {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 15px 20px;
+      border: 2px solid #2b7a78;
+      border-right: none;
+      border-radius: 10px 0 0 10px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .search-bar button {
+      padding: 15px 25px;
+      background: #2b7a78;
+      color: white;
+      border: none;
+      border-radius: 0 10px 10px 0;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .search-bar button:hover {
+      background: #1c5856;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .filter-group {
+      margin-bottom: 10px;
+    }
+
+    .filter-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2b7a78;
+    }
+
+    .filter-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .filter-group select:focus {
+      border-color: #2b7a78;
+      outline: none;
+    }
+
+    .com-option {
+      display: flex;
+      align-items: center;
+    }
+
+    .com-option img {
+      height: 20px;
+      margin-right: 8px;
+    }
+
+    .results-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 0 10px;
+      color: white;
+    }
+
+    .results-count {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .sort-select {
+      padding: 10px 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 15px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-header {
+      background: linear-gradient(to right, #2b7a78, #3cb4ac);
+      padding: 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-icon {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 24px;
+      color: #2b7a78;
+    }
+
+    .card-title {
+      flex: 1;
+    }
+
+    .card-title h3 {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .card-title .siglas {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-description {
+      margin-bottom: 15px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .card-details {
+      margin-bottom: 15px;
+    }
+
+    .detail-item {
+      display: flex;
+      margin-bottom: 8px;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      min-width: 120px;
+      color: #2b7a78;
+    }
+
+    .card-footer {
+      padding: 15px 20px;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-web {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #2b7a78;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .btn-web:hover {
+      background: #1c5856;
+    }
+
+    .contact-info {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      grid-column: 1 / -1;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-results i {
+      font-size: 50px;
+      color: #ddd;
+      margin-bottom: 15px;
+    }
+
+    .no-results p {
+      font-size: 18px;
+      color: #777;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      color: white;
+      margin-top: 40px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .filters {
+        grid-template-columns: 1fr;
+      }
+      
+      .results {
+        grid-template-columns: 1fr;
+      }
+      
+      .results-info {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+      }
+      
+      .card-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .card-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+      
+      .card-footer {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyTbJ81ECm9aPWJRCiyU-QYTiwA-EzUH4qgDQ6F8dMLCXAnji2yETwPbgCUyj56iroUEkKhxq8Hxg5fXuCjn7PBuO1_uwL5EmnfWL_YxJqelHfEo3KhiwgOAGvzoWvDtfGTxbrSnFN5lo/s1600/logo_com+%25281%2529.png" alt="COM Internacional - Confederación Ornitológica Mundial">
+      </div>
+      <h1><i class="fas fa-dove"></i> Buscador de Asociaciones Ornitológicas</h1>
+      <p>Encuentra asociaciones, federaciones y organizaciones ornitológicas alrededor del mundo</p>
+    </header>
+
+    <section class="search-section">
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar asociación, siglas, federación o país...">
+        <button id="searchBtn"><i class="fas fa-search"></i> Buscar</button>
+      </div>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label for="comSelect">Confederación:</label>
+          <select id="comSelect">
+            <option value="COM Internacional">
+              <div class="com-option">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiyTbJ81ECm9aPWJRCiyU-QYTiwA-EzUH4qgDQ6F8dMLCXAnji2yETwPbgCUyj56iroUEkKhxq8Hxg5fXuCjn7PBuO1_uwL5EmnfWL_YxJqelHfEo3KhiwgOAGvzoWvDtfGTxbrSnFN5lo/s1600/logo_com+%25281%2529.png" alt="COM" style="height: 16px; margin-right: 8px;">
+                COM Internacional
+              </div>
+            </option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="comNacionalSelect">COM Nacional:</label>
+          <select id="comNacionalSelect">
+            <option value="all">Todos los COM Nacionales</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="fedSelect">Federación:</label>
+          <select id="fedSelect">
+            <option value="all">Todas las Federaciones</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="paisSelect">País:</label>
+          <select id="paisSelect">
+            <option value="all">Todos los países</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <div class="results-info">
+      <div class="results-count" id="resultsCount">0 resultados</div>
+      <select class="sort-select" id="sortSelect">
+        <option value="name">Ordenar por nombre</option>
+        <option value="pais">Ordenar por país</option>
+        <option value="comNacional">Ordenar por COM Nacional</option>
+      </select>
+    </div>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <footer>
+    <p>© 2023 COM Internacional - Confederación Ornitológica Mundial</p>
+    <p>Promoviendo la ornitología y la conservación de aves a nivel global</p>
+  </footer>
+
+  <script>
+    var asociacionesOrnitologicas = [
+      {
+        id: 1,
+        name: "Asociación Ornitológica de Madrid",
+        siglas: "AOM",
+        descripcion: "Dedicada a la cría y exposición de canarios en la Comunidad de Madrid. Organizamos concursos anuales y actividades formativas para nuestros socios.",
+        pais: "España",
+        com: "COM Internacional",
+        comNacional: "COM-ESPAÑA",
+        federacion: "Federación Madrileña de Ornitología",
+        contacto: "aomadrid@gmail.com",
+        telefono: "+34 91 123 45 67",
+        web: "http://aomadrid.org",
+        fundacion: 1985,
+        icon: "fa-dove"
+      },
+      {
+        id: 2,
+        name: "Asociación Ornitológica de Barcelona",
+        siglas: "AOB",
+        descripcion: "Asociación catalana con larga tradición en concursos de silvestres. Promovemos la conservación de especies autóctonas.",
+        pais: "España",
+        com: "COM Internacional",
+        comNacional: "COM-ESPAÑA",
+        federacion: "Federación Catalana de Ornitología",
+        contacto: "info@aob.cat",
+        telefono: "+34 93 123 45 67",
+        web: "http://aob.cat",
+        fundacion: 1978,
+        icon: "fa-kiwi-bird"
+      },
+      {
+        id: 3,
+        name: "Sociedad Ornitológica de Buenos Aires",
+        siglas: "SOBA",
+        descripcion: "Entidad argentina dedicada a la organización de concursos ornitológicos y protección de aves nativas.",
+        pais: "Argentina",
+        com: "COM Internacional",
+        comNacional: "COM-ARGENTINA",
+        federacion: "Federación Argentina de Ornitología",
+        contacto: "info@soba.org.ar",
+        telefono: "+54 11 1234 5678",
+        web: "http://soba.org.ar",
+        fundacion: 1990,
+        icon: "fa-crow"
+      },
+      {
+        id: 4,
+        name: "Club Ornitológico de México",
+        siglas: "COMEX",
+        descripcion: "Club mexicano para la promoción y desarrollo de la ornitología. Organizamos exposiciones internacionales.",
+        pais: "México",
+        com: "COM Internacional",
+        comNacional: "COM-MÉXICO",
+        federacion: "Federación Mexicana de Ornitología",
+        contacto: "contacto@comex.mx",
+        telefono: "+52 55 1234 5678",
+        web: "http://comex.mx",
+        fundacion: 1982,
+        icon: "fa-feather-alt"
+      },
+      {
+        id: 5,
+        name: "Unión Ornitológica de Chile",
+        siglas: "UOCH",
+        descripcion: "Promovemos la cría responsable de aves exóticas y nativas en Chile. Realizamos charlas y talleres educativos.",
+        pais: "Chile",
+        com: "COM Internacional",
+        comNacional: "COM-CHILE",
+        federacion: "Federación Chilena de Ornitología",
+        contacto: "contacto@uoch.cl",
+        telefono: "+56 2 1234 5678",
+        web: "http://uoch.cl",
+        fundacion: 1995,
+        icon: "fa-dove"
+      },
+      {
+        id: 6,
+        name: "Asociación Ornitológica Valenciana",
+        siglas: "AOV",
+        descripcion: "Dedicada al estudio y conservación de aves en la Comunidad Valenciana. Organizamos salidas de observación.",
+        pais: "España",
+        com: "COM Internacional",
+        comNacional: "COM-ESPAÑA",
+        federacion: "Federación Española de Ornitología",
+        contacto: "info@aov.es",
+        telefono: "+34 96 123 45 67",
+        web: "http://aov.es",
+        fundacion: 2001,
+        icon: "fa-kiwi-bird"
+      },
+      {
+        id: 7,
+        name: "Liga Ornitológica de Colombia",
+        siglas: "LOC",
+        descripcion: "Promovemos la ornitología en Colombia con énfasis en especies tropicales y conservación de hábitats.",
+        pais: "Colombia",
+        com: "COM Internacional",
+        comNacional: "COM-COLOMBIA",
+        federacion: "Federación Colombiana de Ornitología",
+        contacto: "info@loc.org.co",
+        telefono: "+57 1 123 4567",
+        web: "http://loc.org.co",
+        fundacion: 1988,
+        icon: "fa-crow"
+      }
+    ];
+
+    // Elementos DOM
+    const resultsContainer = document.getElementById("results");
+    const searchInput = document.getElementById("searchInput");
+    const searchBtn = document.getElementById("searchBtn");
+    const comSelect = document.getElementById("comSelect");
+    const comNacionalSelect = document.getElementById("comNacionalSelect");
+    const fedSelect = document.getElementById("fedSelect");
+    const paisSelect = document.getElementById("paisSelect");
+    const sortSelect = document.getElementById("sortSelect");
+    const resultsCount = document.getElementById("resultsCount");
+
+    // Inicializar selects
+    function populateSelects() {
+      // COM Nacionales
+      const comNacionales = [...new Set(asociacionesOrnitologicas.map(a => a.comNacional))];
+      comNacionales.forEach(c => {
+        const option = document.createElement("option");
+        option.value = c;
+        option.textContent = c;
+        comNacionalSelect.appendChild(option);
+      });
+
+      // Países
+      const paises = [...new Set(asociacionesOrnitologicas.map(a => a.pais))];
+      paises.forEach(p => {
+        const option = document.createElement("option");
+        option.value = p;
+        option.textContent = p;
+        paisSelect.appendChild(option);
+      });
+
+      // Actualizar federaciones
+      updateFederaciones();
+    }
+
+    // Actualizar opciones de federaciones según selección
+    function updateFederaciones() {
+      // Limpiar select
+      fedSelect.innerHTML = '<option value="all">Todas las Federaciones</option>';
+      
+      const selectedComNacional = comNacionalSelect.value;
+      const selectedPais = paisSelect.value;
+      
+      // Filtrar federaciones según selecciones
+      let federaciones = asociacionesOrnitologicas.filter(a => {
+        return (selectedComNacional === "all" || a.comNacional === selectedComNacional) &&
+               (selectedPais === "all" || a.pais === selectedPais);
+      });
+      
+      // Obtener federaciones únicas
+      const fedUnicas = [...new Set(federaciones.map(a => a.federacion))];
+      
+      // Agregar opciones
+      fedUnicas.forEach(f => {
+        const option = document.createElement("option");
+        option.value = f;
+        option.textContent = f;
+        fedSelect.appendChild(option);
+      });
+    }
+
+    // Renderizar resultados
+    function renderResults(searchTerm = "") {
+      resultsContainer.innerHTML = "";
+      
+      const selectedCom = comSelect.value;
+      const selectedComNacional = comNacionalSelect.value;
+      const selectedFed = fedSelect.value;
+      const selectedPais = paisSelect.value;
+      const sortBy = sortSelect.value;
+
+      // Filtrar asociaciones
+      let filtered = asociacionesOrnitologicas.filter(item => {
+        const matchesCom = selectedCom === "all" || item.com === selectedCom;
+        const matchesComNacional = selectedComNacional === "all" || item.comNacional === selectedComNacional;
+        const matchesFed = selectedFed === "all" || item.federacion === selectedFed;
+        const matchesPais = selectedPais === "all" || item.pais === selectedPais;
+        const matchesSearch = searchTerm === "" || 
+                             item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                             item.siglas.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                             item.federacion.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                             item.pais.toLowerCase().includes(searchTerm.toLowerCase());
+
+        return matchesCom && matchesComNacional && matchesFed && matchesPais && matchesSearch;
+      });
+
+      // Ordenar resultados
+      if (sortBy === "name") {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === "pais") {
+        filtered.sort((a, b) => a.pais.localeCompare(b.pais));
+      } else if (sortBy === "comNacional") {
+        filtered.sort((a, b) => a.comNacional.localeCompare(b.comNacional));
+      }
+
+      // Actualizar contador
+      resultsCount.textContent = `${filtered.length} resultado${filtered.length !== 1 ? 's' : ''}`;
+
+      // Mostrar resultados
+      if (filtered.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="no-results">
+            <i class="fas fa-dove"></i>
+            <p>No se encontraron asociaciones con los filtros seleccionados.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="fas ${item.icon}"></i>
+            </div>
+            <div class="card-title">
+              <h3>${item.name}</h3>
+              <div class="siglas">${item.siglas}</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <p class="card-description">${item.descripcion}</p>
+            <div class="card-details">
+              <div class="detail-item">
+                <span class="detail-label">Federación:</span>
+                <span>${item.federacion}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">COM Nacional:</span>
+                <span>${item.comNacional}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">País:</span>
+                <span>${item.pais}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Fundación:</span>
+                <span>${item.fundacion}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Contacto:</span>
+                <span>${item.contacto}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Teléfono:</span>
+                <span>${item.telefono}</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <a href="${item.web}" target="_blank" class="btn-web"><i class="fas fa-globe"></i> Visitar web</a>
+            <div class="contact-info">
+              <i class="fas fa-envelope"></i> ${item.contacto}
+            </div>
+          </div>
+        `;
+        resultsContainer.appendChild(card);
+      });
+    }
+
+    // Event Listeners
+    searchInput.addEventListener("input", () => {
+      renderResults(searchInput.value);
+    });
+
+    searchBtn.addEventListener("click", () => {
+      renderResults(searchInput.value);
+    });
+
+    comNacionalSelect.addEventListener("change", () => {
+      updateFederaciones();
+      renderResults(searchInput.value);
+    });
+
+    paisSelect.addEventListener("change", () => {
+      updateFederaciones();
+      renderResults(searchInput.value);
+    });
+
+    fedSelect.addEventListener("change", () => {
+      renderResults(searchInput.value);
+    });
+
+    sortSelect.addEventListener("change", () => {
+      renderResults(searchInput.value);
+    });
+
+    // Inicializar
+    populateSelects();
+    renderResults();
+  </script>
+</body>
+</html>
