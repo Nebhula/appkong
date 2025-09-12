@@ -28,19 +28,20 @@ header p{opacity:0.8;margin-bottom:30px;}
 .card:hover{transform:scale(1.05);}
 
 /* Modal Fullscreen */
-.modal {display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:#111;overflow-y:auto;justify-content:center;align-items:flex-start;padding:40px 20px;}
-.modal-content {display:flex;flex-direction:row;gap:30px;max-width:1000px;width:100%;background:#222;padding:20px;border-radius:10px;color:#fff;}
+.modal {display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:#111;overflow-y:auto;justify-content:center;align-items:flex-start;padding:20px;}
+.modal-content {display:flex;flex-direction:row;gap:30px;max-width:1000px;width:100%;color:#fff;}
 .modal-left img {width:300px;height:auto;object-fit:cover;border-radius:5px;}
 .modal-right {flex:1;display:flex;flex-direction:column;}
-.close {position:absolute;top:15px;right:25px;font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;z-index:10;}
 #modal-buttons a {display:inline-block;margin-right:10px;margin-top:10px;padding:10px 15px;background:#f1c40f;color:#111;text-decoration:none;border-radius:5px;font-weight:bold;}
-#modal-buttons a:hover{background:#d4ac0d;}
+#modal-buttons a:hover {background:#d4ac0d;}
+.close {position:absolute;top:15px;right:25px;font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;z-index:10;}
 
-/* Responsive móviles: modal centrada */
+/* Responsive móviles: modal aireada */
 @media(max-width:768px){
-  .modal-content{flex-direction:column;align-items:center;text-align:center;}
-  .modal-left img{width:80%;margin-bottom:20px;}
-  .modal-right{width:100%;align-items:center;}
+  .modal-content{flex-direction:column;align-items:center;text-align:center;padding:0;gap:20px;max-width:100%;}
+  .modal-left img{width:80%;margin-bottom:20px;border-radius:0;}
+  .modal-right{width:100%;align-items:center;padding:0;}
+  #modal-buttons a{margin-top:15px;padding:12px 20px;}
 }
 </style>
 </head>
@@ -74,11 +75,11 @@ header p{opacity:0.8;margin-bottom:30px;}
     </div>
     <div class="modal-right">
       <h2 id="modal-title">Título</h2>
-      <h4 id="modal-subtitle">Subtítulo / Autor</h4><br/>
-      <p id="modal-description">Descripción profesional de ejemplo del libro asdff dsf  dasfdasf asdf dasf dasf asdf dfas asdf asdf dasf as</p><br/>
+      <h4 id="modal-subtitle">Subtítulo / Autor</h4>
+      <p id="modal-description">Descripción profesional de ejemplo del libro.</p>
       <div id="modal-ficha">
         <strong>Ficha técnica:</strong><br>Páginas: 320<br>ISBN: 123-4567890123<br>Idioma: Español<br>Editorial: Ejemplo<br>Año: 2023
-      </div><br/>
+      </div>
       <div id="modal-video">
         <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
       </div>
