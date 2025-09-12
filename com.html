@@ -9,7 +9,7 @@
 body{background:#111;color:#fff;min-height:100vh;overflow-x:hidden;}
 header{text-align:center;padding:20px;}
 header h1{color:#f1c40f;font-size:2.5rem;margin-bottom:5px;}
-header p{opacity:0.8;}
+header p{opacity:0.8;margin-bottom:30px;}
 .genre-row{margin-bottom:50px;}
 .genre-header{display:flex;justify-content:space-between;align-items:center;margin:0 20px 10px 20px;}
 .genre-header h2{font-size:1.5rem;}
@@ -23,7 +23,7 @@ header p{opacity:0.8;}
 .card img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;}
 .card:hover{transform:scale(1.05);}
 
-/* Modal Fullscreen Opaca */
+/* Modal Fullscreen Pro */
 .modal {
   display: none;
   position: fixed;
@@ -32,20 +32,34 @@ header p{opacity:0.8;}
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: #000; /* Negro sólido, opaco */
-  overflow: auto;
+  background-color: #000;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
-.modal-content {display:flex;flex-direction:row;gap:20px;width:90%;max-width:1200px;margin:40px auto;position:relative;color:#fff;}
-.close {color:#f1c40f;font-size:30px;font-weight:bold;position:absolute;top:20px;right:30px;cursor:pointer;z-index:10;}
+.modal-content {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  max-width: 1200px;
+  width: 100%;
+  background: #111;
+  padding: 30px;
+  border-radius: 10px;
+  color: #fff;
+}
 .modal-left img {width:300px;height:auto;object-fit:cover;border-radius:5px;}
-.modal-right {flex:1;overflow:auto;}
+.modal-right {flex:1;display:flex;flex-direction:column;justify-content:flex-start;}
 .modal-right h2,h4,p,div{margin-bottom:15px;}
-#modal-buttons a{display:inline-block;margin-right:10px;padding:10px 15px;background:#f1c40f;color:#111;text-decoration:none;border-radius:5px;font-weight:bold;}
+.close {position:absolute;top:20px;right:30px;font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;z-index:10;}
+#modal-buttons a{display:inline-block;margin-right:10px;margin-top:10px;padding:10px 15px;background:#f1c40f;color:#111;text-decoration:none;border-radius:5px;font-weight:bold;}
 #modal-buttons a:hover{background:#d4ac0d;}
 @media(max-width:768px){
-  .modal-content{flex-direction:column;align-items:center;margin:20px auto;}
+  .modal-content{flex-direction:column;align-items:center;padding:20px;}
   .modal-left img{width:80%;margin-bottom:20px;}
-  .modal-right{width:90%;}
+  .modal-right{width:100%;}
 }
 </style>
 </head>
@@ -53,7 +67,7 @@ header p{opacity:0.8;}
 
 <header>
   <h1>📚 Biblioteca Literaria</h1>
-  <p>Portadas limpias, modal fullscreen opaca profesional</p>
+  <p>Portadas limpias, modal fullscreen opaca profesional con contenido de ejemplo</p>
 </header>
 
 <div id="library"></div>
@@ -67,14 +81,23 @@ header p{opacity:0.8;}
     </div>
     <div class="modal-right">
       <h2 id="modal-title">Título del libro</h2>
-      <h4 id="modal-subtitle">Subtítulo o autor</h4>
-      <p id="modal-description">Descripción completa del libro</p>
-      <div id="modal-ficha">Ficha técnica</div>
-      <div id="modal-video"><iframe width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe></div>
+      <h4 id="modal-subtitle">Subtítulo / Autor</h4>
+      <p id="modal-description">Descripción completa y profesional del libro. Contenido de ejemplo para ver cómo se verá la modal. Aquí se puede añadir información extensa sobre trama, personajes, contexto histórico, crítica literaria, etc.</p>
+      <div id="modal-ficha">
+        <strong>Ficha técnica:</strong><br>
+        Páginas: 320<br>
+        ISBN: 123-4567890123<br>
+        Idioma: Español<br>
+        Editorial: Ejemplo Editorial<br>
+        Año: 2023
+      </div>
+      <div id="modal-video">
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+      </div>
       <div id="modal-buttons">
-        <a href="#" class="btn">Comprar</a>
-        <a href="#" class="btn">Amazon</a>
-        <a href="#" class="btn">Compartir</a>
+        <a href="#" target="_blank">Comprar</a>
+        <a href="#" target="_blank">Amazon</a>
+        <a href="#" target="_blank">Compartir</a>
       </div>
     </div>
   </div>
@@ -92,12 +115,11 @@ categorias.forEach(cat=>{
       autor:`Autor ${i}`,
       subtitulo:`Subtitulo ${i}`,
       genero:cat,
-      año:2000+i,
       portada:portadaComun,
       url:`https://tulibro${i}.com`,
-      descripcion:"Aquí va la descripción completa del libro.",
-      ficha:"Ficha técnica: páginas, ISBN, editorial...",
-      video:'<iframe width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe>',
+      descripcion:"Descripción profesional del libro de ejemplo. Aquí se puede poner todo el contenido que quieras mostrar en la modal, larga o corta.",
+      ficha:"Ficha técnica: páginas, ISBN, editorial, idioma, año...",
+      video:'<iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
       botones:`<a href="#" target="_blank">Comprar</a><a href="#" target="_blank">Amazon</a><a href="#" target="_blank">Compartir</a>`
     });
   }
@@ -119,7 +141,6 @@ function renderLibrary(){
     const booksOfGenre=libros.filter(l=>l.genero===cat);
     booksOfGenre.forEach(libro=>{
       const cardLink=document.createElement('a'); cardLink.href=libro.url; cardLink.target="_blank"; cardLink.className="card";
-      // Solo la portada limpia
       cardLink.innerHTML=`<img src="${libro.portada}" alt="${libro.titulo}">`;
       booksRow.appendChild(cardLink);
       cardLink.addEventListener('click', e=>{
@@ -143,12 +164,12 @@ const modalVideo=document.getElementById('modal-video');
 const modalButtons=document.getElementById('modal-buttons');
 const closeModal=document.querySelector('.close');
 function openBookModal(libro){
-  modal.style.display='block';
+  modal.style.display='flex';
   modalCover.src=libro.portada;
   modalTitle.innerText=libro.titulo;
   modalSubtitle.innerText=libro.subtitulo || libro.autor;
   modalDescription.innerText=libro.descripcion;
-  modalFicha.innerText=libro.ficha;
+  modalFicha.innerHTML=libro.ficha;
   modalVideo.innerHTML=libro.video;
   modalButtons.innerHTML=libro.botones;
 }
