@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mini Netflix Literario - Links Ready</title>
+<title>Biblioteca Literaria</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
 body{background:#111;color:#fff;min-height:100vh;overflow-x:hidden;}
 header{text-align:center;padding:20px;}
 header h1{color:#f1c40f;font-size:2.5rem;margin-bottom:5px;}
 header p{opacity:0.8;}
-.search-section{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:30px;}
-.search-section input,.search-section select,.search-section button{padding:10px;border-radius:5px;border:none;outline:none;font-size:14px;}
-.search-section input{width:200px;}
-.search-section button{background:#f1c40f;color:#111;font-weight:bold;cursor:pointer;}
 .genre-row{margin-bottom:50px;}
-.genre-row h2{margin-left:20px;margin-bottom:10px;font-size:1.5rem;}
+.genre-header{display:flex;justify-content:space-between;align-items:center;margin:0 20px 10px 20px;}
+.genre-header h2{font-size:1.5rem;}
+.ver-todo{color:#f1c40f;font-weight:bold;text-decoration:none;}
+.ver-todo:hover{text-decoration:underline;}
 .books-row{display:flex;overflow-x:auto;overflow-y:hidden;gap:15px;padding:20px;scroll-behavior:smooth;height:auto;}
 .books-row::-webkit-scrollbar{height:8px;}
 .books-row::-webkit-scrollbar-thumb{background:#f1c40f;border-radius:4px;}
@@ -23,144 +22,135 @@ header p{opacity:0.8;}
 .card{flex:0 0 auto;width:180px;height:270px;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.3s;display:block;text-decoration:none;color:inherit;}
 .card img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;}
 .card:hover{transform:scale(1.05);}
-.overlay{
-  position:absolute;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background: rgba(0,0,0,0.5);
-  color:#fff;
-  padding:10px;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  z-index:2;
+.overlay{position:absolute;bottom:0;left:0;width:100%;height:100%;background: rgba(0,0,0,0.5);color:#fff;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;z-index:2;}
+.overlay h3,.overlay small,.overlay p{margin:0;}
+
+/* Modal Fullscreen Profesional */
+.modal {display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;overflow:auto;background-color: rgba(0,0,0,0.9);}
+.modal-content {margin:30px auto;background-color:#111;border-radius:10px;max-width:1000px;display:flex;flex-direction:column;color:#fff;position:relative;padding:20px;}
+.close {color:#f1c40f;font-size:28px;font-weight:bold;position:absolute;top:10px;right:20px;cursor:pointer;}
+.modal-body {display:flex;flex-direction:row;gap:20px;}
+.modal-left img {width:250px;height:auto;object-fit:cover;border-radius:5px;}
+.modal-right {flex:1;}
+.modal-right h2,h4,p,div{margin-bottom:10px;}
+#modal-buttons a{display:inline-block;margin-right:10px;padding:10px 15px;background:#f1c40f;color:#111;text-decoration:none;border-radius:5px;font-weight:bold;}
+#modal-buttons a:hover{background:#d4ac0d;}
+@media(max-width:768px){
+  .card{width:140px;height:210px;}
+  .modal-body{flex-direction:column;align-items:center;}
+  .modal-left img{width:80%;margin-bottom:20px;}
 }
-.overlay h3, .overlay small, .overlay p{margin:0;}
-.ver-todo{margin-right:20px;margin-top:10px;text-align:right;}
-.ver-todo a{color:#f1c40f;font-weight:bold;text-decoration:none;}
-.ver-todo a:hover{text-decoration:underline;}
-@media(max-width:768px){.card{width:140px;height:210px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>📚 Mini Netflix Literario</h1>
-  <p>Portadas completas con overlay e info visible</p>
+  <h1>📚 Biblioteca Literaria</h1>
+  <p>Carruseles con modal profesional fullscreen</p>
 </header>
-
-<div class="search-section">
-  <input type="text" id="searchInput" placeholder="Buscar título o autor...">
-  <select id="authorSelect"><option value="all">Todos los autores</option></select>
-  <select id="genreSelect"><option value="all">Todas las categorías</option></select>
-  <button id="searchBtn">Buscar</button>
-</div>
 
 <div id="library"></div>
 
-<script>
-const libros = [];
-const portadaComun = "https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg";
-const categorias = ["Realismo Mágico", "Novela", "Distopía", "Fantasía"];
+<!-- Modal Fullscreen -->
+<div id="bookModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-body">
+      <div class="modal-left">
+        <img id="modal-cover" src="" alt="Portada libro">
+      </div>
+      <div class="modal-right">
+        <h2 id="modal-title">Título del libro</h2>
+        <h4 id="modal-subtitle">Subtítulo o autor</h4>
+        <p id="modal-description">Descripción completa del libro</p>
+        <div id="modal-ficha">Ficha técnica</div>
+        <div id="modal-video"><iframe width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe></div>
+        <div id="modal-buttons">
+          <a href="#" class="btn">Comprar</a>
+          <a href="#" class="btn">Amazon</a>
+          <a href="#" class="btn">Compartir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-// Generar libros con URL
+<script>
+const libros=[];
+const portadaComun="https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg";
+const categorias=["Realismo Mágico","Novela","Distopía","Fantasía"];
+
+// Generar 10 libros por categoría
 categorias.forEach(cat=>{
   for(let i=1;i<=10;i++){
     libros.push({
-      titulo: `${cat} Libro ${i}`,
-      autor: `Autor ${i}`,
-      genero: cat,
-      año: 2000+i,
-      portada: portadaComun,
-      url: `https://tulibro${i}.com`
+      titulo:`${cat} Libro ${i}`,
+      autor:`Autor ${i}`,
+      subtitulo:`Subtitulo ${i}`,
+      genero:cat,
+      año:2000+i,
+      portada:portadaComun,
+      url:`https://tulibro${i}.com`,
+      descripcion:"Aquí va la descripción completa del libro.",
+      ficha:"Ficha técnica: páginas, ISBN, editorial...",
+      video:'<iframe width="100%" height="200" src="" frameborder="0" allowfullscreen></iframe>',
+      botones:`<a href="#" target="_blank">Comprar</a><a href="#" target="_blank">Amazon</a><a href="#" target="_blank">Compartir</a>`
     });
   }
 });
 
-const libraryContainer = document.getElementById('library');
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-const authorSelect = document.getElementById('authorSelect');
-const genreSelect = document.getElementById('genreSelect');
+const libraryContainer=document.getElementById('library');
 
-function populateFilters() {
-  const authors = [...new Set(libros.map(l=>l.autor))];
-  authors.forEach(a=>{
-    const o=document.createElement('option');
-    o.value=a;
-    o.textContent=a;
-    authorSelect.appendChild(o);
-  });
-  const genres = [...new Set(libros.map(l=>l.genero))];
-  genres.forEach(g=>{
-    const o=document.createElement('option');
-    o.value=g;
-    o.textContent=g;
-    genreSelect.appendChild(o);
-  });
-}
-
-function renderLibrary(filtered=libros){
+// Renderizar carruseles
+function renderLibrary(){
   libraryContainer.innerHTML='';
-  const genres = [...new Set(filtered.map(l=>l.genero))];
-  genres.forEach(genre=>{
-    const rowDiv = document.createElement('div'); rowDiv.className='genre-row';
-    const title = document.createElement('h2'); title.textContent=genre;
-    rowDiv.appendChild(title);
-
-    const booksRow = document.createElement('div'); booksRow.className='books-row';
-    const booksOfGenre = filtered.filter(l=>l.genero===genre);
-
+  categorias.forEach(cat=>{
+    const rowDiv=document.createElement('div'); rowDiv.className='genre-row';
+    const headerDiv=document.createElement('div'); headerDiv.className='genre-header';
+    const title=document.createElement('h2'); title.textContent=cat;
+    const verTodo=document.createElement('a'); verTodo.href="#"; verTodo.target="_blank"; verTodo.className="ver-todo"; verTodo.textContent="Ver todo →";
+    headerDiv.appendChild(title); headerDiv.appendChild(verTodo);
+    rowDiv.appendChild(headerDiv);
+    const booksRow=document.createElement('div'); booksRow.className='books-row';
+    const booksOfGenre=libros.filter(l=>l.genero===cat);
     booksOfGenre.forEach(libro=>{
-      const cardLink = document.createElement('a');
-      cardLink.href = libro.url;
-      cardLink.target = "_blank";
-      cardLink.className = "card";
-      cardLink.innerHTML = `
-        <img src="${libro.portada}" alt="${libro.titulo}">
-        <div class="overlay">
-          <h3>${libro.titulo}</h3>
-          <small>${libro.autor} - ${libro.año}</small>
-          <p>${libro.genero}</p>
-        </div>`;
+      const cardLink=document.createElement('a'); cardLink.href=libro.url; cardLink.target="_blank"; cardLink.className="card";
+      cardLink.innerHTML=`<img src="${libro.portada}" alt="${libro.titulo}"><div class="overlay"><h3>${libro.titulo}</h3><small>${libro.autor}</small><p>${libro.genero}</p></div>`;
       booksRow.appendChild(cardLink);
+      cardLink.addEventListener('click', e=>{
+        e.preventDefault();
+        openBookModal(libro);
+      });
     });
-
     rowDiv.appendChild(booksRow);
-
-    // Botón Ver todo
-    const verTodoDiv = document.createElement('div');
-    verTodoDiv.className = "ver-todo";
-    verTodoDiv.innerHTML = `<a href="https://categoria-${genre.replace(/\s+/g,'').toLowerCase()}.com" target="_blank">Ver todo →</a>`;
-    rowDiv.appendChild(verTodoDiv);
-
     libraryContainer.appendChild(rowDiv);
   });
 }
 
-function filterLibrary(){
-  const term=searchInput.value.toLowerCase();
-  const author=authorSelect.value;
-  const genre=genreSelect.value;
-  const filtered=libros.filter(l=>{
-    const matchesTerm=l.titulo.toLowerCase().includes(term)||l.autor.toLowerCase().includes(term);
-    const matchesAuthor=author==='all'||l.autor===author;
-    const matchesGenre=genre==='all'||l.genero===genre;
-    return matchesTerm && matchesAuthor && matchesGenre;
-  });
-  renderLibrary(filtered);
+// Modal
+const modal=document.getElementById('bookModal');
+const modalCover=document.getElementById('modal-cover');
+const modalTitle=document.getElementById('modal-title');
+const modalSubtitle=document.getElementById('modal-subtitle');
+const modalDescription=document.getElementById('modal-description');
+const modalFicha=document.getElementById('modal-ficha');
+const modalVideo=document.getElementById('modal-video');
+const modalButtons=document.getElementById('modal-buttons');
+const closeModal=document.querySelector('.close');
+function openBookModal(libro){
+  modal.style.display='block';
+  modalCover.src=libro.portada;
+  modalTitle.innerText=libro.titulo;
+  modalSubtitle.innerText=libro.subtitulo || libro.autor;
+  modalDescription.innerText=libro.descripcion;
+  modalFicha.innerText=libro.ficha;
+  modalVideo.innerHTML=libro.video;
+  modalButtons.innerHTML=libro.botones;
 }
+closeModal.onclick=()=>{ modal.style.display='none'; }
+window.onclick=e=>{ if(e.target==modal) modal.style.display='none'; }
 
-searchInput.addEventListener('input', filterLibrary);
-searchBtn.addEventListener('click', filterLibrary);
-authorSelect.addEventListener('change', filterLibrary);
-genreSelect.addEventListener('change', filterLibrary);
-
-populateFilters();
 renderLibrary();
 </script>
-
 </body>
 </html>
