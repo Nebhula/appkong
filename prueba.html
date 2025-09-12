@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Literaria - Modal Corregida</title>
+<title>Biblioteca Literaria - Modal Mejorado</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -92,10 +92,12 @@ header p {
 
 .books-row {
   display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
+  flex-wrap: nowrap;
+  justify-content: center; /* 📌 Centra los libros */
   gap: 20px;
   padding: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
   height: auto;
 }
@@ -176,7 +178,7 @@ header p {
   transform: translateY(0);
 }
 
-/* MODAL CORREGIDA - MEJOR MANEJO DEL SCROLL */
+/* MODAL MEJORADO EN PC */
 .modal {
   display: none;
   position: fixed;
@@ -186,7 +188,6 @@ header p {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.95);
-  overflow: hidden;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -201,9 +202,9 @@ header p {
 .modal-container {
   display: flex;
   flex-direction: column;
-  max-width: 1200px;
   width: 90%;
-  max-height: 90vh;
+  max-width: 1200px;
+  max-height: 95vh; /* 📌 mejor uso de pantalla */
   background: #1a1a1a;
   border-radius: 15px;
   color: #fff;
@@ -242,8 +243,8 @@ header p {
 
 .modal-content {
   display: flex;
+  flex: 1;
   overflow: hidden;
-  flex-grow: 1;
 }
 
 .modal-left {
@@ -254,12 +255,12 @@ header p {
   align-items: center;
   background: #222;
   border-right: 1px solid #444;
-  overflow-y: auto;
+  overflow-y: auto; /* 📌 evita que se corte info en PC */
 }
 
 .modal-left img {
   width: 100%;
-  max-width: 200px; /* Imagen más pequeña para que no ocupe tanto espacio */
+  max-width: 250px;
   height: auto;
   object-fit: cover;
   border-radius: 8px;
@@ -271,6 +272,8 @@ header p {
   display: flex;
   gap: 3px;
   margin: 15px 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .modal-rating i {
@@ -316,15 +319,23 @@ header p {
 
 .modal-description-container {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto; /* 📌 scroll interno si hay texto largo */
   margin-bottom: 25px;
   padding-right: 15px;
-  /* Ocultar scrollbar pero mantener funcionalidad */
-  scrollbar-width: none; /* Firefox */
 }
 
 .modal-description-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  width: 8px;
+}
+
+.modal-description-container::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 4px;
+}
+
+.modal-description-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 .modal-description {
@@ -375,7 +386,10 @@ header p {
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
+@media (max-width: 968px) {
+  .books-row {
+    justify-content: flex-start; /* 📱 en móvil vuelve normal con scroll */
+  }
   .modal-content {
     flex-direction: column;
     overflow-y: auto;
@@ -386,21 +400,10 @@ header p {
     border-right: none;
     border-bottom: 1px solid #444;
     padding: 20px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
   }
   
   .modal-left img {
-    max-width: 180px;
-    margin-bottom: 0;
-  }
-  
-  .modal-details {
-    flex: 1;
-    min-width: 250px;
-    max-width: 400px;
+    max-width: 200px;
   }
   
   .modal-right {
@@ -432,15 +435,6 @@ header p {
     height: 95vh;
   }
   
-  .modal-left {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .modal-details {
-    width: 100%;
-  }
-  
   .modal-buttons {
     justify-content: center;
   }
@@ -457,36 +451,10 @@ header p {
   .modal-subtitle {
     font-size: 1.1rem;
   }
-  
-  .modal-left img {
-    max-width: 150px;
-  }
 }
 
 .genre-icon {
   font-size: 24px;
-}
-
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
-}
-
-.loading::after {
-  content: "";
-  width: 40px;
-  height: 40px;
-  border: 4px solid transparent;
-  border-top: 4px solid #f1c40f;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -499,7 +467,7 @@ header p {
 
 <div id="library"></div>
 
-<!-- Modal Corregida -->
+<!-- Modal -->
 <div id="bookModal" class="modal">
   <div class="modal-container">
     <div class="modal-header">
@@ -510,55 +478,29 @@ header p {
     <div class="modal-content">
       <div class="modal-left">
         <img id="modal-cover" src="" alt="Portada libro">
-        
+        <div class="modal-rating" id="modal-rating"></div>
         <div class="modal-details">
-          <div class="modal-rating" id="modal-rating">
-            <!-- Rating stars will be inserted here -->
-          </div>
-          
-          <div class="detail-item">
-            <span class="detail-label">Páginas:</span>
-            <span class="detail-value" id="modal-pages">320</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">ISBN:</span>
-            <span class="detail-value" id="modal-isbn">123-4567890123</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Idioma:</span>
-            <span class="detail-value" id="modal-language">Español</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Editorial:</span>
-            <span class="detail-value" id="modal-publisher">Ejemplo Editorial</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Año:</span>
-            <span class="detail-value" id="modal-year">2023</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">Género:</span>
-            <span class="detail-value" id="modal-genre">Novela</span>
-          </div>
+          <div class="detail-item"><span class="detail-label">Páginas:</span><span class="detail-value" id="modal-pages"></span></div>
+          <div class="detail-item"><span class="detail-label">ISBN:</span><span class="detail-value" id="modal-isbn"></span></div>
+          <div class="detail-item"><span class="detail-label">Idioma:</span><span class="detail-value" id="modal-language"></span></div>
+          <div class="detail-item"><span class="detail-label">Editorial:</span><span class="detail-value" id="modal-publisher"></span></div>
+          <div class="detail-item"><span class="detail-label">Año:</span><span class="detail-value" id="modal-year"></span></div>
+          <div class="detail-item"><span class="detail-label">Género:</span><span class="detail-value" id="modal-genre"></span></div>
         </div>
       </div>
       
       <div class="modal-right">
-        <h4 class="modal-subtitle" id="modal-subtitle">Subtítulo / Autor</h4>
-        
+        <h4 class="modal-subtitle" id="modal-subtitle"></h4>
         <div class="modal-description-container">
-          <p class="modal-description" id="modal-description">Descripción completa y profesional del libro. Contenido de ejemplo para ver cómo se verá la modal. Aquí se puede añadir información extensa sobre trama, personajes, contexto histórico, crítica literaria, etc.</p>
+          <p class="modal-description" id="modal-description"></p>
         </div>
-        
         <div class="video-container">
           <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
         </div>
-        
         <div class="modal-buttons">
-          <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar</a>
-          <a href="#" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
-          <a href="#" target="_blank"><i class="fas fa-share-alt"></i> Compartir</a>
-          <a href="#" target="_blank"><i class="fas fa-book-open"></i> Leer muestra</a>
+          <a href="#"><i class="fas fa-shopping-cart"></i> Comprar</a>
+          <a href="#"><i class="fab fa-amazon"></i> Amazon</a>
+          <a href="#"><i class="fas fa-share-alt"></i> Compartir</a>
         </div>
       </div>
     </div>
@@ -566,21 +508,15 @@ header p {
 </div>
 
 <script>
-// Datos de libros mejorados con portadas reales
 const libros = [
   {
     titulo: "Cien años de soledad",
     autor: "Gabriel García Márquez",
     subtitulo: "Una obra maestra del realismo mágico",
     genero: "Realismo Mágico",
-    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo. José Arcadio Buendía y Úrsula Iguarán se casan y se van de su pueblo para fundar Macondo. La obra es considerada una de las más representativas del realismo mágico y de la literatura hispanoamericana. Con una narrativa rica y personajes inolvidables, esta novela te transportará a un mundo donde lo real y lo maravilloso se entrelazan de manera única. Una lectura obligada para cualquier amante de la literatura.",
-    paginas: 471,
-    isbn: "978-8439721102",
-    idioma: "Español",
-    editorial: "Sudamericana",
-    año: 1967,
-    rating: 4.8,
+    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg",
+    descripcion: "La novela narra la historia de la familia Buendía a lo largo de siete generaciones...",
+    paginas: 471, isbn: "978-8439721102", idioma: "Español", editorial: "Sudamericana", año: 1967, rating: 4.8,
     video: "https://www.youtube.com/embed/CTdm5tTu6pE"
   },
   {
@@ -588,191 +524,57 @@ const libros = [
     autor: "George Orwell",
     subtitulo: "Una visión distópica del futuro",
     genero: "Distopía",
-    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información. En un mundo donde la verdad es flexible y la libertad una ilusión, esta obra se mantiene tan relevante hoy como cuando fue escrita. Una advertencia atemporal sobre los peligros del poder absoluto y la manipulación de masas.",
-    paginas: 328,
-    isbn: "978-0451524935",
-    idioma: "Español",
-    editorial: "Debolsillo",
-    año: 1949,
-    rating: 4.7,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  },
-  {
-    titulo: "El Señor de los Anillos",
-    autor: "J.R.R. Tolkien",
-    subtitulo: "La comunidad del anillo",
-    genero: "Fantasía Épica",
-    portada: "https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media. Esta épica historia de amistad, coraje y sacrificio sigue la misión de Frodo Bolsón para destruir el Anillo Único. Un viaje lleno de peligros, aliados inesperados y batallas legendarias que ha capturado la imaginación de generaciones de lectores.",
-    paginas: 576,
-    isbn: "978-8445000660",
-    idioma: "Español",
-    editorial: "Minotauro",
-    año: 1954,
-    rating: 4.9,
+    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg",
+    descripcion: "La novela introduce el concepto del 'Gran Hermano'...",
+    paginas: 328, isbn: "978-0451524935", idioma: "Español", editorial: "Debolsillo", año: 1949, rating: 4.7,
     video: "https://www.youtube.com/embed/CTdm5tTu6pE"
   }
 ];
 
-// Generar más libros para cada categoría
-const categorias = ["Realismo Mágico", "Distopía", "Fantasía Épica"];
-const iconosCategorias = {
-  "Realismo Mágico": "fas fa-magic",
-  "Distopía": "fas fa-city",
-  "Fantasía Épica": "fas fa-dragon"
-};
+const categorias = ["Realismo Mágico", "Distopía"];
+const iconosCategorias = {"Realismo Mágico":"fas fa-magic","Distopía":"fas fa-city"};
 
-// Añadir más libros a cada categoría
-categorias.forEach(cat => {
-  for (let i = 2; i <= 4; i++) {
-    const libroBase = libros.find(l => l.genero === cat);
-    if (libroBase) {
-      libros.push({
-        ...libroBase,
-        titulo: `${cat} Libro ${i}`,
-        autor: `Autor ${i}`,
-        portada: `https://images.pexels.com/photos/${1272853 + i}/pexels-photo-${1272853 + i}.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
-        rating: (4 + Math.random()).toFixed(1),
-        año: Math.floor(Math.random() * 50) + 1970
-      });
-    }
-  }
+const library = document.getElementById("library");
+categorias.forEach(cat=>{
+  const row=document.createElement("div");row.classList.add("genre-row");
+  row.innerHTML=`<div class="genre-header"><h2><i class="${iconosCategorias[cat]} genre-icon"></i> ${cat}</h2><a href="#" class="ver-todo">Ver todo <i class="fas fa-arrow-right"></i></a></div><div class="books-row" id="row-${cat}"></div>`;
+  library.appendChild(row);
+  const cont=document.getElementById(`row-${cat}`);
+  libros.filter(l=>l.genero===cat).forEach(libro=>{
+    const card=document.createElement("a");
+    card.classList.add("card");card.innerHTML=`<img src="${libro.portada}"><div class="card-overlay"><div class="card-title">${libro.titulo}</div><div class="card-author">${libro.autor}</div></div>`;
+    card.onclick=()=>abrirModal(libro);cont.appendChild(card);
+  });
 });
 
-const libraryContainer = document.getElementById('library');
+const modal=document.getElementById("bookModal");
+const closeBtn=document.querySelector(".close");
 
-// Renderizar carruseles
-function renderLibrary() {
-  libraryContainer.innerHTML = '';
-  
-  // Agrupar libros por género
-  const librosPorGenero = {};
-  libros.forEach(libro => {
-    if (!librosPorGenero[libro.genero]) {
-      librosPorGenero[libro.genero] = [];
-    }
-    librosPorGenero[libro.genero].push(libro);
-  });
-  
-  // Crear secciones para cada género
-  Object.keys(librosPorGenero).forEach(cat => {
-    const rowDiv = document.createElement('div');
-    rowDiv.className = 'genre-row';
-    
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'genre-header';
-    
-    const title = document.createElement('h2');
-    title.innerHTML = `<i class="${iconosCategorias[cat] || 'fas fa-book'} genre-icon"></i> ${cat}`;
-    
-    const verTodo = document.createElement('a');
-    verTodo.href = "#";
-    verTodo.className = "ver-todo";
-    verTodo.innerHTML = "Ver todo <i class='fas fa-arrow-right'></i>";
-    
-    headerDiv.appendChild(title);
-    headerDiv.appendChild(verTodo);
-    rowDiv.appendChild(headerDiv);
-    
-    const booksRow = document.createElement('div');
-    booksRow.className = 'books-row';
-    
-    librosPorGenero[cat].forEach(libro => {
-      const cardLink = document.createElement('a');
-      cardLink.href = "#";
-      cardLink.className = "card";
-      cardLink.innerHTML = `
-        <img src="${libro.portada}" alt="${libro.titulo}">
-        <div class="card-overlay">
-          <div class="card-title">${libro.titulo}</div>
-          <div class="card-author">${libro.autor}</div>
-        </div>
-      `;
-      
-      cardLink.addEventListener('click', e => {
-        e.preventDefault();
-        openBookModal(libro);
-      });
-      
-      booksRow.appendChild(cardLink);
-    });
-    
-    rowDiv.appendChild(booksRow);
-    libraryContainer.appendChild(rowDiv);
-  });
+function abrirModal(libro){
+  document.getElementById("modal-title").textContent=libro.titulo;
+  document.getElementById("modal-subtitle").textContent=libro.subtitulo+" / "+libro.autor;
+  document.getElementById("modal-cover").src=libro.portada;
+  document.getElementById("modal-description").textContent=libro.descripcion;
+  document.getElementById("modal-pages").textContent=libro.paginas;
+  document.getElementById("modal-isbn").textContent=libro.isbn;
+  document.getElementById("modal-language").textContent=libro.idioma;
+  document.getElementById("modal-publisher").textContent=libro.editorial;
+  document.getElementById("modal-year").textContent=libro.año;
+  document.getElementById("modal-genre").textContent=libro.genero;
+  document.getElementById("modal-video").src=libro.video;
+  const ratingDiv=document.getElementById("modal-rating");ratingDiv.innerHTML="";
+  const estrellas=Math.round(libro.rating);
+  for(let i=0;i<5;i++){
+    const star=document.createElement("i");
+    star.classList.add("fa-star", i<estrellas?"fas":"far");
+    ratingDiv.appendChild(star);
+  }
+  modal.classList.add("show");
 }
 
-// Modal
-const modal = document.getElementById('bookModal');
-const modalCover = document.getElementById('modal-cover');
-const modalTitle = document.getElementById('modal-title');
-const modalSubtitle = document.getElementById('modal-subtitle');
-const modalDescription = document.getElementById('modal-description');
-const modalPages = document.getElementById('modal-pages');
-const modalIsbn = document.getElementById('modal-isbn');
-const modalLanguage = document.getElementById('modal-language');
-const modalPublisher = document.getElementById('modal-publisher');
-const modalYear = document.getElementById('modal-year');
-const modalGenre = document.getElementById('modal-genre');
-const modalVideo = document.getElementById('modal-video');
-const modalRating = document.getElementById('modal-rating');
-const closeModal = document.querySelector('.close');
-
-function openBookModal(libro) {
-  modal.classList.add('show');
-  modalCover.src = libro.portada;
-  modalTitle.innerText = libro.titulo;
-  modalSubtitle.innerText = `${libro.subtitulo} - ${libro.autor}`;
-  modalDescription.innerText = libro.descripcion;
-  modalPages.innerText = libro.paginas;
-  modalIsbn.innerText = libro.isbn;
-  modalLanguage.innerText = libro.idioma;
-  modalPublisher.innerText = libro.editorial;
-  modalYear.innerText = libro.año;
-  modalGenre.innerText = libro.genero;
-  modalVideo.src = libro.video;
-  
-  // Actualizar rating
-  modalRating.innerHTML = '';
-  const fullStars = Math.floor(libro.rating);
-  const hasHalfStar = libro.rating % 1 >= 0.5;
-  
-  for (let i = 0; i < fullStars; i++) {
-    modalRating.innerHTML += '<i class="fas fa-star"></i>';
-  }
-  
-  if (hasHalfStar) {
-    modalRating.innerHTML += '<i class="fas fa-star-half-alt"></i>';
-  }
-  
-  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-  for (let i = 0; i < emptyStars; i++) {
-    modalRating.innerHTML += '<i class="far fa-star'></i>';
-  }
-  
-  modalRating.innerHTML += `<span style="margin-left: 10px;">${libro.rating}/5</span>`;
-  
-  // Desplazar al inicio del modal
-  document.body.style.overflow = 'hidden';
-}
-
-closeModal.onclick = () => {
-  modal.classList.remove('show');
-  modalVideo.src = ''; // Pausar video al cerrar modal
-  document.body.style.overflow = 'auto';
-}
-
-window.onclick = e => {
-  if (e.target == modal) {
-    modal.classList.remove('show');
-    modalVideo.src = ''; // Pausar video al cerrar modal
-  document.body.style.overflow = 'auto';
-  }
-}
-
-// Inicializar la biblioteca
-renderLibrary();
+closeBtn.onclick=()=>{modal.classList.remove("show");document.getElementById("modal-video").src="";};
+window.onclick=e=>{if(e.target===modal){modal.classList.remove("show");document.getElementById("modal-video").src="";}};
 </script>
 </body>
 </html>
+
