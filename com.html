@@ -3,70 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Virtual Estilo Netflix - Profesional</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>Mini Netflix Literario - Links Ready</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-  body{background:#111;color:#fff;min-height:100vh;}
-  header{text-align:center;padding:20px;}
-  header h1{color:#f1c40f;font-size:2.5rem;margin-bottom:5px;}
-  header p{opacity:0.8;}
-  .search-section{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:30px;}
-  .search-section input,.search-section select,.search-section button{padding:10px;border-radius:5px;border:none;outline:none;font-size:14px;}
-  .search-section input{width:200px;}
-  .search-section button{background:#f1c40f;color:#111;font-weight:bold;cursor:pointer;}
-  .genre-row{margin-bottom:50px;}
-  .genre-row h2{margin-left:20px;margin-bottom:10px;font-size:1.5rem;}
-  .books-row{display:flex;overflow-x:auto;gap:15px;padding-left:20px;scroll-behavior:smooth;}
-  .books-row::-webkit-scrollbar{height:8px;}
-  .books-row::-webkit-scrollbar-thumb{background:#f1c40f;border-radius:4px;}
-  .card{flex:0 0 auto;width:180px;background:#222;border-radius:10px;overflow:hidden;transition:transform 0.3s;cursor:pointer;position:relative;}
-  .card img{width:100%;height:270px;object-fit:cover;transition:transform 0.3s;}
-  .card-body{padding:10px;position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);transform:translateY(100%);transition:transform 0.3s;}
-  .card-body h3{font-size:16px;margin-bottom:3px;}
-  .card-body small{font-size:12px;color:#f1c40f;}
-  .card-body p{font-size:12px;margin-top:5px;color:#ccc;}
-  .card:hover{transform:scale(1.1);}
-  .card:hover img{transform: scale(1.05);}
-  .card:hover .card-body{transform:translateY(0);}
-  .see-more-btn{background:#f1c40f;color:#111;border:none;border-radius:5px;padding:5px 10px;margin-left:20px;cursor:pointer;font-weight:bold;margin-top:10px;}
-  @media(max-width:768px){.card{width:140px;}.card img{height:210px;}}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
+body{background:#111;color:#fff;min-height:100vh;overflow-x:hidden;}
+header{text-align:center;padding:20px;}
+header h1{color:#f1c40f;font-size:2.5rem;margin-bottom:5px;}
+header p{opacity:0.8;}
+.search-section{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:30px;}
+.search-section input,.search-section select,.search-section button{padding:10px;border-radius:5px;border:none;outline:none;font-size:14px;}
+.search-section input{width:200px;}
+.search-section button{background:#f1c40f;color:#111;font-weight:bold;cursor:pointer;}
+.genre-row{margin-bottom:50px;}
+.genre-row h2{margin-left:20px;margin-bottom:10px;font-size:1.5rem;}
+.books-row{display:flex;overflow-x:auto;overflow-y:hidden;gap:15px;padding:20px;scroll-behavior:smooth;height:auto;}
+.books-row::-webkit-scrollbar{height:8px;}
+.books-row::-webkit-scrollbar-thumb{background:#f1c40f;border-radius:4px;}
+.books-row::-webkit-scrollbar-track{background:#222;}
+.card{flex:0 0 auto;width:180px;height:270px;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.3s;display:block;text-decoration:none;color:inherit;}
+.card img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;}
+.card:hover{transform:scale(1.05);}
+.overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  color:#fff;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  z-index:2;
+}
+.overlay h3, .overlay small, .overlay p{margin:0;}
+.ver-todo{margin-right:20px;margin-top:10px;text-align:right;}
+.ver-todo a{color:#f1c40f;font-weight:bold;text-decoration:none;}
+.ver-todo a:hover{text-decoration:underline;}
+@media(max-width:768px){.card{width:140px;height:210px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>📚 Biblioteca Virtual Profesional</h1>
-  <p>Scroll infinito, miniaturas animadas y filtrado avanzado</p>
+  <h1>📚 Mini Netflix Literario</h1>
+  <p>Portadas completas con overlay e info visible</p>
 </header>
 
 <div class="search-section">
   <input type="text" id="searchInput" placeholder="Buscar título o autor...">
   <select id="authorSelect"><option value="all">Todos los autores</option></select>
-  <select id="genreSelect"><option value="all">Todos los géneros</option></select>
-  <button id="searchBtn"><i class="fas fa-search"></i> Buscar</button>
+  <select id="genreSelect"><option value="all">Todas las categorías</option></select>
+  <button id="searchBtn">Buscar</button>
 </div>
 
 <div id="library"></div>
 
 <script>
-const libros = [
-  {titulo:"Cien años de soledad", autor:"Gabriel García Márquez", genero:"Realismo mágico", año:1967, portada:"https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg"},
-  {titulo:"El otoño del patriarca", autor:"Gabriel García Márquez", genero:"Realismo mágico", año:1975, portada:"https://images-na.ssl-images-amazon.com/images/I/71VFGyx3RML.jpg"},
-  {titulo:"Crónica de una muerte anunciada", autor:"Gabriel García Márquez", genero:"Realismo mágico", año:1981, portada:"https://images-na.ssl-images-amazon.com/images/I/91l+g2vBylL.jpg"},
-  {titulo:"Don Quijote de la Mancha", autor:"Miguel de Cervantes", genero:"Novela", año:1605, portada:"https://images-na.ssl-images-amazon.com/images/I/81MqR+L-tpL.jpg"},
-  {titulo:"La Galatea", autor:"Miguel de Cervantes", genero:"Novela", año:1585, portada:"https://images-na.ssl-images-amazon.com/images/I/81lw6mH4JGL.jpg"},
-  {titulo:"El Principito", autor:"Antoine de Saint-Exupéry", genero:"Fábula", año:1943, portada:"https://images-na.ssl-images-amazon.com/images/I/91b0C2YNSrL.jpg"},
-  {titulo:"1984", autor:"George Orwell", genero:"Distopía", año:1949, portada:"https://images-na.ssl-images-amazon.com/images/I/71kxa1-0mfL.jpg"},
-  {titulo:"Rebelión en la granja", autor:"George Orwell", genero:"Distopía", año:1945, portada:"https://images-na.ssl-images-amazon.com/images/I/71k9CbNZPsL.jpg"},
-  {titulo:"Fahrenheit 451", autor:"Ray Bradbury", genero:"Distopía", año:1953, portada:"https://images-na.ssl-images-amazon.com/images/I/81vpsIs58WL.jpg"},
-  {titulo:"Moby Dick", autor:"Herman Melville", genero:"Aventura", año:1851, portada:"https://images-na.ssl-images-amazon.com/images/I/81VtY2aI0kL.jpg"},
-  {titulo:"La isla del tesoro", autor:"Robert Louis Stevenson", genero:"Aventura", año:1883, portada:"https://images-na.ssl-images-amazon.com/images/I/71uV0YuqKPL.jpg"},
-  {titulo:"La sombra del viento", autor:"Carlos Ruiz Zafón", genero:"Misterio", año:2001, portada:"https://images-na.ssl-images-amazon.com/images/I/81c7MyyFJML.jpg"},
-  {titulo:"El juego del ángel", autor:"Carlos Ruiz Zafón", genero:"Misterio", año:2008, portada:"https://images-na.ssl-images-amazon.com/images/I/91R3WggE8NL.jpg"},
-  {titulo:"Crimen y castigo", autor:"Fiódor Dostoyevski", genero:"Novela", año:1866, portada:"https://images-na.ssl-images-amazon.com/images/I/81qRhwTsb+L.jpg"},
-  {titulo:"Los hermanos Karamazov", autor:"Fiódor Dostoyevski", genero:"Novela", año:1880, portada:"https://images-na.ssl-images-amazon.com/images/I/81EztBBHqWL.jpg"}
-];
+const libros = [];
+const portadaComun = "https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg";
+const categorias = ["Realismo Mágico", "Novela", "Distopía", "Fantasía"];
+
+// Generar libros con URL
+categorias.forEach(cat=>{
+  for(let i=1;i<=10;i++){
+    libros.push({
+      titulo: `${cat} Libro ${i}`,
+      autor: `Autor ${i}`,
+      genero: cat,
+      año: 2000+i,
+      portada: portadaComun,
+      url: `https://tulibro${i}.com`
+    });
+  }
+});
 
 const libraryContainer = document.getElementById('library');
 const searchInput = document.getElementById('searchInput');
@@ -76,9 +87,19 @@ const genreSelect = document.getElementById('genreSelect');
 
 function populateFilters() {
   const authors = [...new Set(libros.map(l=>l.autor))];
-  authors.forEach(a=>{const o=document.createElement('option'); o.value=a;o.textContent=a;authorSelect.appendChild(o);});
+  authors.forEach(a=>{
+    const o=document.createElement('option');
+    o.value=a;
+    o.textContent=a;
+    authorSelect.appendChild(o);
+  });
   const genres = [...new Set(libros.map(l=>l.genero))];
-  genres.forEach(g=>{const o=document.createElement('option'); o.value=g;o.textContent=g;genreSelect.appendChild(o);});
+  genres.forEach(g=>{
+    const o=document.createElement('option');
+    o.value=g;
+    o.textContent=g;
+    genreSelect.appendChild(o);
+  });
 }
 
 function renderLibrary(filtered=libros){
@@ -88,49 +109,45 @@ function renderLibrary(filtered=libros){
     const rowDiv = document.createElement('div'); rowDiv.className='genre-row';
     const title = document.createElement('h2'); title.textContent=genre;
     rowDiv.appendChild(title);
+
     const booksRow = document.createElement('div'); booksRow.className='books-row';
     const booksOfGenre = filtered.filter(l=>l.genero===genre);
+
     booksOfGenre.forEach(libro=>{
-      const card = document.createElement('div'); card.className='card';
-      card.innerHTML = `<img src="${libro.portada}" alt="${libro.titulo}">
-        <div class="card-body">
+      const cardLink = document.createElement('a');
+      cardLink.href = libro.url;
+      cardLink.target = "_blank";
+      cardLink.className = "card";
+      cardLink.innerHTML = `
+        <img src="${libro.portada}" alt="${libro.titulo}">
+        <div class="overlay">
           <h3>${libro.titulo}</h3>
           <small>${libro.autor} - ${libro.año}</small>
           <p>${libro.genero}</p>
         </div>`;
-      booksRow.appendChild(card);
-    });
-
-    // Scroll infinito simulado al final del carrusel
-    booksRow.addEventListener('scroll', ()=>{
-      if(booksRow.scrollLeft + booksRow.clientWidth >= booksRow.scrollWidth - 5){
-        // Duplicar libros para efecto infinito
-        booksOfGenre.forEach(libro=>{
-          const card = document.createElement('div'); card.className='card';
-          card.innerHTML = `<img src="${libro.portada}" alt="${libro.titulo}">
-            <div class="card-body">
-              <h3>${libro.titulo}</h3>
-              <small>${libro.autor} - ${libro.año}</small>
-              <p>${libro.genero}</p>
-            </div>`;
-          booksRow.appendChild(card);
-        });
-      }
+      booksRow.appendChild(cardLink);
     });
 
     rowDiv.appendChild(booksRow);
+
+    // Botón Ver todo
+    const verTodoDiv = document.createElement('div');
+    verTodoDiv.className = "ver-todo";
+    verTodoDiv.innerHTML = `<a href="https://categoria-${genre.replace(/\s+/g,'').toLowerCase()}.com" target="_blank">Ver todo →</a>`;
+    rowDiv.appendChild(verTodoDiv);
+
     libraryContainer.appendChild(rowDiv);
   });
 }
 
 function filterLibrary(){
-  const term = searchInput.value.toLowerCase();
-  const author = authorSelect.value;
-  const genre = genreSelect.value;
-  const filtered = libros.filter(l=>{
-    const matchesTerm = l.titulo.toLowerCase().includes(term) || l.autor.toLowerCase().includes(term);
-    const matchesAuthor = author==='all'||l.autor===author;
-    const matchesGenre = genre==='all'||l.genero===genre;
+  const term=searchInput.value.toLowerCase();
+  const author=authorSelect.value;
+  const genre=genreSelect.value;
+  const filtered=libros.filter(l=>{
+    const matchesTerm=l.titulo.toLowerCase().includes(term)||l.autor.toLowerCase().includes(term);
+    const matchesAuthor=author==='all'||l.autor===author;
+    const matchesGenre=genre==='all'||l.genero===genre;
     return matchesTerm && matchesAuthor && matchesGenre;
   });
   renderLibrary(filtered);
