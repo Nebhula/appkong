@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Literaria - Modal Mejorada</title>
+<title>Biblioteca Literaria - Modal Corregida</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -176,7 +176,7 @@ header p {
   transform: translateY(0);
 }
 
-/* MODAL CORREGIDA - MEJOR DISEÑO RESPONSIVE */
+/* MODAL CORREGIDA - MEJOR MANEJO DEL SCROLL */
 .modal {
   display: none;
   position: fixed;
@@ -224,7 +224,6 @@ header p {
 .modal-title {
   font-size: 1.8rem;
   color: #f1c40f;
-  max-width: 80%;
 }
 
 .close {
@@ -255,11 +254,12 @@ header p {
   align-items: center;
   background: #222;
   border-right: 1px solid #444;
+  overflow-y: auto;
 }
 
 .modal-left img {
   width: 100%;
-  max-width: 250px;
+  max-width: 200px; /* Imagen más pequeña para que no ocupe tanto espacio */
   height: auto;
   object-fit: cover;
   border-radius: 8px;
@@ -374,7 +374,7 @@ header p {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive - Diseño mejorado para todas las pantallas */
+/* Responsive */
 @media (max-width: 1200px) {
   .modal-content {
     flex-direction: column;
@@ -748,7 +748,7 @@ function openBookModal(libro) {
   
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
   for (let i = 0; i < emptyStars; i++) {
-    modalRating.innerHTML += '<i class="far fa-star"></i>';
+    modalRating.innerHTML += '<i class="far fa-star'></i>';
   }
   
   modalRating.innerHTML += `<span style="margin-left: 10px;">${libro.rating}/5</span>`;
@@ -767,7 +767,7 @@ window.onclick = e => {
   if (e.target == modal) {
     modal.classList.remove('show');
     modalVideo.src = ''; // Pausar video al cerrar modal
-    document.body.style.overflow = 'auto';
+  document.body.style.overflow = 'auto';
   }
 }
 
