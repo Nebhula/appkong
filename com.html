@@ -23,8 +23,18 @@ header p{opacity:0.8;}
 .card img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;}
 .card:hover{transform:scale(1.05);}
 
-/* Modal Fullscreen Real */
-.modal {display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color: rgba(0,0,0,0.95);overflow:auto;}
+/* Modal Fullscreen Opaca */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000; /* Negro sólido, opaco */
+  overflow: auto;
+}
 .modal-content {display:flex;flex-direction:row;gap:20px;width:90%;max-width:1200px;margin:40px auto;position:relative;color:#fff;}
 .close {color:#f1c40f;font-size:30px;font-weight:bold;position:absolute;top:20px;right:30px;cursor:pointer;z-index:10;}
 .modal-left img {width:300px;height:auto;object-fit:cover;border-radius:5px;}
@@ -43,7 +53,7 @@ header p{opacity:0.8;}
 
 <header>
   <h1>📚 Biblioteca Literaria</h1>
-  <p>Portadas limpias, modal fullscreen profesional</p>
+  <p>Portadas limpias, modal fullscreen opaca profesional</p>
 </header>
 
 <div id="library"></div>
