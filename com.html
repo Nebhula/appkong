@@ -25,16 +25,15 @@ header p{opacity:0.8;margin-bottom:30px;}
 
 /* Modal Fullscreen Pro */
 .modal {
-  display: none;
+  display: none; /* modal cerrada al inicio */
   position: fixed;
   z-index: 1000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: #000;
+  background-color: #000; 
   overflow-y: auto;
-  display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
@@ -67,7 +66,7 @@ header p{opacity:0.8;margin-bottom:30px;}
 
 <header>
   <h1>📚 Biblioteca Literaria</h1>
-  <p>Portadas limpias, modal fullscreen opaca profesional con contenido de ejemplo</p>
+  <p>Portadas limpias, modal fullscreen profesional, contenido de ejemplo</p>
 </header>
 
 <div id="library"></div>
@@ -164,7 +163,7 @@ const modalVideo=document.getElementById('modal-video');
 const modalButtons=document.getElementById('modal-buttons');
 const closeModal=document.querySelector('.close');
 function openBookModal(libro){
-  modal.style.display='flex';
+  modal.style.display='flex'; // solo al click
   modalCover.src=libro.portada;
   modalTitle.innerText=libro.titulo;
   modalSubtitle.innerText=libro.subtitulo || libro.autor;
