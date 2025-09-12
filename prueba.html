@@ -65,7 +65,7 @@ body {
   transform: translateY(-3px);
 }
 
-/* SLIDER DE IMÁGENES - EFECTO FADE SUAVE Y OPTIMIZADO */
+/* SLIDER DE IMÁGENES - EFECTO FADE SUAVE + VIGNETTE CINEMATOGRÁFICO */
 .slider-container {
   position: relative;
   width: 100%;
@@ -85,18 +85,40 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
+  opacity: 0.85; /* Opacidad sutil en todas */
   transition: opacity 1.5s ease-in-out;
   will-change: opacity;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  overflow: hidden; /* Importante para el vignette */
 }
 
 .slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* 👇 VIGNETTE CINEMATOGRÁFICO SOLO EN LA DIAPOSITIVA ACTIVA */
+.slide.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  pointer-events: none; /* Para que no bloquee clics */
+  z-index: 1;
+}
+
+.slide.active {
+  opacity: 1;
 }
 
 .slide-overlay {
@@ -121,11 +143,6 @@ body {
 .slide-description {
   font-size: 1.1rem;
   max-width: 600px;
-}
-
-/* Activa la primera diapositiva al cargar */
-.slide.active {
-  opacity: 1;
 }
 
 .slider-nav {
@@ -189,16 +206,16 @@ body {
   transform: translateX(5px);
 }
 
-/* ✅ CORRECCIÓN CLAVE: PADDING IZQUIERDO Y DERECHO PARA EVITAR QUE SE CORTEN LIBROS */
+/* CORRECCIÓN CLAVE: PADDING IZQUIERDO Y DERECHO PARA EVITAR QUE SE CORTEN LIBROS */
 .books-row {
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
   gap: 20px;
-  padding: 15px 16px; /* ← Esto soluciona tu problema en móvil */
+  padding: 15px 16px;
   scroll-behavior: smooth;
   height: auto;
-  -webkit-overflow-scrolling: touch; /* Suaviza el scroll en iOS */
+  -webkit-overflow-scrolling: touch;
 }
 
 .books-row::-webkit-scrollbar {
@@ -944,7 +961,7 @@ window.onclick = e => {
   }
 }
 
-// Funcionalidad del slider - EFECTO FADE SUAVE Y OPTIMIZADO
+// Funcionalidad del slider - EFECTO FADE SUAVE + VIGNETTE CINEMATOGRÁFICO
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.slider-dot');
@@ -953,28 +970,23 @@ function goToSlide(index) {
   if (index < 0) index = slides.length - 1;
   if (index >= slides.length) index = 0;
   
-  // Ocultar todas las diapositivas
   slides.forEach(slide => slide.classList.remove('active'));
   dots.forEach(dot => dot.classList.remove('active'));
   
-  // Mostrar la nueva diapositiva
   slides[index].classList.add('active');
   dots[index].classList.add('active');
   
   currentSlide = index;
 }
 
-// Event listeners para los dots
 dots.forEach((dot, index) => {
   dot.addEventListener('click', () => goToSlide(index));
 });
 
-// Auto slide cada 5 segundos
 setInterval(() => {
   goToSlide(currentSlide + 1);
 }, 5000);
 
-// Inicializar la biblioteca
 renderLibrary();
 </script>
 </body>
