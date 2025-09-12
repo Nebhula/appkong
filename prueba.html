@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Literaria - Modal Mejorada</title>
+<title>Biblioteca Literaria - Nueva Cabecera</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -21,38 +21,151 @@ body {
   padding-bottom: 40px;
 }
 
-header {
-  text-align: center;
-  padding: 40px 20px;
-  background: linear-gradient(to right, #8B4513 0%, #A0522D 100%);
-  margin-bottom: 40px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+/* NUEVA CABECERA CON MENÚ DE ICONOS */
+.header-container {
   position: relative;
+  margin-bottom: 40px;
 }
 
-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background: linear-gradient(to right, #f1c40f, #e67e22);
+.top-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: linear-gradient(to right, #8B4513 0%, #A0522D 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-header h1 {
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo h1 {
   color: #f1c40f;
-  font-size: 3rem;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-header p {
-  opacity: 0.9;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
+.menu-icons {
+  display: flex;
+  gap: 20px;
 }
 
+.menu-icon {
+  color: #f1c40f;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.menu-icon:hover {
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* SLIDER DE IMÁGENES */
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.slider {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  width: 33.33%;
+  height: 100%;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 30px;
+  color: #fff;
+}
+
+.slide-title {
+  font-size: 2rem;
+  color: #f1c40f;
+  margin-bottom: 10px;
+}
+
+.slide-description {
+  font-size: 1.1rem;
+  max-width: 600px;
+}
+
+.slider-nav {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.slider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider-dot.active {
+  background: #f1c40f;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1c40f;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.slider-arrow:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.slider-arrow.prev {
+  left: 20px;
+}
+
+.slider-arrow.next {
+  right: 20px;
+}
+
+/* CONTENIDO EXISTENTE */
 .genre-row {
   margin-bottom: 50px;
   padding: 0 20px;
@@ -325,12 +438,11 @@ header p {
   overflow-y: auto;
   margin-bottom: 20px;
   padding-right: 10px;
-  /* Ocultar scrollbar pero mantener funcionalidad */
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 .modal-description-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  display: none;
 }
 
 .modal-description {
@@ -381,7 +493,7 @@ header p {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Responsive - Diseño mejorado para todas las pantallas */
+/* Responsive */
 @media (max-width: 1200px) {
   .modal-content {
     flex-direction: column;
@@ -425,8 +537,34 @@ header p {
 }
 
 @media (max-width: 768px) {
-  header h1 {
-    font-size: 2.2rem;
+  .top-menu {
+    padding: 12px 20px;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+  
+  .menu-icon {
+    font-size: 1.2rem;
+  }
+  
+  .slider-container {
+    height: 300px;
+  }
+  
+  .slide-title {
+    font-size: 1.5rem;
+  }
+  
+  .slide-description {
+    font-size: 1rem;
+  }
+  
+  .slider-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
   }
   
   .card {
@@ -499,10 +637,57 @@ header p {
 </head>
 <body>
 
-<header>
-  <h1><i class="fas fa-book-reader"></i> Biblioteca Literaria Premium</h1>
-  <p>Descubre tu próxima lectura favorita</p>
-</header>
+<!-- NUEVA CABECERA CON MENÚ Y SLIDER -->
+<div class="header-container">
+  <div class="top-menu">
+    <div class="logo">
+      <i class="fas fa-book-reader"></i>
+      <h1>Biblioteca Premium</h1>
+    </div>
+    <div class="menu-icons">
+      <div class="menu-icon"><i class="fas fa-home"></i></div>
+      <div class="menu-icon"><i class="fas fa-book-open"></i></div>
+      <div class="menu-icon"><i class="fas fa-heart"></i></div>
+      <div class="menu-icon"><i class="fas fa-search"></i></div>
+      <div class="menu-icon"><i class="fas fa-user"></i></div>
+    </div>
+  </div>
+  
+  <div class="slider-container">
+    <div class="slider">
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1">
+        <div class="slide-overlay">
+          <h3 class="slide-title">Descubre Nuevos Mundos</h3>
+          <p class="slide-description">Explora nuestra colección de bestsellers y libros exclusivos para todos los gustos.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg" alt="Libro 2">
+        <div class="slide-overlay">
+          <h3 class="slide-title">Clásicos Atemporales</h3>
+          <p class="slide-description">Revive las obras maestras que han marcado generaciones enteras.</p>
+        </div>
+      </div>
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3">
+        <div class="slide-overlay">
+          <h3 class="slide-title">Fantasía y Aventura</h3>
+          <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="slider-arrow prev"><i class="fas fa-chevron-left"></i></div>
+    <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+    
+    <div class="slider-nav">
+      <div class="slider-dot active"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+    </div>
+  </div>
+</div>
 
 <div id="library"></div>
 
@@ -596,7 +781,7 @@ const libros = [
     subtitulo: "Una visión distópica del futuro",
     genero: "Distopía",
     portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información. En un mundo donde la verdad es flexible y la libertad una ilusión, esta obra se mantiene tan relevante hoy como cuando fue escrita. Una advertencia atemporal sobre los peligros del poder absoluto y la manipulación de masas.",
+    descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información. En un mundo donde la truth es flexible y la libertad una ilusión, esta obra se mantiene tan relevante hoy como cuando fue escrita. Una advertencia atemporal sobre los peligros del poder absoluto y la manipulación de masas.",
     paginas: 328,
     isbn: "978-0451524935",
     idioma: "Español",
@@ -777,6 +962,41 @@ window.onclick = e => {
     document.body.style.overflow = 'auto';
   }
 }
+
+// Funcionalidad del slider
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.slider-dot');
+const slider = document.querySelector('.slider');
+const prevBtn = document.querySelector('.slider-arrow.prev');
+const nextBtn = document.querySelector('.slider-arrow.next');
+
+function goToSlide(index) {
+  if (index < 0) index = slides.length - 1;
+  if (index >= slides.length) index = 0;
+  
+  slider.style.transform = `translateX(-${index * 33.33}%)`;
+  
+  // Actualizar dots
+  dots.forEach(dot => dot.classList.remove('active'));
+  dots[index].classList.add('active');
+  
+  currentSlide = index;
+}
+
+// Event listeners para los controles del slider
+prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+// Event listeners para los dots
+dots.forEach((dot, index) => {
+  dot.addEventListener('click', () => goToSlide(index));
+});
+
+// Auto slide cada 5 segundos
+setInterval(() => {
+  goToSlide(currentSlide + 1);
+}, 5000);
 
 // Inicializar la biblioteca
 renderLibrary();
