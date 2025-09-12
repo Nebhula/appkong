@@ -212,7 +212,7 @@ header p {
   transform: translateY(0);
 }
 
-/* Modal Fullscreen Pro */
+/* Modal Fullscreen Pro corregido */
 .modal {
   display: none;
   position: fixed;
@@ -223,9 +223,9 @@ header p {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.95);
   overflow-y: auto;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
+  justify-content: flex-start; /* alineado arriba */
+  align-items: flex-start;
+  padding: 60px 20px; /* espacio superior para que no se corte */
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -534,144 +534,31 @@ header p {
 </div>
 
 <script>
-// Datos de libros mejorados con portadas reales
+// Datos de libros
 const libros = [
-  {
-    titulo: "Cien años de soledad",
-    autor: "Gabriel García Márquez",
-    subtitulo: "Una obra maestra del realismo mágico",
-    genero: "Realismo Mágico",
-    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo. José Arcadio Buendía y Úrsula Iguarán se casan y se van de su pueblo para fundar Macondo. La obra es considerada una de las más representativas del realismo mágico y de la literatura hispanoamericana.",
-    paginas: 471,
-    isbn: "978-8439721102",
-    idioma: "Español",
-    editorial: "Sudamericana",
-    año: 1967,
-    rating: 4.8,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  },
-  {
-    titulo: "1984",
-    autor: "George Orwell",
-    subtitulo: "Una visión distópica del futuro",
-    genero: "Distopía",
-    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información.",
-    paginas: 328,
-    isbn: "978-0451524935",
-    idioma: "Español",
-    editorial: "Debolsillo",
-    año: 1949,
-    rating: 4.7,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  },
-  {
-    titulo: "El Señor de los Anillos",
-    autor: "J.R.R. Tolkien",
-    subtitulo: "La comunidad del anillo",
-    genero: "Fantasía",
-    portada: "https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media.",
-    paginas: 576,
-    isbn: "978-8445000660",
-    idioma: "Español",
-    editorial: "Minotauro",
-    año: 1954,
-    rating: 4.9,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  },
-  {
-    titulo: "Harry Potter y la piedra filosofal",
-    autor: "J.K. Rowling",
-    subtitulo: "El comienzo de la magia",
-    genero: "Fantasía",
-    portada: "https://images.pexels.com/photos/1005460/pexels-photo-1005460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "Harry Potter se ha quedado huérfano y vive en casa de sus abominables tíos y del insoportable primo Dudley. Harry se siente muy triste y solo, hasta que un buen día recibe una carta que cambiará su vida para siempre. En ella le comunican que ha sido aceptado como alumno en el colegio interno Hogwarts de magia y hechicería.",
-    paginas: 309,
-    isbn: "978-8478884456",
-    idioma: "Español",
-    editorial: "Salamandra",
-    año: 1997,
-    rating: 4.9,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  },
-  {
-    titulo: "Don Quijote de la Mancha",
-    autor: "Miguel de Cervantes",
-    subtitulo: "El caballero de la triste figura",
-    genero: "Novela",
-    portada: "https://images.pexels.com/photos/674268/pexels-photo-674268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La obra cuenta las aventuras de un hidalgo manchego de cincuenta años llamado Alonso Quijano, quien decide ser un caballero andante como aquellos que había leído en los libros de caballerías. Armado con una vieja armadura y montado en su caballo Rocinante, recorre España en busca de aventuras.",
-    paginas: 1072,
-    isbn: "978-8424116969",
-    idioma: "Español",
-    editorial: "Real Academia Española",
-    año: 1605,
-    rating: 4.8,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  },
-  {
-    titulo: "Orgullo y prejuicio",
-    autor: "Jane Austen",
-    subtitulo: "Una comedia romántica clásica",
-    genero: "Romance",
-    portada: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    descripcion: "La señora Bennet ha criado a sus cinco hijas con el único deseo de encontrar marido. La llegada de Charles Bingley, un joven rico y soltero, alaba las esperanzas de la familia. Elizabeth Bennet, inteligente y con fuerte carácter, se enfrentará al arrogante señor Darcy, desencadenando una de las historias de amor más famosas de la literatura.",
-    paginas: 432,
-    isbn: "978-0141439518",
-    idioma: "Español",
-    editorial: "Penguin Clásicos",
-    año: 1813,
-    rating: 4.6,
-    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
-  }
+  {titulo:"Cien años de soledad",autor:"Gabriel García Márquez",subtitulo:"Una obra maestra del realismo mágico",genero:"Realismo Mágico",portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo.",paginas:471,isbn:"978-8439721102",idioma:"Español",editorial:"Sudamericana",año:1967,rating:4.8,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"1984",autor:"George Orwell",subtitulo:"Una visión distópica del futuro",genero:"Distopía",portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido.",paginas:328,isbn:"978-0451524935",idioma:"Español",editorial:"Debolsillo",año:1949,rating:4.7,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"El Señor de los Anillos",autor:"J.R.R. Tolkien",subtitulo:"La comunidad del anillo",genero:"Fantasía",portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder.",paginas:576,isbn:"978-8445000660",idioma:"Español",editorial:"Minotauro",año:1954,rating:4.9,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Harry Potter y la piedra filosofal",autor:"J.K. Rowling",subtitulo:"El comienzo de la magia",genero:"Fantasía",portada:"https://images.pexels.com/photos/1005460/pexels-photo-1005460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Harry Potter se ha quedado huérfano y recibe una carta que cambiará su vida para siempre.",paginas:309,isbn:"978-8478884456",idioma:"Español",editorial:"Salamandra",año:1997,rating:4.9,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Don Quijote de la Mancha",autor:"Miguel de Cervantes",subtitulo:"El caballero de la triste figura",genero:"Novela",portada:"https://images.pexels.com/photos/674268/pexels-photo-674268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"La obra cuenta las aventuras de un hidalgo manchego de cincuenta años llamado Alonso Quijano.",paginas:1072,isbn:"978-8424116969",idioma:"Español",editorial:"Real Academia Española",año:1605,rating:4.8,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Orgullo y prejuicio",autor:"Jane Austen",subtitulo:"Una comedia romántica clásica",genero:"Romance",portada:"https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Elizabeth Bennet se enfrentará al arrogante señor Darcy.",paginas:432,isbn:"978-0141439518",idioma:"Español",editorial:"Penguin Clásicos",año:1813,rating:4.6,video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
 ];
 
-// Generar más libros para cada categoría
 const categorias = ["Realismo Mágico", "Novela", "Distopía", "Fantasía", "Romance", "Ciencia Ficción"];
-const iconosCategorias = {
-  "Realismo Mágico": "fas fa-magic",
-  "Novela": "fas fa-book",
-  "Distopía": "fas fa-city",
-  "Fantasía": "fas fa-dragon",
-  "Romance": "fas fa-heart",
-  "Ciencia Ficción": "fas fa-rocket"
-};
-
-// Añadir más libros a cada categoría
-categorias.forEach(cat => {
-  for (let i = 2; i <= 8; i++) {
-    const libroBase = libros.find(l => l.genero === cat);
-    if (libroBase) {
-      libros.push({
-        ...libroBase,
-        titulo: `${cat} Libro ${i}`,
-        autor: `Autor ${i}`,
-        portada: `https://images.pexels.com/photos/${1272853 + i}/pexels-photo-${1272853 + i}.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`
-      });
-    }
-  }
-});
+const iconosCategorias = {"Realismo Mágico":"fas fa-magic","Novela":"fas fa-book","Distopía":"fas fa-city","Fantasía":"fas fa-dragon","Romance":"fas fa-heart","Ciencia Ficción":"fas fa-rocket"};
 
 const libraryContainer = document.getElementById('library');
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
 
-// Renderizar carruseles
 function renderLibrary(filteredLibros = libros) {
   libraryContainer.innerHTML = '';
-  
-  // Agrupar libros por género
   const librosPorGenero = {};
   filteredLibros.forEach(libro => {
-    if (!librosPorGenero[libro.genero]) {
-      librosPorGenero[libro.genero] = [];
-    }
+    if (!librosPorGenero[libro.genero]) librosPorGenero[libro.genero] = [];
     librosPorGenero[libro.genero].push(libro);
   });
   
-  // Crear secciones para cada género
   Object.keys(librosPorGenero).forEach(cat => {
     const rowDiv = document.createElement('div');
     rowDiv.className = 'genre-row';
@@ -698,19 +585,8 @@ function renderLibrary(filteredLibros = libros) {
       const cardLink = document.createElement('a');
       cardLink.href = "#";
       cardLink.className = "card";
-      cardLink.innerHTML = `
-        <img src="${libro.portada}" alt="${libro.titulo}">
-        <div class="card-overlay">
-          <div class="card-title">${libro.titulo}</div>
-          <div class="card-author">${libro.autor}</div>
-        </div>
-      `;
-      
-      cardLink.addEventListener('click', e => {
-        e.preventDefault();
-        openBookModal(libro);
-      });
-      
+      cardLink.innerHTML = `<img src="${libro.portada}" alt="${libro.titulo}"><div class="card-overlay"><div class="card-title">${libro.titulo}</div><div class="card-author">${libro.autor}</div></div>`;
+      cardLink.addEventListener('click', e => { e.preventDefault(); openBookModal(libro); });
       booksRow.appendChild(cardLink);
     });
     
@@ -748,64 +624,29 @@ function openBookModal(libro) {
   modalGenre.innerText = libro.genero;
   modalVideo.src = libro.video;
   
-  // Actualizar rating
   const ratingContainer = document.querySelector('.rating');
   ratingContainer.innerHTML = '';
   const fullStars = Math.floor(libro.rating);
   const hasHalfStar = libro.rating % 1 >= 0.5;
   
-  for (let i = 0; i < fullStars; i++) {
-    ratingContainer.innerHTML += '<i class="fas fa-star"></i>';
-  }
-  
-  if (hasHalfStar) {
-    ratingContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
-  }
-  
+  for (let i = 0; i < fullStars; i++) ratingContainer.innerHTML += '<i class="fas fa-star"></i>';
+  if (hasHalfStar) ratingContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
   const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-  for (let i = 0; i < emptyStars; i++) {
-    ratingContainer.innerHTML += '<i class="far fa-star"></i>';
-  }
-  
+  for (let i = 0; i < emptyStars; i++) ratingContainer.innerHTML += '<i class="far fa-star"></i>';
   ratingContainer.innerHTML += `<span style="margin-left: 10px;">${libro.rating}/5</span>`;
 }
 
-closeModal.onclick = () => {
-  modal.classList.remove('show');
-  modalVideo.src = ''; // Pausar video al cerrar modal
-}
+closeModal.onclick = () => { modal.classList.remove('show'); modalVideo.src = ''; }
+window.onclick = e => { if (e.target == modal) { modal.classList.remove('show'); modalVideo.src = ''; } }
 
-window.onclick = e => {
-  if (e.target == modal) {
-    modal.classList.remove('show');
-    modalVideo.src = ''; // Pausar video al cerrar modal
-  }
-}
-
-// Funcionalidad de búsqueda
 searchBtn.addEventListener('click', () => {
   const searchTerm = searchInput.value.toLowerCase();
-  if (searchTerm.trim() === '') {
-    renderLibrary();
-    return;
-  }
-  
-  const filtered = libros.filter(libro => 
-    libro.titulo.toLowerCase().includes(searchTerm) ||
-    libro.autor.toLowerCase().includes(searchTerm) ||
-    libro.genero.toLowerCase().includes(searchTerm)
-  );
-  
+  if (searchTerm.trim() === '') { renderLibrary(); return; }
+  const filtered = libros.filter(libro => libro.titulo.toLowerCase().includes(searchTerm) || libro.autor.toLowerCase().includes(searchTerm) || libro.genero.toLowerCase().includes(searchTerm));
   renderLibrary(filtered);
 });
 
-searchInput.addEventListener('keyup', e => {
-  if (e.key === 'Enter') {
-    searchBtn.click();
-  }
-});
-
-// Inicializar la biblioteca
+searchInput.addEventListener('keyup', e => { if (e.key === 'Enter') searchBtn.click(); });
 renderLibrary();
 </script>
 </body>
