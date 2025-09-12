@@ -1,70 +1,156 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buscador de Libros Pro</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
-body{background:#111;color:#fff;min-height:100vh;overflow-x:hidden;}
-header{text-align:center;padding:20px;}
-header h1{color:#f1c40f;font-size:2.5rem;margin-bottom:5px;}
-header p{opacity:0.8;margin-bottom:30px;}
-.filters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:30px;}
-.filters select,input,button{padding:10px;border-radius:5px;border:none;font-size:1rem;}
-.filters button{background:#f1c40f;color:#111;font-weight:bold;cursor:pointer;transition:0.3s;}
-.filters button:hover{background:#d4ac0d;}
-.genre-row{margin-bottom:50px;}
-.genre-header{display:flex;justify-content:space-between;align-items:center;margin:0 20px 10px 20px;}
-.genre-header h2{font-size:1.5rem;}
-.ver-todo{color:#f1c40f;font-weight:bold;text-decoration:none;}
-.ver-todo:hover{text-decoration:underline;}
-.books-row{display:flex;overflow-x:auto;overflow-y:hidden;gap:15px;padding:20px;scroll-behavior:smooth;height:auto;}
-.books-row::-webkit-scrollbar{height:8px;}
-.books-row::-webkit-scrollbar-thumb{background:#f1c40f;border-radius:4px;}
-.books-row::-webkit-scrollbar-track{background:#222;}
-.card{flex:0 0 auto;width:150px;height:220px;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.3s;display:block;text-decoration:none;color:inherit;}
-.card img{width:100%;height:100%;object-fit:cover;display:block;}
-.card:hover{transform:scale(1.05);}
-
-/* Modal Fullscreen */
-.modal {display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background-color:#111;overflow-y:auto;justify-content:center;align-items:flex-start;padding:20px;}
-.modal-content {display:flex;flex-direction:row;gap:30px;max-width:1000px;width:100%;color:#fff;}
-.modal-left img {width:300px;height:auto;object-fit:cover;border-radius:5px;}
-.modal-right {flex:1;display:flex;flex-direction:column;}
-#modal-buttons a {display:inline-block;margin-right:10px;margin-top:10px;padding:10px 15px;background:#f1c40f;color:#111;text-decoration:none;border-radius:5px;font-weight:bold;}
-#modal-buttons a:hover {background:#d4ac0d;}
-.close {position:absolute;top:15px;right:25px;font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;z-index:10;}
-
-/* Responsive móviles: modal aireada */
-@media(max-width:768px){
-  .modal-content{flex-direction:column;align-items:center;text-align:center;padding:0;gap:20px;max-width:100%;}
-  .modal-left img{width:80%;margin-bottom:20px;border-radius:0;}
-  .modal-right{width:100%;align-items:center;padding:0;}
-  #modal-buttons a{margin-top:15px;padding:12px 20px;}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador de Libros Pro</title>
+  <style>
+    /* Estilos generales */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 0;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    .search-bar {
+      display: flex;
+      justify-content: center;
+      margin: 20px;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .search-bar button {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #333;
+      color: #fff;
+      cursor: pointer;
+    }
+    .search-bar button:hover {
+      background-color: #555;
+    }
+    .books-section {
+      margin: 20px;
+    }
+    .books-section h2 {
+      margin: 0 0 10px;
+    }
+    .books-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .card {
+      width: 150px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card img {
+      width: 100%;
+      border-radius: 5px;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    /* Estilos de la modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+      border-radius: 5px;
+      width: 80%;
+      max-width: 800px;
+      overflow-y: auto;
+    }
+    .modal-content img {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .modal-content h2 {
+      margin: 0;
+    }
+    .modal-content p {
+      margin: 0;
+    }
+    .modal-content iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+    }
+    .modal-content a {
+      display: inline-block;
+      padding: 10px;
+      margin: 5px;
+      background-color: #333;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .modal-content a:hover {
+      background-color: #555;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+    }
+    /* Estilos responsive */
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 100%;
+        padding: 10px;
+      }
+      .modal-content img {
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <header>
-  <h1>🔍 Buscador de Libros Pro</h1>
-  <p>Filtra y busca tus libros favoritos por categoría, título o autor</p>
+  <h1>📚 Buscador de Libros Pro</h1>
 </header>
 
-<div class="filters">
-  <input type="text" id="searchInput" placeholder="Buscar libro, autor o subtítulo...">
-  <select id="categorySelect">
-    <option value="all">Todas las categorías</option>
-    <option value="Realismo Mágico">Realismo Mágico</option>
-    <option value="Novela">Novela</option>
-    <option value="Distopía">Distopía</option>
-    <option value="Fantasía">Fantasía</option>
-  </select>
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="Buscar por título, autor o género...">
   <button id="searchBtn">Buscar</button>
 </div>
 
-<div id="library"></div>
+<div id="booksContainer"></div>
 
 <!-- Modal Fullscreen -->
 <div id="bookModal" class="modal">
@@ -76,110 +162,133 @@ header p{opacity:0.8;margin-bottom:30px;}
     <div class="modal-right">
       <h2 id="modal-title">Título</h2>
       <h4 id="modal-subtitle">Subtítulo / Autor</h4>
-      <p id="modal-description">Descripción pasdf asdfrofesionasdf asd fas dfas l de ejeas df dasmplo dsadfdfas asdfasdf asdf el lsdf asdf asdf asdf dasf ibro.</p>
-      <div id="modal-ficha">
-        <strong>Ficha técnica:</strong><br>Páginas: 320<br>ISBN: 123-4567890123<br>Idioma: Español<br>Editorial: Ejemplo<br>Año: 2023
-      </div>
-      <div id="modal-video">
-        <iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-      </div>
-      <div id="modal-buttons">
-        <a href="#" target="_blank">Comprar</a>
-        <a href="#" target="_blank">Amazon</a>
-        <a href="#" target="_blank">Compartir</a>
-      </div>
+      <p id="modal-description">Descripción del libro.</p>
+      <div id="modal-ficha"></div>
+      <div id="modal-video"></div>
+      <div id="modal-buttons"></div>
     </div>
   </div>
 </div>
 
 <script>
 // Datos de ejemplo
-const libros = [];
-const portadaComun = "https://images-na.ssl-images-amazon.com/images/I/81VStYnDGrL.jpg";
-const categorias = ["Realismo Mágico","Novela","Distopía","Fantasía"];
-categorias.forEach(cat=>{
-  for(let i=1;i<=10;i++){
-    libros.push({
-      titulo:`${cat} Libro ${i}`,
-      autor:`Autor ${i}`,
-      subtitulo:`Subtítulo ${i}`,
-      genero:cat,
-      portada:portadaComun,
-      url:"#",
-      descripcion:"Descripción profesional de ejemplo para mostrar cómo se verá la modal.",
-      ficha:"Ficha técnica: páginas, ISBN, editorial, idioma, año...",
-      video:'<iframe width="100%" height="200" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
-      botones:`<a href="#" target="_blank">Comprar</a><a href="#" target="_blank">Amazon</a><a href="#" target="_blank">Compartir</a>`
-    });
-  }
-});
+const libros = [
+  {
+    titulo: "Realismo Mágico Libro 1",
+    autor: "Autor 1",
+    subtitulo: "Subtítulo 1",
+    genero: "Realismo Mágico",
+    portada: "https://via.placeholder.com/150?text=Realismo+Mágico+1",
+    url: "#",
+    descripcion: "Descripción del libro 1.",
+    ficha: "Páginas: 300, ISBN: 1234567890, Editorial: Ejemplo, Idioma: Español, Año: 2023",
+    video: '<iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
+    botones: '<a href="#">Comprar</a><a href="#">Amazon</a><a href="#">Compartir</a>'
+  },
+  {
+    titulo: "Realismo Mágico Libro 2",
+    autor: "Autor 2",
+    subtitulo: "Subtítulo 2",
+    genero: "Realismo Mágico",
+    portada: "https://via.placeholder.com/150?text=Realismo+Mágico+2",
+    url: "#",
+    descripcion: "Descripción del libro 2.",
+    ficha: "Páginas: 320, ISBN: 1234567891, Editorial: Ejemplo, Idioma: Español, Año: 2023",
+    video: '<iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
+    botones: '<a href="#">Comprar</a><a href="#">Amazon</a><a href="#">Compartir</a>'
+  },
+  // Agrega aquí los demás libros...
+];
 
-const libraryContainer = document.getElementById('library');
-const searchInput = document.getElementById('searchInput');
-const categorySelect = document.getElementById('categorySelect');
-const searchBtn = document.getElementById('searchBtn');
+// Renderizar libros
+function renderBooks(filteredLibros = libros) {
+  const booksContainer = document.getElementById('booksContainer');
+  booksContainer.innerHTML = '';
 
-// Renderizado de librería
-function renderLibrary(){
-  libraryContainer.innerHTML='';
-  let filterCat = categorySelect.value;
-  let searchTerm = searchInput.value.toLowerCase();
-  categorias.forEach(cat=>{
-    if(filterCat !== 'all' && filterCat !== cat) return;
-    const rowDiv=document.createElement('div'); rowDiv.className='genre-row';
-    const headerDiv=document.createElement('div'); headerDiv.className='genre-header';
-    const title=document.createElement('h2'); title.textContent=cat;
-    const verTodo=document.createElement('a'); verTodo.href="#"; verTodo.target="_blank"; verTodo.className="ver-todo"; verTodo.textContent="Ver todo →";
-    headerDiv.appendChild(title); headerDiv.appendChild(verTodo);
-    rowDiv.appendChild(headerDiv);
-    const booksRow=document.createElement('div'); booksRow.className='books-row';
-    const booksOfGenre=libros.filter(l=>l.genero===cat && 
-      (l.titulo.toLowerCase().includes(searchTerm) || 
-       l.autor.toLowerCase().includes(searchTerm) ||
-       l.subtitulo.toLowerCase().includes(searchTerm))
-    );
-    booksOfGenre.forEach(libro=>{
-      const cardLink=document.createElement('a'); cardLink.href=libro.url; cardLink.className="card";
-      cardLink.innerHTML=`<img src="${libro.portada}" alt="${libro.titulo}">`;
-      booksRow.appendChild(cardLink);
-      cardLink.addEventListener('click', e=>{
+  const categorias = ["Realismo Mágico", "Novela", "Distopía", "Fantasía"];
+  categorias.forEach(cat => {
+    const section = document.createElement('div');
+    section.className = 'books-section';
+
+    const header = document.createElement('h2');
+    header.innerHTML = `${cat} <a href="#">Ver todo</a>`;
+    section.appendChild(header);
+
+    const row = document.createElement('div');
+    row.className = 'books-row';
+
+    const librosCat = filteredLibros.filter(l => l.genero === cat);
+    librosCat.forEach(libro => {
+      const card = document.createElement('a');
+      card.href = libro.url;
+      card.className = 'card';
+      card.innerHTML = `<img src="${libro.portada}" alt="${libro.titulo}">`;
+      card.addEventListener('click', e => {
         e.preventDefault();
         openBookModal(libro);
       });
+      row.appendChild(card);
     });
-    rowDiv.appendChild(booksRow);
-    libraryContainer.appendChild(rowDiv);
+
+    section.appendChild(row);
+    booksContainer.appendChild(section);
   });
 }
 
 // Modal
-const modal=document.getElementById('bookModal');
-const modalCover=document.getElementById('modal-cover');
-const modalTitle=document.getElementById('modal-title');
-const modalSubtitle=document.getElementById('modal-subtitle');
-const modalDescription=document.getElementById('modal-description');
-const modalFicha=document.getElementById('modal-ficha');
-const modalVideo=document.getElementById('modal-video');
-const modalButtons=document.getElementById('modal-buttons');
-const closeModal=document.querySelector('.close');
-function openBookModal(libro){
-  modal.style.display='flex';
-  modalCover.src=libro.portada;
-  modalTitle.innerText=libro.titulo;
-  modalSubtitle.innerText=libro.subtitulo || libro.autor;
-  modalDescription.innerText=libro.descripcion;
-  modalFicha.innerHTML=libro.ficha;
-  modalVideo.innerHTML=libro.video;
-  modalButtons.innerHTML=libro.botones;
+const modal = document.getElementById('bookModal');
+const modalCover = document.getElementById('modal-cover');
+const modalTitle = document.getElementById('modal-title');
+const modalSubtitle = document.getElementById('modal-subtitle');
+const modalDescription = document.getElementById('modal-description');
+const modalFicha = document.getElementById('modal-ficha');
+const modalVideo = document.getElementById('modal-video');
+const modalButtons = document.getElementById('modal-buttons');
+const closeModal = document.querySelector('.close');
+
+function openBookModal(libro) {
+  modal.style.display = 'flex';
+  modalCover.src = libro.portada;
+  modalTitle.innerText = libro.titulo;
+  modalSubtitle.innerText = `${libro.subtitulo} / ${libro.autor}`;
+  modalDescription.innerText = libro.descripcion;
+  modalFicha.innerHTML = libro.ficha;
+  modalVideo.innerHTML = libro.video;
+  modalButtons.innerHTML = libro.botones;
 }
-closeModal.onclick=()=>{ modal.style.display='none'; }
-window.onclick=e=>{ if(e.target==modal) modal.style.display='none'; }
 
-categorySelect.addEventListener('change',renderLibrary);
-searchInput.addEventListener('keyup',e=>{if(e.key==='Enter') renderLibrary();});
-searchBtn.addEventListener('click',renderLibrary);
+closeModal.onclick = () => {
+  modal.style.display = 'none';
+};
 
-renderLibrary();
+window.onclick = e => {
+  if (e.target == modal) {
+    modal.style.display = 'none';
+  }
+};
+
+// Buscador
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+
+function filterBooks() {
+  const term = searchInput.value.toLowerCase();
+  const filtered = libros.filter(l => {
+    return l.titulo.toLowerCase().includes(term) ||
+           l.autor.toLowerCase().includes(term) ||
+           l.subtitulo.toLowerCase().includes(term) ||
+           l.genero.toLowerCase().includes(term);
+  });
+  renderBooks(filtered);
+}
+
+searchBtn.addEventListener('click', filterBooks);
+searchInput.addEventListener('input', filterBooks);
+
+// Inicializar
+renderBooks();
 </script>
+
 </body>
 </html>
+
