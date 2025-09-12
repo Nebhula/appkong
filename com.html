@@ -3,80 +3,474 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Literaria Premium</title>
+<title>Biblioteca Literaria - Modal Corregida</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
-body{background:linear-gradient(135deg,#1a1a1a 0%,#2d1b00 100%);color:#fff;min-height:100vh;overflow-x:hidden;padding-bottom:40px;}
-header{text-align:center;padding:40px 20px;background:linear-gradient(to right,#8B4513 0%,#A0522D 100%);margin-bottom:40px;box-shadow:0 4px 12px rgba(0,0,0,0.5);position:relative;}
-header::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:4px;background:linear-gradient(to right,#f1c40f,#e67e22);}
-header h1{color:#f1c40f;font-size:3rem;margin-bottom:10px;text-shadow:2px 2px 4px rgba(0,0,0,0.5);}
-header p{opacity:0.9;margin-bottom:15px;font-size:1.1rem;}
-.search-bar{max-width:600px;margin:20px auto;display:flex;}
-.search-bar input{flex:1;padding:15px 20px;border:none;border-radius:30px 0 0 30px;font-size:16px;background:rgba(255,255,255,0.1);color:white;outline:none;}
-.search-bar input::placeholder{color:rgba(255,255,255,0.7);}
-.search-bar button{padding:15px 25px;background:#f1c40f;color:#2c3e50;border:none;border-radius:0 30px 30px 0;cursor:pointer;font-weight:bold;transition:background 0.3s;}
-.search-bar button:hover{background:#f39c12;}
-.genre-row{margin-bottom:50px;padding:0 20px;}
-.genre-header{display:flex;justify-content:space-between;align-items:center;margin:0 10px 20px 10px;padding-bottom:10px;border-bottom:2px solid #f1c40f;}
-.genre-header h2{font-size:1.8rem;color:#f1c40f;display:flex;align-items:center;gap:10px;}
-.ver-todo{color:#f1c40f;font-weight:bold;text-decoration:none;display:flex;align-items:center;gap:5px;transition:transform 0.3s;}
-.ver-todo:hover{text-decoration:underline;transform:translateX(5px);}
-.books-row{display:flex;overflow-x:auto;overflow-y:hidden;gap:20px;padding:15px;scroll-behavior:smooth;}
-.books-row::-webkit-scrollbar{height:8px;}
-.books-row::-webkit-scrollbar-thumb{background:#f1c40f;border-radius:4px;}
-.books-row::-webkit-scrollbar-track{background:rgba(255,255,255,0.1);border-radius:4px;}
-.card{flex:0 0 auto;width:200px;height:320px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:all 0.3s ease;display:block;text-decoration:none;color:inherit;box-shadow:0 5px 15px rgba(0,0,0,0.3);}
-.card img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
-.card-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);padding:20px 15px 15px;transform:translateY(100%);transition:transform 0.3s ease;}
-.card-title{font-size:16px;font-weight:bold;margin-bottom:5px;color:#f1c40f;}
-.card-author{font-size:14px;opacity:0.9;}
-.card:hover{transform:translateY(-10px) scale(1.03);box-shadow:0 12px 25px rgba(0,0,0,0.5);}
-.card:hover img{transform:scale(1.1);}
-.card:hover .card-overlay{transform:translateY(0);}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-/* Modal */
-.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.95);justify-content:center;align-items:center;padding:20px;overflow-y:auto;opacity:0;transition:opacity 0.3s;}
-.modal.show{display:flex;opacity:1;}
-.modal-content{display:flex;flex-direction:row;gap:30px;max-width:1100px;width:100%;background:#1a1a1a;padding:30px;border-radius:15px;color:#fff;max-height:90vh;overflow-y:auto;position:relative;}
-.modal-left{flex:0 0 300px;display:flex;justify-content:center;}
-.modal-left img{width:100%;height:auto;border-radius:10px;box-shadow:0 5px 15px rgba(0,0,0,0.5);}
-.modal-right{flex:1;display:flex;flex-direction:column;gap:15px;}
-.modal-right h2{font-size:2rem;color:#f1c40f;margin-bottom:5px;}
-.modal-right h4{font-size:1.2rem;color:#e67e22;margin-bottom:10px;}
-.modal-right p{font-size:1rem;line-height:1.5;}
+body {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b00 100%);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
 
-/* Tabs */
-.modal-tabs{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap;}
-.tab-btn{background:#333;color:#fff;border:none;padding:8px 12px;border-radius:5px;cursor:pointer;transition:0.3s;}
-.tab-btn.active,.tab-btn:hover{background:#f1c40f;color:#2c3e50;}
-.tab-content{display:block;}
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to right, #8B4513 0%, #A0522D 100%);
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
 
-/* Details */
-.modal-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:15px;}
-.detail-item .detail-label{font-weight:bold;color:#f1c40f;font-size:0.85rem;margin-bottom:3px;}
-.detail-item .detail-value{font-size:0.95rem;}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #f1c40f, #e67e22);
+}
 
-/* Buttons */
-.modal-buttons{display:flex;flex-wrap:wrap;gap:10px;}
-.modal-buttons a{display:inline-flex;align-items:center;gap:5px;padding:10px 15px;background:#f1c40f;color:#2c3e50;text-decoration:none;border-radius:25px;font-weight:bold;transition:all 0.3s;}
-.modal-buttons a:hover{background:#f39c12;transform:translateY(-2px);}
+header h1 {
+  color: #f1c40f;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
 
-/* Video */
-.video-container{width:100%;border-radius:8px;overflow:hidden;margin-top:15px;}
-.video-container iframe{width:100%;height:220px;border:none;border-radius:8px;}
+header p {
+  opacity: 0.9;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
 
-/* Close */
-.close{position:absolute;top:15px;right:20px;font-size:28px;color:#f1c40f;font-weight:bold;cursor:pointer;}
+.genre-row {
+  margin-bottom: 50px;
+  padding: 0 20px;
+}
 
-/* Rating */
-.rating{display:flex;gap:3px;margin:5px 0;}
-.rating i{color:#f1c40f;font-size:16px;}
+.genre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px 20px 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f1c40f;
+}
+
+.genre-header h2 {
+  font-size: 1.8rem;
+  color: #f1c40f;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ver-todo {
+  color: #f1c40f;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.3s;
+}
+
+.ver-todo:hover {
+  text-decoration: underline;
+  transform: translateX(5px);
+}
+
+.books-row {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 20px;
+  padding: 15px;
+  scroll-behavior: smooth;
+  height: auto;
+}
+
+.books-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.books-row::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 4px;
+}
+
+.books-row::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  padding: 20px 15px 15px;
+  z-index: 2;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #f1c40f;
+}
+
+.card-author {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.card:hover .card-overlay {
+  transform: translateY(0);
+}
+
+/* MODAL CORREGIDA - MEJOR MANEJO DEL SCROLL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 90%;
+  max-height: 90vh;
+  background: #1a1a1a;
+  border-radius: 15px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 20px 30px;
+  background: #252525;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #444;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  color: #f1c40f;
+}
+
+.close {
+  font-size: 30px;
+  color: #f1c40f;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: transform 0.3s;
+}
+
+.close:hover {
+  transform: rotate(90deg);
+}
+
+.modal-content {
+  display: flex;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.modal-left {
+  flex: 0 0 300px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #222;
+  border-right: 1px solid #444;
+}
+
+.modal-left img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+}
+
+.modal-rating {
+  display: flex;
+  gap: 3px;
+  margin: 15px 0;
+}
+
+.modal-rating i {
+  color: #f1c40f;
+  font-size: 20px;
+}
+
+.modal-details {
+  width: 100%;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #f1c40f;
+}
+
+.detail-value {
+  text-align: right;
+}
+
+.modal-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 30px;
+}
+
+.modal-subtitle {
+  font-size: 1.2rem;
+  color: #e67e22;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.modal-description-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 25px;
+  padding-right: 15px;
+}
+
+.modal-description-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-description-container::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 4px;
+}
+
+.modal-description-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.modal-description {
+  line-height: 1.6;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.video-container {
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 8px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+
+.modal-buttons a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #f1c40f;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-buttons a:hover {
+  background: #f39c12;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
 
 /* Responsive */
-@media(max-width:900px){.modal-content{flex-direction:column;padding:20px;gap:20px}.modal-left img{width:60%;}.video-container iframe{height:180px}.modal-buttons{justify-content:center;}}
-@media(max-width:500px){.modal-left img{width:80%;}.modal-right h2{font-size:1.5rem;}.video-container iframe{height:150px}.modal-buttons a{padding:8px 12px;font-size:0.85rem;}}
-.genre-icon{font-size:24px;}
+@media (max-width: 968px) {
+  .modal-content {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .modal-left {
+    flex: 0 0 auto;
+    border-right: none;
+    border-bottom: 1px solid #444;
+    padding: 20px;
+  }
+  
+  .modal-left img {
+    max-width: 200px;
+  }
+  
+  .modal-right {
+    padding: 20px;
+    overflow: visible;
+  }
+  
+  .modal-header {
+    padding: 15px 20px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .card {
+    width: 160px;
+    height: 260px;
+  }
+  
+  .modal-container {
+    width: 95%;
+    height: 95vh;
+  }
+  
+  .modal-buttons {
+    justify-content: center;
+  }
+  
+  .modal-buttons a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .modal-title {
+    font-size: 1.3rem;
+  }
+  
+  .modal-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+.genre-icon {
+  font-size: 24px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.loading::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid transparent;
+  border-top: 4px solid #f1c40f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
 </head>
 <body>
@@ -84,146 +478,283 @@ header p{opacity:0.9;margin-bottom:15px;font-size:1.1rem;}
 <header>
   <h1><i class="fas fa-book-reader"></i> Biblioteca Literaria Premium</h1>
   <p>Descubre tu próxima lectura favorita</p>
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Buscar por título, autor o género...">
-    <button id="searchBtn"><i class="fas fa-search"></i> Buscar</button>
-  </div>
 </header>
 
 <div id="library"></div>
 
+<!-- Modal Corregida -->
 <div id="bookModal" class="modal">
-  <span class="close">&times;</span>
-  <div class="modal-content">
-    <div class="modal-left">
-      <img id="modal-cover" src="" alt="Portada libro">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Título del libro</h2>
+      <button class="close">&times;</button>
     </div>
-    <div class="modal-right">
-      <h2 id="modal-title"></h2>
-      <h4 id="modal-subtitle"></h4>
-      <div class="rating" id="modal-rating"></div>
-
-      <div class="modal-tabs">
-        <button class="tab-btn active" data-tab="descripcion">Descripción</button>
-        <button class="tab-btn" data-tab="detalles">Detalles</button>
-        <button class="tab-btn" data-tab="video">Video</button>
-      </div>
-
-      <div class="tab-content" id="descripcion"><p id="modal-description"></p></div>
-      <div class="tab-content" id="detalles" style="display:none;">
+    
+    <div class="modal-content">
+      <div class="modal-left">
+        <img id="modal-cover" src="" alt="Portada libro">
+        
+        <div class="modal-rating" id="modal-rating">
+          <!-- Rating stars will be inserted here -->
+        </div>
+        
         <div class="modal-details">
-          <div class="detail-item"><span class="detail-label">Páginas</span><span class="detail-value" id="modal-pages"></span></div>
-          <div class="detail-item"><span class="detail-label">ISBN</span><span class="detail-value" id="modal-isbn"></span></div>
-          <div class="detail-item"><span class="detail-label">Idioma</span><span class="detail-value" id="modal-language"></span></div>
-          <div class="detail-item"><span class="detail-label">Editorial</span><span class="detail-value" id="modal-publisher"></span></div>
-          <div class="detail-item"><span class="detail-label">Año</span><span class="detail-value" id="modal-year"></span></div>
-          <div class="detail-item"><span class="detail-label">Género</span><span class="detail-value" id="modal-genre"></span></div>
+          <div class="detail-item">
+            <span class="detail-label">Páginas:</span>
+            <span class="detail-value" id="modal-pages">320</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">ISBN:</span>
+            <span class="detail-value" id="modal-isbn">123-4567890123</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Idioma:</span>
+            <span class="detail-value" id="modal-language">Español</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Editorial:</span>
+            <span class="detail-value" id="modal-publisher">Ejemplo Editorial</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Año:</span>
+            <span class="detail-value" id="modal-year">2023</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Género:</span>
+            <span class="detail-value" id="modal-genre">Novela</span>
+          </div>
         </div>
       </div>
-
-      <div class="tab-content" id="video" style="display:none;">
+      
+      <div class="modal-right">
+        <h4 class="modal-subtitle" id="modal-subtitle">Subtítulo / Autor</h4>
+        
+        <div class="modal-description-container">
+          <p class="modal-description" id="modal-description">Descripción completa y profesional del libro. Contenido de ejemplo para ver cómo se verá la modal. Aquí se puede añadir información extensa sobre trama, personajes, contexto histórico, crítica literaria, etc.</p>
+        </div>
+        
         <div class="video-container">
           <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
         </div>
-      </div>
-
-      <div class="modal-buttons">
-        <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar</a>
-        <a href="#" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
-        <a href="#" target="_blank"><i class="fas fa-share-alt"></i> Compartir</a>
-        <a href="#" target="_blank"><i class="fas fa-book-open"></i> Leer muestra</a>
+        
+        <div class="modal-buttons">
+          <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar</a>
+          <a href="#" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
+          <a href="#" target="_blank"><i class="fas fa-share-alt"></i> Compartir</a>
+          <a href="#" target="_blank"><i class="fas fa-book-open"></i> Leer muestra</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// Datos completos de libros
+// Datos de libros mejorados con portadas reales
 const libros = [
-  {titulo:"Cien años de soledad",autor:"Gabriel García Márquez",subtitulo:"Obra maestra del realismo mágico",genero:"Realismo Mágico",portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"La novela narra la historia de la familia Buendía en Macondo.",paginas:471,isbn:"978-8439721102",idioma:"Español",editorial:"Sudamericana",año:1967,rating:4.8,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"1984",autor:"George Orwell",subtitulo:"Visión distópica del futuro",genero:"Distopía",portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Introducción al concepto del 'Gran Hermano'.",paginas:328,isbn:"978-0451524935",idioma:"Español",editorial:"Debolsillo",año:1949,rating:4.7,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"El Señor de los Anillos",autor:"J.R.R. Tolkien",subtitulo:"La comunidad del anillo",genero:"Fantasía",portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Sauron forjó los Grandes Anillos del Poder.",paginas:576,isbn:"978-8445000660",idioma:"Español",editorial:"Minotauro",año:1954,rating:4.9,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"Harry Potter y la piedra filosofal",autor:"J.K. Rowling",subtitulo:"El comienzo de la magia",genero:"Fantasía",portada:"https://images.pexels.com/photos/1005460/pexels-photo-1005460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Harry Potter recibe una carta que cambiará su vida.",paginas:309,isbn:"978-8478884456",idioma:"Español",editorial:"Salamandra",año:1997,rating:4.9,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"Don Quijote de la Mancha",autor:"Miguel de Cervantes",subtitulo:"El caballero de la triste figura",genero:"Novela",portada:"https://images.pexels.com/photos/674268/pexels-photo-674268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Aventuras de Alonso Quijano como caballero andante.",paginas:1072,isbn:"978-8424116969",idioma:"Español",editorial:"Real Academia Española",año:1605,rating:4.8,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"Orgullo y prejuicio",autor:"Jane Austen",subtitulo:"Comedia romántica clásica",genero:"Romance",portada:"https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",descripcion:"Historia de amor entre Elizabeth Bennet y el señor Darcy.",paginas:432,isbn:"978-0141439518",idioma:"Español",editorial:"Penguin Clásicos",año:1813,rating:4.6,video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
+  {
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    subtitulo: "Una obra maestra del realismo mágico",
+    genero: "Realismo Mágico",
+    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo. José Arcadio Buendía y Úrsula Iguarán se casan y se van de su pueblo para fundar Macondo. La obra es considerada una de las más representativas del realismo mágico y de la literatura hispanoamericana. Con una narrativa rica y personajes inolvidables, esta novela te transportará a un mundo donde lo real y lo maravilloso se entrelazan de manera única. Una lectura obligada para cualquier amante de la literatura.",
+    paginas: 471,
+    isbn: "978-8439721102",
+    idioma: "Español",
+    editorial: "Sudamericana",
+    año: 1967,
+    rating: 4.8,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "1984",
+    autor: "George Orwell",
+    subtitulo: "Una visión distópica del futuro",
+    genero: "Distopía",
+    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información. En un mundo donde la verdad es flexible y la libertad una ilusión, esta obra se mantiene tan relevante hoy como cuando fue escrita. Una advertencia atemporal sobre los peligros del poder absoluto y la manipulación de masas.",
+    paginas: 328,
+    isbn: "978-0451524935",
+    idioma: "Español",
+    editorial: "Debolsillo",
+    año: 1949,
+    rating: 4.7,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "El Señor de los Anillos",
+    autor: "J.R.R. Tolkien",
+    subtitulo: "La comunidad del anillo",
+    genero: "Fantasía Épica",
+    portada: "https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media. Esta épica historia de amistad, coraje y sacrificio sigue la misión de Frodo Bolsón para destruir el Anillo Único. Un viaje lleno de peligros, aliados inesperados y batallas legendarias que ha capturado la imaginación de generaciones de lectores.",
+    paginas: 576,
+    isbn: "978-8445000660",
+    idioma: "Español",
+    editorial: "Minotauro",
+    año: 1954,
+    rating: 4.9,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  }
 ];
 
-// Iconos por género
-const iconosCategorias={"Realismo Mágico":"fas fa-magic","Novela":"fas fa-book","Distopía":"fas fa-city","Fantasía":"fas fa-dragon","Romance":"fas fa-heart","Ciencia Ficción":"fas fa-rocket"};
+// Generar más libros para cada categoría
+const categorias = ["Realismo Mágico", "Distopía", "Fantasía Épica"];
+const iconosCategorias = {
+  "Realismo Mágico": "fas fa-magic",
+  "Distopía": "fas fa-city",
+  "Fantasía Épica": "fas fa-dragon"
+};
 
-// Renderizar biblioteca
-const libraryContainer=document.getElementById('library');
-const searchInput=document.getElementById('searchInput');
-const searchBtn=document.getElementById('searchBtn');
+// Añadir más libros a cada categoría
+categorias.forEach(cat => {
+  for (let i = 2; i <= 4; i++) {
+    const libroBase = libros.find(l => l.genero === cat);
+    if (libroBase) {
+      libros.push({
+        ...libroBase,
+        titulo: `${cat} Libro ${i}`,
+        autor: `Autor ${i}`,
+        portada: `https://images.pexels.com/photos/${1272853 + i}/pexels-photo-${1272853 + i}.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+        rating: (4 + Math.random()).toFixed(1),
+        año: Math.floor(Math.random() * 50) + 1970
+      });
+    }
+  }
+});
 
-function renderLibrary(filteredLibros=libros){
-  libraryContainer.innerHTML='';
-  const librosPorGenero={};
-  filteredLibros.forEach(l=>{
-    if(!librosPorGenero[l.genero]) librosPorGenero[l.genero]=[];
-    librosPorGenero[l.genero].push(l);
+const libraryContainer = document.getElementById('library');
+
+// Renderizar carruseles
+function renderLibrary() {
+  libraryContainer.innerHTML = '';
+  
+  // Agrupar libros por género
+  const librosPorGenero = {};
+  libros.forEach(libro => {
+    if (!librosPorGenero[libro.genero]) {
+      librosPorGenero[libro.genero] = [];
+    }
+    librosPorGenero[libro.genero].push(libro);
   });
-  Object.keys(librosPorGenero).forEach(cat=>{
-    const rowDiv=document.createElement('div'); rowDiv.className='genre-row';
-    const headerDiv=document.createElement('div'); headerDiv.className='genre-header';
-    const title=document.createElement('h2'); title.innerHTML=`<i class="${iconosCategorias[cat]||'fas fa-book'} genre-icon"></i> ${cat}`;
-    const verTodo=document.createElement('a'); verTodo.href="#"; verTodo.className='ver-todo'; verTodo.innerHTML='Ver todo <i class="fas fa-arrow-right"></i>';
-    headerDiv.appendChild(title); headerDiv.appendChild(verTodo); rowDiv.appendChild(headerDiv);
-    const booksRow=document.createElement('div'); booksRow.className='books-row';
-    librosPorGenero[cat].forEach(libro=>{
-      const cardLink=document.createElement('a'); cardLink.href="#"; cardLink.className='card';
-      cardLink.innerHTML=`<img src="${libro.portada}" alt="${libro.titulo}"><div class="card-overlay"><div class="card-title">${libro.titulo}</div><div class="card-author">${libro.autor}</div></div>`;
-      cardLink.addEventListener('click',e=>{e.preventDefault(); openBookModal(libro);});
+  
+  // Crear secciones para cada género
+  Object.keys(librosPorGenero).forEach(cat => {
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'genre-row';
+    
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'genre-header';
+    
+    const title = document.createElement('h2');
+    title.innerHTML = `<i class="${iconosCategorias[cat] || 'fas fa-book'} genre-icon"></i> ${cat}`;
+    
+    const verTodo = document.createElement('a');
+    verTodo.href = "#";
+    verTodo.className = "ver-todo";
+    verTodo.innerHTML = "Ver todo <i class='fas fa-arrow-right'></i>";
+    
+    headerDiv.appendChild(title);
+    headerDiv.appendChild(verTodo);
+    rowDiv.appendChild(headerDiv);
+    
+    const booksRow = document.createElement('div');
+    booksRow.className = 'books-row';
+    
+    librosPorGenero[cat].forEach(libro => {
+      const cardLink = document.createElement('a');
+      cardLink.href = "#";
+      cardLink.className = "card";
+      cardLink.innerHTML = `
+        <img src="${libro.portada}" alt="${libro.titulo}">
+        <div class="card-overlay">
+          <div class="card-title">${libro.titulo}</div>
+          <div class="card-author">${libro.autor}</div>
+        </div>
+      `;
+      
+      cardLink.addEventListener('click', e => {
+        e.preventDefault();
+        openBookModal(libro);
+      });
+      
       booksRow.appendChild(cardLink);
     });
+    
     rowDiv.appendChild(booksRow);
     libraryContainer.appendChild(rowDiv);
   });
 }
 
 // Modal
-const modal=document.getElementById('bookModal');
-const modalCover=document.getElementById('modal-cover');
-const modalTitle=document.getElementById('modal-title');
-const modalSubtitle=document.getElementById('modal-subtitle');
-const modalDescription=document.getElementById('modal-description');
-const modalPages=document.getElementById('modal-pages');
-const modalIsbn=document.getElementById('modal-isbn');
-const modalLanguage=document.getElementById('modal-language');
-const modalPublisher=document.getElementById('modal-publisher');
-const modalYear=document.getElementById('modal-year');
-const modalGenre=document.getElementById('modal-genre');
-const modalVideo=document.getElementById('modal-video');
-const modalRating=document.getElementById('modal-rating');
-const closeModal=document.querySelector('.close');
-const tabs=document.querySelectorAll('.tab-btn');
-const tabContents=document.querySelectorAll('.tab-content');
+const modal = document.getElementById('bookModal');
+const modalCover = document.getElementById('modal-cover');
+const modalTitle = document.getElementById('modal-title');
+const modalSubtitle = document.getElementById('modal-subtitle');
+const modalDescription = document.getElementById('modal-description');
+const modalPages = document.getElementById('modal-pages');
+const modalIsbn = document.getElementById('modal-isbn');
+const modalLanguage = document.getElementById('modal-language');
+const modalPublisher = document.getElementById('modal-publisher');
+const modalYear = document.getElementById('modal-year');
+const modalGenre = document.getElementById('modal-genre');
+const modalVideo = document.getElementById('modal-video');
+const modalRating = document.getElementById('modal-rating');
+const closeModal = document.querySelector('.close');
 
-function openBookModal(libro){
+function openBookModal(libro) {
   modal.classList.add('show');
-  modalCover.src=libro.portada; modalTitle.innerText=libro.titulo; modalSubtitle.innerText=`${libro.subtitulo} - ${libro.autor}`;
-  modalDescription.innerText=libro.descripcion; modalPages.innerText=libro.paginas; modalIsbn.innerText=libro.isbn;
-  modalLanguage.innerText=libro.idioma; modalPublisher.innerText=libro.editorial; modalYear.innerText=libro.año; modalGenre.innerText=libro.genero;
-  modalVideo.src=libro.video;
-
-  modalRating.innerHTML='';
-  const fullStars=Math.floor(libro.rating); const hasHalfStar=libro.rating%1>=0.5;
-  for(let i=0;i<fullStars;i++){ modalRating.innerHTML+='<i class="fas fa-star"></i>'; }
-  if(hasHalfStar) modalRating.innerHTML+='<i class="fas fa-star-half-alt"></i>';
-  for(let i=0;i<5-fullStars-(hasHalfStar?1:0);i++){ modalRating.innerHTML+='<i class="far fa-star"></i>'; }
-  modalRating.innerHTML+=`<span style="margin-left:10px;">${libro.rating}/5</span>`;
-
-  tabs.forEach(t=>t.classList.remove('active')); tabs[0].classList.add('active');
-  tabContents.forEach(c=>c.style.display='none'); document.getElementById('descripcion').style.display='block';
+  modalCover.src = libro.portada;
+  modalTitle.innerText = libro.titulo;
+  modalSubtitle.innerText = `${libro.subtitulo} - ${libro.autor}`;
+  modalDescription.innerText = libro.descripcion;
+  modalPages.innerText = libro.paginas;
+  modalIsbn.innerText = libro.isbn;
+  modalLanguage.innerText = libro.idioma;
+  modalPublisher.innerText = libro.editorial;
+  modalYear.innerText = libro.año;
+  modalGenre.innerText = libro.genero;
+  modalVideo.src = libro.video;
+  
+  // Actualizar rating
+  modalRating.innerHTML = '';
+  const fullStars = Math.floor(libro.rating);
+  const hasHalfStar = libro.rating % 1 >= 0.5;
+  
+  for (let i = 0; i < fullStars; i++) {
+    modalRating.innerHTML += '<i class="fas fa-star"></i>';
+  }
+  
+  if (hasHalfStar) {
+    modalRating.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+  }
+  
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  for (let i = 0; i < emptyStars; i++) {
+    modalRating.innerHTML += '<i class="far fa-star"></i>';
+  }
+  
+  modalRating.innerHTML += `<span style="margin-left: 10px;">${libro.rating}/5</span>`;
+  
+  // Desplazar al inicio del modal
+  document.body.style.overflow = 'hidden';
 }
 
-closeModal.onclick=()=>{modal.classList.remove('show'); modalVideo.src='';}
-window.onclick=e=>{if(e.target==modal){modal.classList.remove('show'); modalVideo.src='';}}
-tabs.forEach(tab=>{tab.addEventListener('click',()=>{tabs.forEach(t=>t.classList.remove('active')); tab.classList.add('active'); tabContents.forEach(c=>c.style.display='none'); document.getElementById(tab.dataset.tab).style.display='block';});});
+closeModal.onclick = () => {
+  modal.classList.remove('show');
+  modalVideo.src = ''; // Pausar video al cerrar modal
+  document.body.style.overflow = 'auto';
+}
 
-searchBtn.addEventListener('click',()=>{const term=searchInput.value.toLowerCase();if(term.trim()===''){renderLibrary();return;}renderLibrary(libros.filter(l=>l.titulo.toLowerCase().includes(term)||l.autor.toLowerCase().includes(term)||l.genero.toLowerCase().includes(term)));});
-searchInput.addEventListener('keyup',e=>{if(e.key==='Enter'){searchBtn.click();}});
+window.onclick = e => {
+  if (e.target == modal) {
+    modal.classList.remove('show');
+    modalVideo.src = ''; // Pausar video al cerrar modal
+    document.body.style.overflow = 'auto';
+  }
+}
 
+// Inicializar la biblioteca
 renderLibrary();
 </script>
 </body>
