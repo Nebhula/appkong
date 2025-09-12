@@ -1,156 +1,474 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Buscador de Libros Pro</title>
-  <style>
-    /* Estilos generales */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 0;
-      text-align: center;
-    }
-    header h1 {
-      margin: 0;
-    }
-    .search-bar {
-      display: flex;
-      justify-content: center;
-      margin: 20px;
-    }
-    .search-bar input {
-      padding: 10px;
-      width: 300px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .search-bar button {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #333;
-      color: #fff;
-      cursor: pointer;
-    }
-    .search-bar button:hover {
-      background-color: #555;
-    }
-    .books-section {
-      margin: 20px;
-    }
-    .books-section h2 {
-      margin: 0 0 10px;
-    }
-    .books-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .card {
-      width: 150px;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .card img {
-      width: 100%;
-      border-radius: 5px;
-    }
-    .card:hover {
-      transform: scale(1.05);
-    }
-    /* Estilos de la modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .modal-content {
-      background-color: #fff;
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      padding: 20px;
-      border-radius: 5px;
-      width: 80%;
-      max-width: 800px;
-      overflow-y: auto;
-    }
-    .modal-content img {
-      width: 100%;
-      max-width: 300px;
-      margin: 0 auto;
-    }
-    .modal-content h2 {
-      margin: 0;
-    }
-    .modal-content p {
-      margin: 0;
-    }
-    .modal-content iframe {
-      width: 100%;
-      height: 315px;
-      border: none;
-    }
-    .modal-content a {
-      display: inline-block;
-      padding: 10px;
-      margin: 5px;
-      background-color: #333;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-    .modal-content a:hover {
-      background-color: #555;
-    }
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 30px;
-      color: #fff;
-      cursor: pointer;
-    }
-    /* Estilos responsive */
-    @media (max-width: 768px) {
-      .modal-content {
-        width: 100%;
-        padding: 10px;
-      }
-      .modal-content img {
-        max-width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca Literaria Premium</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b00 100%);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to right, #8B4513 0%, #A0522D 100%);
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #f1c40f, #e67e22);
+}
+
+header h1 {
+  color: #f1c40f;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+header p {
+  opacity: 0.9;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.search-bar {
+  max-width: 600px;
+  margin: 20px auto;
+  display: flex;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 30px 0 0 30px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+}
+
+.search-bar input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-bar button {
+  padding: 15px 25px;
+  background: #f1c40f;
+  color: #2c3e50;
+  border: none;
+  border-radius: 0 30px 30px 0;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.search-bar button:hover {
+  background: #f39c12;
+}
+
+.genre-row {
+  margin-bottom: 50px;
+  padding: 0 20px;
+}
+
+.genre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px 20px 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f1c40f;
+}
+
+.genre-header h2 {
+  font-size: 1.8rem;
+  color: #f1c40f;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ver-todo {
+  color: #f1c40f;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.3s;
+}
+
+.ver-todo:hover {
+  text-decoration: underline;
+  transform: translateX(5px);
+}
+
+.books-row {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 20px;
+  padding: 15px;
+  scroll-behavior: smooth;
+  height: auto;
+}
+
+.books-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.books-row::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 4px;
+}
+
+.books-row::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  padding: 20px 15px 15px;
+  z-index: 2;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #f1c40f;
+}
+
+.card-author {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover img {
+  transform: scale(1.1);
+}
+
+.card:hover .card-overlay {
+  transform: translateY(0);
+}
+
+/* Modal Fullscreen Pro */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  overflow-y: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  max-width: 1200px;
+  width: 100%;
+  background: #1a1a1a;
+  padding: 40px;
+  border-radius: 15px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+.modal-left {
+  flex: 0 0 300px;
+}
+
+.modal-left img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.modal-right h2 {
+  font-size: 2.2rem;
+  color: #f1c40f;
+  margin-bottom: 10px;
+}
+
+.modal-right h4 {
+  font-size: 1.2rem;
+  color: #e67e22;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.modal-right p {
+  line-height: 1.6;
+  margin-bottom: 25px;
+  font-size: 1.1rem;
+}
+
+.modal-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #f1c40f;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.detail-value {
+  font-size: 1rem;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.modal-buttons a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #f1c40f;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-buttons a:hover {
+  background: #f39c12;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 35px;
+  color: #f1c40f;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s;
+}
+
+.close:hover {
+  transform: rotate(90deg);
+}
+
+.video-container {
+  margin: 25px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 8px;
+}
+
+@media (max-width: 968px) {
+  .modal-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    gap: 30px;
+  }
+  
+  .modal-left {
+    flex: 0 0 auto;
+    width: 80%;
+    max-width: 300px;
+  }
+  
+  .modal-right {
+    width: 100%;
+  }
+  
+  .modal-details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .card {
+    width: 160px;
+    height: 260px;
+  }
+  
+  .modal-right h2 {
+    font-size: 1.8rem;
+  }
+  
+  .modal-buttons {
+    justify-content: center;
+  }
+  
+  .modal-buttons a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+.genre-icon {
+  font-size: 24px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.loading::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid transparent;
+  border-top: 4px solid #f1c40f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.rating {
+  display: flex;
+  gap: 3px;
+  margin: 10px 0;
+}
+
+.rating i {
+  color: #f1c40f;
+  font-size: 16px;
+}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>📚 Buscador de Libros Pro</h1>
+  <h1><i class="fas fa-book-reader"></i> Biblioteca Literaria Premium</h1>
+  <p>Descubre tu próxima lectura favorita</p>
+  
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Buscar por título, autor o género...">
+    <button id="searchBtn"><i class="fas fa-search"></i> Buscar</button>
+  </div>
 </header>
 
-<div class="search-bar">
-  <input type="text" id="searchInput" placeholder="Buscar por título, autor o género...">
-  <button id="searchBtn">Buscar</button>
-</div>
-
-<div id="booksContainer"></div>
+<div id="library"></div>
 
 <!-- Modal Fullscreen -->
 <div id="bookModal" class="modal">
@@ -160,78 +478,244 @@
       <img id="modal-cover" src="" alt="Portada libro">
     </div>
     <div class="modal-right">
-      <h2 id="modal-title">Título</h2>
+      <h2 id="modal-title">Título del libro</h2>
       <h4 id="modal-subtitle">Subtítulo / Autor</h4>
-      <p id="modal-description">Descripción del libro.</p>
-      <div id="modal-ficha"></div>
-      <div id="modal-video"></div>
-      <div id="modal-buttons"></div>
+      
+      <div class="rating">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star-half-alt"></i>
+        <span style="margin-left: 10px;">4.5/5</span>
+      </div>
+      
+      <p id="modal-description">Descripción completa y profesional del libro. Contenido de ejemplo para ver cómo se verá la modal. Aquí se puede añadir información extensa sobre trama, personajes, contexto histórico, crítica literaria, etc.</p>
+      
+      <div class="modal-details">
+        <div class="detail-item">
+          <span class="detail-label">Páginas</span>
+          <span class="detail-value" id="modal-pages">320</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">ISBN</span>
+          <span class="detail-value" id="modal-isbn">123-4567890123</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Idioma</span>
+          <span class="detail-value" id="modal-language">Español</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Editorial</span>
+          <span class="detail-value" id="modal-publisher">Ejemplo Editorial</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Año</span>
+          <span class="detail-value" id="modal-year">2023</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Género</span>
+          <span class="detail-value" id="modal-genre">Novela</span>
+        </div>
+      </div>
+      
+      <div class="video-container">
+        <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
+      </div>
+      
+      <div class="modal-buttons">
+        <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar</a>
+        <a href="#" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
+        <a href="#" target="_blank"><i class="fas fa-share-alt"></i> Compartir</a>
+        <a href="#" target="_blank"><i class="fas fa-book-open"></i> Leer muestra</a>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-// Datos de ejemplo
+// Datos de libros mejorados con portadas reales
 const libros = [
   {
-    titulo: "Realismo Mágico Libro 1",
-    autor: "Autor 1",
-    subtitulo: "Subtítulo 1",
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    subtitulo: "Una obra maestra del realismo mágico",
     genero: "Realismo Mágico",
-    portada: "https://via.placeholder.com/150?text=Realismo+Mágico+1",
-    url: "#",
-    descripcion: "Descripción del libro 1.",
-    ficha: "Páginas: 300, ISBN: 1234567890, Editorial: Ejemplo, Idioma: Español, Año: 2023",
-    video: '<iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
-    botones: '<a href="#">Comprar</a><a href="#">Amazon</a><a href="#">Compartir</a>'
+    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo. José Arcadio Buendía y Úrsula Iguarán se casan y se van de su pueblo para fundar Macondo. La obra es considerada una de las más representativas del realismo mágico y de la literatura hispanoamericana.",
+    paginas: 471,
+    isbn: "978-8439721102",
+    idioma: "Español",
+    editorial: "Sudamericana",
+    año: 1967,
+    rating: 4.8,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
   },
   {
-    titulo: "Realismo Mágico Libro 2",
-    autor: "Autor 2",
-    subtitulo: "Subtítulo 2",
-    genero: "Realismo Mágico",
-    portada: "https://via.placeholder.com/150?text=Realismo+Mágico+2",
-    url: "#",
-    descripcion: "Descripción del libro 2.",
-    ficha: "Páginas: 320, ISBN: 1234567891, Editorial: Ejemplo, Idioma: Español, Año: 2023",
-    video: '<iframe width="100%" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>',
-    botones: '<a href="#">Comprar</a><a href="#">Amazon</a><a href="#">Compartir</a>'
+    titulo: "1984",
+    autor: "George Orwell",
+    subtitulo: "Una visión distópica del futuro",
+    genero: "Distopía",
+    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información.",
+    paginas: 328,
+    isbn: "978-0451524935",
+    idioma: "Español",
+    editorial: "Debolsillo",
+    año: 1949,
+    rating: 4.7,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
   },
-  // Agrega aquí los demás libros...
+  {
+    titulo: "El Señor de los Anillos",
+    autor: "J.R.R. Tolkien",
+    subtitulo: "La comunidad del anillo",
+    genero: "Fantasía",
+    portada: "https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media.",
+    paginas: 576,
+    isbn: "978-8445000660",
+    idioma: "Español",
+    editorial: "Minotauro",
+    año: 1954,
+    rating: 4.9,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "Harry Potter y la piedra filosofal",
+    autor: "J.K. Rowling",
+    subtitulo: "El comienzo de la magia",
+    genero: "Fantasía",
+    portada: "https://images.pexels.com/photos/1005460/pexels-photo-1005460.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "Harry Potter se ha quedado huérfano y vive en casa de sus abominables tíos y del insoportable primo Dudley. Harry se siente muy triste y solo, hasta que un buen día recibe una carta que cambiará su vida para siempre. En ella le comunican que ha sido aceptado como alumno en el colegio interno Hogwarts de magia y hechicería.",
+    paginas: 309,
+    isbn: "978-8478884456",
+    idioma: "Español",
+    editorial: "Salamandra",
+    año: 1997,
+    rating: 4.9,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "Don Quijote de la Mancha",
+    autor: "Miguel de Cervantes",
+    subtitulo: "El caballero de la triste figura",
+    genero: "Novela",
+    portada: "https://images.pexels.com/photos/674268/pexels-photo-674268.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "La obra cuenta las aventuras de un hidalgo manchego de cincuenta años llamado Alonso Quijano, quien decide ser un caballero andante como aquellos que había leído en los libros de caballerías. Armado con una vieja armadura y montado en su caballo Rocinante, recorre España en busca de aventuras.",
+    paginas: 1072,
+    isbn: "978-8424116969",
+    idioma: "Español",
+    editorial: "Real Academia Española",
+    año: 1605,
+    rating: 4.8,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "Orgullo y prejuicio",
+    autor: "Jane Austen",
+    subtitulo: "Una comedia romántica clásica",
+    genero: "Romance",
+    portada: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    descripcion: "La señora Bennet ha criado a sus cinco hijas con el único deseo de encontrar marido. La llegada de Charles Bingley, un joven rico y soltero, alaba las esperanzas de la familia. Elizabeth Bennet, inteligente y con fuerte carácter, se enfrentará al arrogante señor Darcy, desencadenando una de las historias de amor más famosas de la literatura.",
+    paginas: 432,
+    isbn: "978-0141439518",
+    idioma: "Español",
+    editorial: "Penguin Clásicos",
+    año: 1813,
+    rating: 4.6,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  }
 ];
 
-// Renderizar libros
-function renderBooks(filteredLibros = libros) {
-  const booksContainer = document.getElementById('booksContainer');
-  booksContainer.innerHTML = '';
+// Generar más libros para cada categoría
+const categorias = ["Realismo Mágico", "Novela", "Distopía", "Fantasía", "Romance", "Ciencia Ficción"];
+const iconosCategorias = {
+  "Realismo Mágico": "fas fa-magic",
+  "Novela": "fas fa-book",
+  "Distopía": "fas fa-city",
+  "Fantasía": "fas fa-dragon",
+  "Romance": "fas fa-heart",
+  "Ciencia Ficción": "fas fa-rocket"
+};
 
-  const categorias = ["Realismo Mágico", "Novela", "Distopía", "Fantasía"];
-  categorias.forEach(cat => {
-    const section = document.createElement('div');
-    section.className = 'books-section';
+// Añadir más libros a cada categoría
+categorias.forEach(cat => {
+  for (let i = 2; i <= 8; i++) {
+    const libroBase = libros.find(l => l.genero === cat);
+    if (libroBase) {
+      libros.push({
+        ...libroBase,
+        titulo: `${cat} Libro ${i}`,
+        autor: `Autor ${i}`,
+        portada: `https://images.pexels.com/photos/${1272853 + i}/pexels-photo-${1272853 + i}.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`
+      });
+    }
+  }
+});
 
-    const header = document.createElement('h2');
-    header.innerHTML = `${cat} <a href="#">Ver todo</a>`;
-    section.appendChild(header);
+const libraryContainer = document.getElementById('library');
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
 
-    const row = document.createElement('div');
-    row.className = 'books-row';
-
-    const librosCat = filteredLibros.filter(l => l.genero === cat);
-    librosCat.forEach(libro => {
-      const card = document.createElement('a');
-      card.href = libro.url;
-      card.className = 'card';
-      card.innerHTML = `<img src="${libro.portada}" alt="${libro.titulo}">`;
-      card.addEventListener('click', e => {
+// Renderizar carruseles
+function renderLibrary(filteredLibros = libros) {
+  libraryContainer.innerHTML = '';
+  
+  // Agrupar libros por género
+  const librosPorGenero = {};
+  filteredLibros.forEach(libro => {
+    if (!librosPorGenero[libro.genero]) {
+      librosPorGenero[libro.genero] = [];
+    }
+    librosPorGenero[libro.genero].push(libro);
+  });
+  
+  // Crear secciones para cada género
+  Object.keys(librosPorGenero).forEach(cat => {
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'genre-row';
+    
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'genre-header';
+    
+    const title = document.createElement('h2');
+    title.innerHTML = `<i class="${iconosCategorias[cat] || 'fas fa-book'} genre-icon"></i> ${cat}`;
+    
+    const verTodo = document.createElement('a');
+    verTodo.href = "#";
+    verTodo.className = "ver-todo";
+    verTodo.innerHTML = "Ver todo <i class='fas fa-arrow-right'></i>";
+    
+    headerDiv.appendChild(title);
+    headerDiv.appendChild(verTodo);
+    rowDiv.appendChild(headerDiv);
+    
+    const booksRow = document.createElement('div');
+    booksRow.className = 'books-row';
+    
+    librosPorGenero[cat].forEach(libro => {
+      const cardLink = document.createElement('a');
+      cardLink.href = "#";
+      cardLink.className = "card";
+      cardLink.innerHTML = `
+        <img src="${libro.portada}" alt="${libro.titulo}">
+        <div class="card-overlay">
+          <div class="card-title">${libro.titulo}</div>
+          <div class="card-author">${libro.autor}</div>
+        </div>
+      `;
+      
+      cardLink.addEventListener('click', e => {
         e.preventDefault();
         openBookModal(libro);
       });
-      row.appendChild(card);
+      
+      booksRow.appendChild(cardLink);
     });
-
-    section.appendChild(row);
-    booksContainer.appendChild(section);
+    
+    rowDiv.appendChild(booksRow);
+    libraryContainer.appendChild(rowDiv);
   });
 }
 
@@ -241,54 +725,88 @@ const modalCover = document.getElementById('modal-cover');
 const modalTitle = document.getElementById('modal-title');
 const modalSubtitle = document.getElementById('modal-subtitle');
 const modalDescription = document.getElementById('modal-description');
-const modalFicha = document.getElementById('modal-ficha');
+const modalPages = document.getElementById('modal-pages');
+const modalIsbn = document.getElementById('modal-isbn');
+const modalLanguage = document.getElementById('modal-language');
+const modalPublisher = document.getElementById('modal-publisher');
+const modalYear = document.getElementById('modal-year');
+const modalGenre = document.getElementById('modal-genre');
 const modalVideo = document.getElementById('modal-video');
-const modalButtons = document.getElementById('modal-buttons');
 const closeModal = document.querySelector('.close');
 
 function openBookModal(libro) {
-  modal.style.display = 'flex';
+  modal.classList.add('show');
   modalCover.src = libro.portada;
   modalTitle.innerText = libro.titulo;
-  modalSubtitle.innerText = `${libro.subtitulo} / ${libro.autor}`;
+  modalSubtitle.innerText = `${libro.subtitulo} - ${libro.autor}`;
   modalDescription.innerText = libro.descripcion;
-  modalFicha.innerHTML = libro.ficha;
-  modalVideo.innerHTML = libro.video;
-  modalButtons.innerHTML = libro.botones;
+  modalPages.innerText = libro.paginas;
+  modalIsbn.innerText = libro.isbn;
+  modalLanguage.innerText = libro.idioma;
+  modalPublisher.innerText = libro.editorial;
+  modalYear.innerText = libro.año;
+  modalGenre.innerText = libro.genero;
+  modalVideo.src = libro.video;
+  
+  // Actualizar rating
+  const ratingContainer = document.querySelector('.rating');
+  ratingContainer.innerHTML = '';
+  const fullStars = Math.floor(libro.rating);
+  const hasHalfStar = libro.rating % 1 >= 0.5;
+  
+  for (let i = 0; i < fullStars; i++) {
+    ratingContainer.innerHTML += '<i class="fas fa-star"></i>';
+  }
+  
+  if (hasHalfStar) {
+    ratingContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+  }
+  
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  for (let i = 0; i < emptyStars; i++) {
+    ratingContainer.innerHTML += '<i class="far fa-star"></i>';
+  }
+  
+  ratingContainer.innerHTML += `<span style="margin-left: 10px;">${libro.rating}/5</span>`;
 }
 
 closeModal.onclick = () => {
-  modal.style.display = 'none';
-};
+  modal.classList.remove('show');
+  modalVideo.src = ''; // Pausar video al cerrar modal
+}
 
 window.onclick = e => {
   if (e.target == modal) {
-    modal.style.display = 'none';
+    modal.classList.remove('show');
+    modalVideo.src = ''; // Pausar video al cerrar modal
   }
-};
-
-// Buscador
-const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-
-function filterBooks() {
-  const term = searchInput.value.toLowerCase();
-  const filtered = libros.filter(l => {
-    return l.titulo.toLowerCase().includes(term) ||
-           l.autor.toLowerCase().includes(term) ||
-           l.subtitulo.toLowerCase().includes(term) ||
-           l.genero.toLowerCase().includes(term);
-  });
-  renderBooks(filtered);
 }
 
-searchBtn.addEventListener('click', filterBooks);
-searchInput.addEventListener('input', filterBooks);
+// Funcionalidad de búsqueda
+searchBtn.addEventListener('click', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  if (searchTerm.trim() === '') {
+    renderLibrary();
+    return;
+  }
+  
+  const filtered = libros.filter(libro => 
+    libro.titulo.toLowerCase().includes(searchTerm) ||
+    libro.autor.toLowerCase().includes(searchTerm) ||
+    libro.genero.toLowerCase().includes(searchTerm)
+  );
+  
+  renderLibrary(filtered);
+});
 
-// Inicializar
-renderBooks();
+searchInput.addEventListener('keyup', e => {
+  if (e.key === 'Enter') {
+    searchBtn.click();
+  }
+});
+
+// Inicializar la biblioteca
+renderLibrary();
 </script>
-
 </body>
 </html>
-
