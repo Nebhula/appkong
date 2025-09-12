@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca Literaria - Modal Corregida</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d1b00 100%);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(to right, #8B4513 0%, #A0522D 100%);
+  margin-bottom: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(to right, #f1c40f, #e67e22);
+}
+
+header h1 {
+  color: #f1c40f;
+  font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+header p {
+  opacity: 0.9;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.genre-row {
+  margin-bottom: 50px;
+  padding: 0 20px;
+}
+
+.genre-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 10px 20px 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f1c40f;
+}
+
+.genre-header h2 {
+  font-size: 1.8rem;
+  color: #f1c40f;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ver-todo {
+  color: #f1c40f;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.3s;
+}
+
+.ver-todo:hover {
+  text-decoration: underline;
+  transform: translateX(5px);
+}
+
+.books-row {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 20px;
+  padding: 15px;
+  scroll-behavior: smooth;
+  height: auto;
+}
+
+.books-row::-webkit-scrollbar {
+  height: 8px;
+}
+
+.books-row::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 4px;
+}
+
+.books-row::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 200px;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.5s;
+}
+
+.card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  padding: 20px 15px 15px;
+  z-index: 2;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #f1c40f;
+}
+
+.card-author {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+card:hover img {
+  transform: scale(1.1);
+}
+
+.card:hover .card-overlay {
+  transform: translateY(0);
+}
+
+/* MODAL CORREGIDA - MEJOR MANEJO DEL SCROLL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.95);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 90%;
+  max-height: 95vh; /* ajuste */
+  background: #1a1a1a;
+  border-radius: 15px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow-y: auto; /* ahora scrolleable */
+}
+
+.modal-container::-webkit-scrollbar {
+  width: 10px;
+}
+.modal-container::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 6px;
+}
+.modal-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-header {
+  padding: 20px 30px;
+  background: #252525;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #444;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  color: #f1c40f;
+}
+
+.close {
+  font-size: 30px;
+  color: #f1c40f;
+  font-weight: bold;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: transform 0.3s;
+}
+
+.close:hover {
+  transform: rotate(90deg);
+}
+
+.modal-content {
+  display: flex;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.modal-left {
+  flex: 0 0 300px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #222;
+  border-right: 1px solid #444;
+}
+
+.modal-left img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+}
+
+.modal-rating {
+  display: flex;
+  gap: 3px;
+  margin: 15px 0;
+}
+
+.modal-rating i {
+  color: #f1c40f;
+  font-size: 20px;
+}
+
+.modal-details {
+  width: 100%;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #f1c40f;
+}
+
+.detail-value {
+  text-align: right;
+}
+
+.modal-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 30px;
+}
+
+.modal-subtitle {
+  font-size: 1.2rem;
+  color: #e67e22;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
+
+.modal-description-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 25px;
+  padding-right: 15px;
+}
+
+.modal-description-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-description-container::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 4px;
+}
+
+.modal-description-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.modal-description {
+  line-height: 1.6;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.video-container {
+  margin: 20px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.video-container iframe {
+  width: 100%;
+  height: 250px;
+  border: none;
+  border-radius: 8px;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  flex-shrink: 0;
+}
+
+.modal-buttons a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #f1c40f;
+  color: #2c3e50;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.modal-buttons a:hover {
+  background: #f39c12;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .modal-content {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .modal-left {
+    flex: 0 0 auto;
+    border-right: none;
+    border-bottom: 1px solid #444;
+    padding: 20px;
+  }
+  
+  .modal-left img {
+    max-width: 200px;
+  }
+  
+  .modal-right {
+    padding: 20px;
+    overflow: visible;
+  }
+  
+  .modal-header {
+    padding: 15px 20px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .card {
+    width: 160px;
+    height: 260px;
+  }
+  
+  .modal-container {
+    width: 95%;
+    height: 95vh;
+  }
+  
+  .modal-buttons {
+    justify-content: center;
+  }
+  
+  .modal-buttons a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .modal-title {
+    font-size: 1.3rem;
+  }
+  
+  .modal-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+.genre-icon {
+  font-size: 24px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.loading::after {
+  content: "";
+  width: 40px;
+  height: 40px;
+  border: 4px solid transparent;
+  border-top: 4px solid #f1c40f;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1><i class="fas fa-book-reader"></i> Biblioteca Literaria Premium</h1>
+  <p>Descubre tu próxima lectura favorita</p>
+</header>
+
+<div id="library"></div>
+
+<!-- Modal Corregida -->
+<div id="bookModal" class="modal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Título del libro</h2>
+      <button class="close">&times;</button>
+    </div>
+    
+    <div class="modal-content">
+      <div class="modal-left">
+        <img id="modal-cover" src="" alt="Portada libro">
+        
+        <div class="modal-rating" id="modal-rating"></div>
+        
+        <div class="modal-details">
+          <div class="detail-item">
+            <span class="detail-label">Páginas:</span>
+            <span class="detail-value" id="modal-pages">320</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">ISBN:</span>
+            <span class="detail-value" id="modal-isbn">123-4567890123</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Idioma:</span>
+            <span class="detail-value" id="modal-language">Español</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Editorial:</span>
+            <span class="detail-value" id="modal-publisher">Ejemplo Editorial</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Año:</span>
+            <span class="detail-value" id="modal-year">2023</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Género:</span>
+            <span class="detail-value" id="modal-genre">Novela</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-right">
+        <h4 class="modal-subtitle" id="modal-subtitle">Subtítulo / Autor</h4>
+        
+        <div class="modal-description-container">
+          <p class="modal-description" id="modal-description">Descripción completa del libro.</p>
+        </div>
+        
+        <div class="video-container">
+          <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        
+        <div class="modal-buttons">
+          <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar</a>
+          <a href="#" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
+          <a href="#" target="_blank"><i class="fas fa-share-alt"></i> Compartir</a>
+          <a href="#" target="_blank"><i class="fas fa-book-open"></i> Leer muestra</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Datos de libros mejorados con portadas reales
+const libros = [
+  {
+    titulo: "Cien años de soledad",
+    autor: "Gabriel García Márquez",
+    subtitulo: "Una obra maestra del realismo mágico",
+    genero: "Realismo Mágico",
+    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg",
+    descripcion: "Historia de la familia Buendía en Macondo.",
+    paginas: 471,
+    isbn: "978-8439721102",
+    idioma: "Español",
+    editorial: "Sudamericana",
+    año: 1967,
+    rating: 4.8,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "1984",
+    autor: "George Orwell",
+    subtitulo: "Una visión distópica del futuro",
+    genero: "Distopía",
+    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg",
+    descripcion: "La novela introduce el concepto del 'Gran Hermano'.",
+    paginas: 328,
+    isbn: "978-0451524935",
+    idioma: "Español",
+    editorial: "Debolsillo",
+    año: 1949,
+    rating: 4.7,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  {
+    titulo: "El Señor de los Anillos",
+    autor: "J.R.R. Tolkien",
+    subtitulo: "La comunidad del anillo",
+    genero: "Fantasía Épica",
+    portada: "https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg",
+    descripcion: "La épica historia del Anillo Único.",
+    paginas: 576,
+    isbn: "978-8445000660",
+    idioma: "Español",
+    editorial: "Minotauro",
+    año: 1954,
+    rating: 4.9,
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  }
+];
+
+const categorias = ["Realismo Mágico", "Distopía", "Fantasía Épica"];
+const iconosCategorias = {
+  "Realismo Mágico": "fas fa-magic",
+  "Distopía": "fas fa-city",
+  "Fantasía Épica": "fas fa-dragon"
+};
+
+categorias.forEach(cat => {
+  const row = document.createElement("div");
+  row.classList.add("genre-row");
+  row.innerHTML = `
+    <div class="genre-header">
+      <h2><i class="${iconosCategorias[cat]} genre-icon"></i> ${cat}</h2>
+      <a href="#" class="ver-todo">Ver todo <i class="fas fa-arrow-right"></i></a>
+    </div>
+    <div class="books-row" id="row-${cat.replace(/\s+/g, '-')}"></div>
+  `;
+  document.getElementById("library").appendChild(row);
+  
+  const contenedor = document.getElementById(`row-${cat.replace(/\s+/g, '-')}`);
+  
+  libros.filter(l => l.genero === cat).forEach(libro => {
+    const card = document.createElement("a");
+    card.classList.add("card");
+    card.innerHTML = `
+      <img src="${libro.portada}" alt="${libro.titulo}">
+      <div class="card-overlay">
+        <div class="card-title">${libro.titulo}</div>
+        <div class="card-author">${libro.autor}</div>
+      </div>
+    `;
+    card.addEventListener("click", () => abrirModal(libro));
+    contenedor.appendChild(card);
+  });
+});
+
+const modal = document.getElementById("bookModal");
+const closeBtn = modal.querySelector(".close");
+
+function abrirModal(libro) {
+  document.getElementById("modal-title").textContent = libro.titulo;
+  document.getElementById("modal-subtitle").textContent = libro.subtitulo + " / " + libro.autor;
+  document.getElementById("modal-cover").src = libro.portada;
+  document.getElementById("modal-description").textContent = libro.descripcion;
+  document.getElementById("modal-pages").textContent = libro.paginas;
+  document.getElementById("modal-isbn").textContent = libro.isbn;
+  document.getElementById("modal-language").textContent = libro.idioma;
+  document.getElementById("modal-publisher").textContent = libro.editorial;
+  document.getElementById("modal-year").textContent = libro.año;
+  document.getElementById("modal-genre").textContent = libro.genero;
+  
+  const ratingContainer = document.getElementById("modal-rating");
+  ratingContainer.innerHTML = "";
+  const fullStars = Math.floor(libro.rating);
+  const halfStar = libro.rating % 1 >= 0.5;
+  
+  for (let i = 0; i < fullStars; i++) {
+    ratingContainer.innerHTML += '<i class="fas fa-star"></i>';
+  }
+  if (halfStar) ratingContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+  for (let i = fullStars + (halfStar ? 1 : 0); i < 5; i++) {
+    ratingContainer.innerHTML += '<i class="far fa-star"></i>';
+  }
+  
+  document.getElementById("modal-video").src = libro.video;
+  
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+closeBtn.addEventListener("click", cerrarModal);
+modal.addEventListener("click", e => {
+  if (e.target === modal) cerrarModal();
+});
+
+function cerrarModal() {
+  modal.classList.remove("show");
+  document.body.style.overflow = "auto";
+  document.getElementById("modal-video").src = "";
+}
+</script>
+</body>
+</html>
