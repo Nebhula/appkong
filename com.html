@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Literaria - Links Ready</title>
+<title>Mini Netflix Literario - Links Ready</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
 body{background:#111;color:#fff;min-height:100vh;overflow-x:hidden;}
@@ -15,10 +15,7 @@ header p{opacity:0.8;}
 .search-section input{width:200px;}
 .search-section button{background:#f1c40f;color:#111;font-weight:bold;cursor:pointer;}
 .genre-row{margin-bottom:50px;}
-.genre-header {display:flex;justify-content:space-between;align-items:center;margin:0 20px 10px 20px;}
-.genre-header h2{font-size:1.5rem;}
-.ver-todo {color:#f1c40f;font-weight:bold;text-decoration:none;}
-.ver-todo:hover{text-decoration:underline;}
+.genre-row h2{margin-left:20px;margin-bottom:10px;font-size:1.5rem;}
 .books-row{display:flex;overflow-x:auto;overflow-y:hidden;gap:15px;padding:20px;scroll-behavior:smooth;height:auto;}
 .books-row::-webkit-scrollbar{height:8px;}
 .books-row::-webkit-scrollbar-thumb{background:#f1c40f;border-radius:4px;}
@@ -26,15 +23,31 @@ header p{opacity:0.8;}
 .card{flex:0 0 auto;width:180px;height:270px;border-radius:10px;overflow:hidden;position:relative;cursor:pointer;transition:transform 0.3s;display:block;text-decoration:none;color:inherit;}
 .card img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1;}
 .card:hover{transform:scale(1.05);}
-.overlay{position:absolute;bottom:0;left:0;width:100%;height:100%;background: rgba(0,0,0,0.5);color:#fff;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;z-index:2;}
+.overlay{
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background: rgba(0,0,0,0.5);
+  color:#fff;
+  padding:10px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  z-index:2;
+}
 .overlay h3, .overlay small, .overlay p{margin:0;}
+.ver-todo{margin-right:20px;margin-top:10px;text-align:right;}
+.ver-todo a{color:#f1c40f;font-weight:bold;text-decoration:none;}
+.ver-todo a:hover{text-decoration:underline;}
 @media(max-width:768px){.card{width:140px;height:210px;}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>📚 Biblioteca Literaria</h1>
+  <h1>📚 Mini Netflix Literario</h1>
   <p>Portadas completas con overlay e info visible</p>
 </header>
 
@@ -94,22 +107,12 @@ function renderLibrary(filtered=libros){
   const genres = [...new Set(filtered.map(l=>l.genero))];
   genres.forEach(genre=>{
     const rowDiv = document.createElement('div'); rowDiv.className='genre-row';
-
-    // Header con título y Ver todo
-    const headerDiv = document.createElement('div'); headerDiv.className='genre-header';
     const title = document.createElement('h2'); title.textContent=genre;
-    const verTodo = document.createElement('a');
-    verTodo.href = `https://categoria-${genre.replace(/\s+/g,'').toLowerCase()}.com`;
-    verTodo.target = "_blank";
-    verTodo.className = "ver-todo";
-    verTodo.textContent = "Ver todo →";
-    headerDiv.appendChild(title);
-    headerDiv.appendChild(verTodo);
-    rowDiv.appendChild(headerDiv);
+    rowDiv.appendChild(title);
 
-    // Carrusel de libros
     const booksRow = document.createElement('div'); booksRow.className='books-row';
     const booksOfGenre = filtered.filter(l=>l.genero===genre);
+
     booksOfGenre.forEach(libro=>{
       const cardLink = document.createElement('a');
       cardLink.href = libro.url;
@@ -126,6 +129,13 @@ function renderLibrary(filtered=libros){
     });
 
     rowDiv.appendChild(booksRow);
+
+    // Botón Ver todo
+    const verTodoDiv = document.createElement('div');
+    verTodoDiv.className = "ver-todo";
+    verTodoDiv.innerHTML = `<a href="https://categoria-${genre.replace(/\s+/g,'').toLowerCase()}.com" target="_blank">Ver todo →</a>`;
+    rowDiv.appendChild(verTodoDiv);
+
     libraryContainer.appendChild(rowDiv);
   });
 }
