@@ -65,7 +65,7 @@ body {
   transform: translateY(-3px);
 }
 
-/* SLIDER DE IMÁGENES */
+/* SLIDER DE IMÁGENES - EFECTO FADE SUAVE Y OPTIMIZADO */
 .slider-container {
   position: relative;
   width: 100%;
@@ -74,16 +74,23 @@ body {
 }
 
 .slider {
-  display: flex;
-  width: 300%;
+  position: relative;
+  width: 100%;
   height: 100%;
-  transition: transform 0.5s ease-in-out;
 }
 
 .slide {
-  width: 33.33%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
-  position: relative;
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+  will-change: opacity;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 .slide img {
@@ -100,6 +107,9 @@ body {
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
   padding: 30px;
   color: #fff;
+  z-index: 2;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .slide-title {
@@ -113,6 +123,11 @@ body {
   max-width: 600px;
 }
 
+/* Activa la primera diapositiva al cargar */
+.slide.active {
+  opacity: 1;
+}
+
 .slider-nav {
   position: absolute;
   bottom: 20px;
@@ -120,6 +135,7 @@ body {
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
+  z-index: 10;
 }
 
 .slider-dot {
@@ -133,36 +149,6 @@ body {
 
 .slider-dot.active {
   background: #60a5fa;
-}
-
-.slider-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
-  color: #60a5fa;
-  font-size: 2rem;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: background 0.3s;
-  z-index: 10;
-}
-
-.slider-arrow:hover {
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.slider-arrow.prev {
-  left: 20px;
-}
-
-.slider-arrow.next {
-  right: 20px;
 }
 
 /* CONTENIDO EXISTENTE */
@@ -203,14 +189,16 @@ body {
   transform: translateX(5px);
 }
 
+/* ✅ CORRECCIÓN CLAVE: PADDING IZQUIERDO Y DERECHO PARA EVITAR QUE SE CORTEN LIBROS */
 .books-row {
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
   gap: 20px;
-  padding: 15px;
+  padding: 15px 16px; /* ← Esto soluciona tu problema en móvil */
   scroll-behavior: smooth;
   height: auto;
+  -webkit-overflow-scrolling: touch; /* Suaviza el scroll en iOS */
 }
 
 .books-row::-webkit-scrollbar {
@@ -561,12 +549,6 @@ body {
     font-size: 1rem;
   }
   
-  .slider-arrow {
-    width: 40px;
-    height: 40px;
-    font-size: 1.5rem;
-  }
-  
   .card {
     width: 160px;
     height: 260px;
@@ -655,7 +637,7 @@ body {
   
   <div class="slider-container">
     <div class="slider">
-      <div class="slide">
+      <div class="slide active">
         <img src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg  " alt="Libro 1">
         <div class="slide-overlay">
           <h3 class="slide-title">Descubre Nuevos Mundos</h3>
@@ -678,8 +660,7 @@ body {
       </div>
     </div>
     
-    <div class="slider-arrow prev"><i class="fas fa-chevron-left"></i></div>
-    <div class="slider-arrow next"><i class="fas fa-chevron-right"></i></div>
+    <!-- FLECHAS ELIMINADAS COMPLETAMENTE -->
     
     <div class="slider-nav">
       <div class="slider-dot active"></div>
@@ -764,8 +745,8 @@ const libros = [
     titulo: "Cien años de soledad",
     autor: "Gabriel García Márquez",
     subtitulo: "Una obra maestra del realismo mágico",
-    genero: "Mágico",
-    portada: "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_t3W9k6yFFstIyDAgBr4bsUrwc4K36kCqZU3epkm2Y-XarmJPfopsYurpwSgP5REJpGxoUMkn5PwDDNpCpQ59L4ctsB16-VTlev2ozJcmK_DXUef_LjLOYV8TvJlUF9cAM_LKOgLG0W00-1bnOXPPF1wbpoOD3_zMW7Xkl3m9pxB94Zv5GiG3rToQvRcr_UrWtOqTk4WzTwJyomLVCTD1MF2VvWCRiL_i8VdFseOXNsU2GWTNaXIJT5H-27v0vdIcYlvJFyr8r7-Fys9g=w300",
+    genero: "Realismo Mágico",
+    portada: "https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     descripcion: "La novela narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo ficticio de Macondo. José Arcadio Buendía y Úrsula Iguarán se casan y se van de su pueblo para fundar Macondo. La obra es considerada una de las más representativas del realismo mágico y de la literatura hispanoamericana. Con una narrativa rica y personajes inolvidables, esta novela te transportará a un mundo donde lo real y lo maravilloso se entrelazan de manera única. Una lectura obligada para cualquier amante de la literatura.",
     paginas: 471,
     isbn: "978-8439721102",
@@ -773,14 +754,14 @@ const libros = [
     editorial: "Sudamericana",
     año: 1967,
     rating: 4.8,
-    video: "  https://www.youtube.com/embed/CTdm5tTu6pE  "
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
   },
   {
     titulo: "1984",
     autor: "George Orwell",
     subtitulo: "Una visión distópica del futuro",
-    genero: "Mágico",
-    portada: "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_t3W9k6yFFstIyDAgBr4bsUrwc4K36kCqZU3epkm2Y-XarmJPfopsYurpwSgP5REJpGxoUMkn5PwDDNpCpQ59L4ctsB16-VTlev2ozJcmK_DXUef_LjLOYV8TvJlUF9cAM_LKOgLG0W00-1bnOXPPF1wbpoOD3_zMW7Xkl3m9pxB94Zv5GiG3rToQvRcr_UrWtOqTk4WzTwJyomLVCTD1MF2VvWCRiL_i8VdFseOXNsU2GWTNaXIJT5H-27v0vdIcYlvJFyr8r7-Fys9g=w300",
+    genero: "Distopía",
+    portada: "https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     descripcion: "La novela introduce el concepto del 'Gran Hermano', un líder omnipresente que vigila a todos los ciudadanos. Winston Smith, el protagonista, trabaja reescribiendo la historia para adaptarla a la versión del Partido. Una crítica feroz a los totalitarismos y una reflexión sobre la manipulación de la información. En un mundo donde la truth es flexible y la libertad una ilusión, esta obra se mantiene tan relevante hoy como cuando fue escrita. Una advertencia atemporal sobre los peligros del poder absoluto y la manipulación de masas.",
     paginas: 328,
     isbn: "978-0451524935",
@@ -788,14 +769,14 @@ const libros = [
     editorial: "Debolsillo",
     año: 1949,
     rating: 4.7,
-    video: "  https://www.youtube.com/embed/CTdm5tTu6pE  "
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
   },
   {
     titulo: "El Señor de los Anillos",
     autor: "J.R.R. Tolkien",
     subtitulo: "La comunidad del anillo",
     genero: "Fantasía Épica",
-    portada: "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_t3W9k6yFFstIyDAgBr4bsUrwc4K36kCqZU3epkm2Y-XarmJPfopsYurpwSgP5REJpGxoUMkn5PwDDNpCpQ59L4ctsB16-VTlev2ozJcmK_DXUef_LjLOYV8TvJlUF9cAM_LKOgLG0W00-1bnOXPPF1wbpoOD3_zMW7Xkl3m9pxB94Zv5GiG3rToQvRcr_UrWtOqTk4WzTwJyomLVCTD1MF2VvWCRiL_i8VdFseOXNsU2GWTNaXIJT5H-27v0vdIcYlvJFyr8r7-Fys9g=w300",
+    portada: "https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media. Esta épica historia de amistad, coraje y sacrificio sigue la misión de Frodo Bolsón para destruir el Anillo Único. Un viaje lleno de peligros, aliados inesperados y batallas legendarias que ha capturado la imaginación de generaciones de lectores.",
     paginas: 576,
     isbn: "978-8445000660",
@@ -803,49 +784,14 @@ const libros = [
     editorial: "Minotauro",
     año: 1954,
     rating: 4.9,
-    video: "  https://www.youtube.com/embed/CTdm5tTu6pE  "
-  },
-
-   {
-    titulo: "El Señor de los Anillos",
-    autor: "J.R.R. Tolkien",
-    subtitulo: "La comunidad del anillo",
-    genero: "Distopía",
-    portada: "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_t3W9k6yFFstIyDAgBr4bsUrwc4K36kCqZU3epkm2Y-XarmJPfopsYurpwSgP5REJpGxoUMkn5PwDDNpCpQ59L4ctsB16-VTlev2ozJcmK_DXUef_LjLOYV8TvJlUF9cAM_LKOgLG0W00-1bnOXPPF1wbpoOD3_zMW7Xkl3m9pxB94Zv5GiG3rToQvRcr_UrWtOqTk4WzTwJyomLVCTD1MF2VvWCRiL_i8VdFseOXNsU2GWTNaXIJT5H-27v0vdIcYlvJFyr8r7-Fys9g=w300",
-    descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media. Esta épica historia de amistad, coraje y sacrificio sigue la misión de Frodo Bolsón para destruir el Anillo Único. Un viaje lleno de peligros, aliados inesperados y batallas legendarias que ha capturado la imaginación de generaciones de lectores.",
-    paginas: 576,
-    isbn: "978-8445000660",
-    idioma: "Español",
-    editorial: "Minotauro",
-    año: 1954,
-    rating: 4.9,
-    video: "  https://www.youtube.com/embed/CTdm5tTu6pE  "
-  },
-
-
-{
-    titulo: "El Señor de los Anillos",
-    autor: "J.R.R. Tolkien",
-    subtitulo: "La comunidad del anillo",
-    genero: "Mariconeo",
-    portada: "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_t3W9k6yFFstIyDAgBr4bsUrwc4K36kCqZU3epkm2Y-XarmJPfopsYurpwSgP5REJpGxoUMkn5PwDDNpCpQ59L4ctsB16-VTlev2ozJcmK_DXUef_LjLOYV8TvJlUF9cAM_LKOgLG0W00-1bnOXPPF1wbpoOD3_zMW7Xkl3m9pxB94Zv5GiG3rToQvRcr_UrWtOqTk4WzTwJyomLVCTD1MF2VvWCRiL_i8VdFseOXNsU2GWTNaXIJT5H-27v0vdIcYlvJFyr8r7-Fys9g=w300",
-    descripcion: "En la Tierra Media, el Señor Oscuro Sauron forjó los Grandes Anillos del Poder. Tres para los elfos, siete para los enanos, y nueve para los hombres. Pero secretamente, Sauron también forjó un anillo maestro, el Único Anillo, que contendría el poder para esclavizar a toda la Tierra Media. Esta épica historia de amistad, coraje y sacrificio sigue la misión de Frodo Bolsón para destruir el Anillo Único. Un viaje lleno de peligros, aliados inesperados y batallas legendarias que ha capturado la imaginación de generaciones de lectores.",
-    paginas: 576,
-    isbn: "978-8445000660",
-    idioma: "Español",
-    editorial: "Minotauro",
-    año: 1954,
-    rating: 4.9,
-    video: "  https://www.youtube.com/embed/CTdm5tTu6pE  "
-  },
-
-  
+    video: "https://www.youtube.com/embed/CTdm5tTu6pE"
+  }
 ];
 
 // Generar más libros para cada categoría
-const categorias = ["Mágico", "Distopía", "Mariconeo", "Fantasía Épica"];
+const categorias = ["Realismo Mágico", "Distopía", "Fantasía Épica"];
 const iconosCategorias = {
-  "Mágico": "fas fa-magic",
+  "Realismo Mágico": "fas fa-magic",
   "Distopía": "fas fa-city",
   "Fantasía Épica": "fas fa-dragon"
 };
@@ -859,7 +805,7 @@ categorias.forEach(cat => {
         ...libroBase,
         titulo: `${cat} Libro ${i}`,
         autor: `Autor ${i}`,
-        portada: `https://images.pexels.com/photos/  ${1272853 + i}/pexels-photo-${1272853 + i}.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+        portada: `https://images.pexels.com/photos/${1272853 + i}/pexels-photo-${1272853 + i}.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
         rating: (4 + Math.random()).toFixed(1),
         año: Math.floor(Math.random() * 50) + 1970
       });
@@ -998,30 +944,25 @@ window.onclick = e => {
   }
 }
 
-// Funcionalidad del slider
+// Funcionalidad del slider - EFECTO FADE SUAVE Y OPTIMIZADO
 let currentSlide = 0;
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.slider-dot');
-const slider = document.querySelector('.slider');
-const prevBtn = document.querySelector('.slider-arrow.prev');
-const nextBtn = document.querySelector('.slider-arrow.next');
 
 function goToSlide(index) {
   if (index < 0) index = slides.length - 1;
   if (index >= slides.length) index = 0;
   
-  slider.style.transform = `translateX(-${index * 33.33}%)`;
-  
-  // Actualizar dots
+  // Ocultar todas las diapositivas
+  slides.forEach(slide => slide.classList.remove('active'));
   dots.forEach(dot => dot.classList.remove('active'));
+  
+  // Mostrar la nueva diapositiva
+  slides[index].classList.add('active');
   dots[index].classList.add('active');
   
   currentSlide = index;
 }
-
-// Event listeners para los controles del slider
-prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
-nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
 
 // Event listeners para los dots
 dots.forEach((dot, index) => {
