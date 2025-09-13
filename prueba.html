@@ -291,12 +291,27 @@ body {
           <iframe id="modal-video" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
 
-        <div class="modal-buttons">
-          <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar</a>
-          <a href="#" target="_blank"><i class="fab fa-amazon"></i> Amazon</a>
-          <a href="#" target="_blank"><i class="fas fa-share-alt"></i> Compartir</a>
-          <a href="#" target="_blank"><i class="fas fa-book-open"></i> Leer muestra</a>
-        </div>
+        <!-- Reemplaza dentro de .modal-buttons -->
+<div class="modal-buttons">
+  <a href="#" target="_blank" style="background:#FF9900;"><i class="fab fa-amazon"></i> Amazon</a>
+  <a href="#" target="_blank" style="background:#E74C3C;"><i class="fas fa-book"></i> Casa del Libro</a>
+  <a href="#" target="_blank" style="background:#27AE60;"><i class="fas fa-shopping-cart"></i> Comprar Directo</a>
+</div>
+
+<style>
+/* Solo añadir: móviles, botones ancho completo */
+@media (max-width: 768px) {
+  .modal-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .modal-buttons a {
+    width: 100%;
+    text-align: center;
+  }
+}
+</style>
+
       </div>
     </div>
   </div>
