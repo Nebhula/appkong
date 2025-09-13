@@ -7,17 +7,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * { box-sizing: border-box; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-body {
-  background: #0a1a2e; linear-gradient(135deg,#0a1a2e 0%,#061120 100%);
-  color:#fff; min-height:100vh; overflow-x:hidden; padding-bottom:40px;
-}
+body { background: #0a1a2e; color:#fff; min-height:100vh; overflow-x:hidden; padding-bottom:40px;}
+
 /* HEADER */
-.top-menu{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background: linear-gradient(to right, #0a1a2e 0%, #061120 100%);box-shadow: 0 4px 12px rgba(0,0,0,0.5);}
+.top-menu{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background: linear-gradient(to right, #0a1a2e 0%, #061120 100%);box-shadow:0 4px 12px rgba(0,0,0,0.5);}
 .logo{display:flex;align-items:center;gap:10px;}
 .logo h1{color:#f1c40f;font-size:1.8rem;text-shadow:2px 2px 4px rgba(0,0,0,0.5);}
 .menu-icons{display:flex;gap:20px;}
 .menu-icon{color:#f1c40f;font-size:1.5rem;cursor:pointer;transition:transform .3s,color .3s;}
 .menu-icon:hover{color:#fff;transform:translateY(-3px);}
+
 /* SLIDER */
 .slider-container{position:relative;width:100%;height:400px;overflow:hidden;}
 .slide{position:absolute;width:100%;height:100%;opacity:0;transition:opacity 1.2s ease-in-out;z-index:1;}
@@ -33,51 +32,25 @@ body {
 /* GRID DE LIBROS */
 .books-grid{
   display:grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas PC */
   gap:20px;
   padding:20px;
 }
-.card{
-  cursor:pointer;
-  transition: all .3s ease;
-  display:block;
-  text-decoration:none;
-  color:inherit;
-  border-radius:8px;
-  overflow:hidden;
-  box-shadow:0 5px 15px rgba(0,0,0,0.3);
-  background:#061120;
-}
-.card img{
-  width:100%;
-  aspect-ratio:2/3; /* proporción portada libro */
-  object-fit:cover;
-  display:block;
-  border-radius:6px;
-  transition: transform .5s;
-}
-.card-overlay{
-  padding:10px;
-  text-align:center;
-}
+@media(max-width:1024px){.books-grid{grid-template-columns:repeat(2,1fr);}} /* tablet 2 columnas */
+@media(max-width:768px){.books-grid{grid-template-columns:1fr;}} /* móvil 1 columna */
+
+.card{cursor:pointer;transition:all .3s ease;display:block;text-decoration:none;color:inherit;border-radius:8px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,0.3);background:#061120;}
+.card img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:6px;transition:transform .5s;}
+.card-overlay{text-align:center;padding:10px;}
 .card-title{font-size:1rem;font-weight:bold;color:#f1c40f;margin-bottom:5px;}
 .card-author{font-size:0.85rem;opacity:0.9;}
 
 /* MODAL */
-.modal{
-  display:none;position:fixed;inset:0;z-index:1000;
-  background-color: rgba(0,0,0,0.95);
-  overflow-y:auto;-webkit-overflow-scrolling:touch;
-  padding:20px;
-}
+.modal{display:none;position:fixed;inset:0;z-index:1000;background-color: rgba(0,0,0,0.95);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;}
 .modal::-webkit-scrollbar{display:none;}
 .modal.show{display:block;}
-.modal-container{
-  width:100%; max-width:900px; margin:0 auto; background:#0a1a2e; color:#fff; border-radius:8px; overflow:visible; display:flex; flex-direction:column; box-shadow:0 10px 40px rgba(0,0,0,0.6);
-}
-.modal-header{
-  padding:20px; background:#061120; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1a2b4a;
-}
+.modal-container{width:100%;max-width:900px;margin:0 auto;background:#0a1a2e;color:#fff;border-radius:8px;overflow:visible;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,0.6);}
+.modal-header{padding:20px;background:#061120;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #1a2b4a;}
 .modal-title{font-size:1.8rem;color:#f1c40f;}
 .close{font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;background:none;border:none;transition:transform .25s;}
 .close:hover{transform:rotate(90deg);}
@@ -88,20 +61,13 @@ body {
 .video-container iframe{width:100%;height:200px;border:none;}
 .modal-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
 .modal-buttons a{
-  flex:1; /* ocupan todo el ancho en móvil */
-  display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 0;font-weight:bold;
-  border-radius:30px;text-decoration:none;transition: all .25s;
+  flex:1;
+  display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 0;font-weight:bold;border-radius:30px;text-decoration:none;transition: all .25s;
 }
 .modal-buttons a:nth-child(1){background:#f1c40f;color:#2c3e50;}
 .modal-buttons a:nth-child(2){background:#27ae60;color:#fff;}
 .modal-buttons a:nth-child(3){background:#e74c3c;color:#fff;}
 .modal-buttons a:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,0.3);}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .books-grid{grid-template-columns:1fr;} /* 1 columna móvil */
-  .modal-buttons a{flex:100%;}
-}
 </style>
 </head>
 <body>
@@ -157,12 +123,12 @@ body {
 </div>
 
 <script>
-// === DATOS DE LIBROS DE EJEMPLO ===
+// === LIBROS DE EJEMPLO ===
 const libros = [
-  {titulo:"Libro 1", autor:"Autor Ejemplo", subtitulo:"Subtítulo 1", portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Descripción larga del libro 1", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.8},
-  {titulo:"Libro 2", autor:"Autor Ejemplo", subtitulo:"Subtítulo 2", portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Descripción larga del libro 2", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.5},
-  {titulo:"Libro 3", autor:"Autor Ejemplo", subtitulo:"Subtítulo 3", portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg", descripcion:"Descripción larga del libro 3", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.2},
-  {titulo:"Libro 4", autor:"Autor Ejemplo", subtitulo:"Subtítulo 4", portada:"https://images.pexels.com/photos/1926990/pexels-photo-1926990.jpeg", descripcion:"Descripción larga del libro 4", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.7}
+  {titulo:"Libro 1", autor:"Autor Ejemplo", subtitulo:"Subtítulo 1", portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Descripción larga del libro 1", video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Libro 2", autor:"Autor Ejemplo", subtitulo:"Subtítulo 2", portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Descripción larga del libro 2", video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Libro 3", autor:"Autor Ejemplo", subtitulo:"Subtítulo 3", portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg", descripcion:"Descripción larga del libro 3", video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Libro 4", autor:"Autor Ejemplo", subtitulo:"Subtítulo 4", portada:"https://images.pexels.com/photos/1926990/pexels-photo-1926990.jpeg", descripcion:"Descripción larga del libro 4", video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
 ];
 
 // === RENDERIZAR GRID ===
