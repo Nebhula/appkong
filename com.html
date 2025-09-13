@@ -9,22 +9,16 @@
 * { box-sizing: border-box; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
 body {
   background: #0a1a2e; linear-gradient(135deg,#0a1a2e 0%,#061120 100%);
-  color:#fff;
-  min-height:100vh;
-  overflow-x:hidden;
-  padding-bottom:40px;
+  color:#fff; min-height:100vh; overflow-x:hidden; padding-bottom:40px;
 }
-.top-menu{
-  display:flex; justify-content:space-between; align-items:center;
-  padding:15px 30px;
-  background: linear-gradient(to right, #0a1a2e 0%, #061120 100%);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-}
+/* HEADER */
+.top-menu{display:flex;justify-content:space-between;align-items:center;padding:15px 30px;background: linear-gradient(to right, #0a1a2e 0%, #061120 100%);box-shadow: 0 4px 12px rgba(0,0,0,0.5);}
 .logo{display:flex;align-items:center;gap:10px;}
 .logo h1{color:#f1c40f;font-size:1.8rem;text-shadow:2px 2px 4px rgba(0,0,0,0.5);}
 .menu-icons{display:flex;gap:20px;}
 .menu-icon{color:#f1c40f;font-size:1.5rem;cursor:pointer;transition:transform .3s,color .3s;}
 .menu-icon:hover{color:#fff;transform:translateY(-3px);}
+/* SLIDER */
 .slider-container{position:relative;width:100%;height:400px;overflow:hidden;}
 .slide{position:absolute;width:100%;height:100%;opacity:0;transition:opacity 1.2s ease-in-out;z-index:1;}
 .slide.active{opacity:1;z-index:2;}
@@ -36,10 +30,10 @@ body {
 .slider-dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;transition:transform .2s, background .2s;}
 .slider-dot.active{background:#f1c40f;transform:scale(1.2);}
 
-/* === GRID DE LIBROS === */
+/* GRID DE LIBROS */
 .books-grid{
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas */
   gap:20px;
   padding:20px;
 }
@@ -59,7 +53,8 @@ body {
   aspect-ratio:2/3; /* proporción portada libro */
   object-fit:cover;
   display:block;
-  transition:transform .5s;
+  border-radius:6px;
+  transition: transform .5s;
 }
 .card-overlay{
   padding:10px;
@@ -87,14 +82,13 @@ body {
 .close{font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;background:none;border:none;transition:transform .25s;}
 .close:hover{transform:rotate(90deg);}
 .modal-content{display:flex;flex-direction:column;padding:20px;gap:12px;}
-.modal-left img{width:100%;border-radius:6px;box-shadow:0 5px 15px rgba(0,0,0,0.5);}
 .modal-subtitle{font-size:1.2rem;color:#e67e22;font-weight:normal;}
 .modal-description{line-height:1.6;font-size:1rem;margin-bottom:10px;}
 .video-container{margin:15px 0;border-radius:8px;overflow:hidden;background:#061120;}
 .video-container iframe{width:100%;height:200px;border:none;}
 .modal-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
 .modal-buttons a{
-  flex:1; /* en móvil ocupan todo el ancho */
+  flex:1; /* ocupan todo el ancho en móvil */
   display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 0;font-weight:bold;
   border-radius:30px;text-decoration:none;transition: all .25s;
 }
@@ -105,7 +99,7 @@ body {
 
 /* RESPONSIVE */
 @media(max-width:768px){
-  .books-grid{grid-template-columns:1fr;}
+  .books-grid{grid-template-columns:1fr;} /* 1 columna móvil */
   .modal-buttons a{flex:100%;}
 }
 </style>
@@ -128,8 +122,8 @@ body {
   <div class="slide active">
     <img src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1">
     <div class="slide-overlay">
-      <h3 class="slide-title">Descubre Nuevos Mundos</h3>
-      <p class="slide-description">Explora todos los libros de este autor en nuestra colección.</p>
+      <h3 class="slide-title">Descubre todos los libros del autor</h3>
+      <p class="slide-description">Explora la colección completa en nuestro catálogo.</p>
     </div>
   </div>
   <div class="slider-nav">
@@ -168,6 +162,7 @@ const libros = [
   {titulo:"Libro 1", autor:"Autor Ejemplo", subtitulo:"Subtítulo 1", portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Descripción larga del libro 1", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.8},
   {titulo:"Libro 2", autor:"Autor Ejemplo", subtitulo:"Subtítulo 2", portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Descripción larga del libro 2", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.5},
   {titulo:"Libro 3", autor:"Autor Ejemplo", subtitulo:"Subtítulo 3", portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg", descripcion:"Descripción larga del libro 3", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.2},
+  {titulo:"Libro 4", autor:"Autor Ejemplo", subtitulo:"Subtítulo 4", portada:"https://images.pexels.com/photos/1926990/pexels-photo-1926990.jpeg", descripcion:"Descripción larga del libro 4", video:"https://www.youtube.com/embed/CTdm5tTu6pE", rating:4.7}
 ];
 
 // === RENDERIZAR GRID ===
@@ -179,15 +174,18 @@ const modalSubtitle = modal.querySelector('.modal-subtitle');
 const modalDescription = modal.querySelector('.modal-description');
 const modalVideo = modal.querySelector('iframe');
 
-libros.forEach(lib => {
-  const card = document.createElement('div');
-  card.className='card';
-  card.innerHTML = `<img src="${lib.portada}" alt="${lib.titulo}"><div class="card-overlay"><div class="card-title">${lib.titulo}</div><div class="card-author">${lib.autor}</div></div>`;
-  card.addEventListener('click',()=>openModal(lib));
+libros.forEach(lib=>{
+  const card = document.createElement('a');
+  card.className="card";
+  card.innerHTML=`<img src="${lib.portada}" alt="${lib.titulo}">
+                  <div class="card-overlay">
+                    <div class="card-title">${lib.titulo}</div>
+                    <div class="card-author">${lib.autor}</div>
+                  </div>`;
+  card.addEventListener('click',(e)=>{e.preventDefault(); openModal(lib);});
   booksGrid.appendChild(card);
 });
 
-// === MODAL ===
 function openModal(lib){
   modalTitle.innerText = lib.titulo;
   modalSubtitle.innerText = `${lib.subtitulo} - ${lib.autor}`;
@@ -196,6 +194,7 @@ function openModal(lib){
   modal.classList.add('show');
   document.body.style.overflow='hidden';
 }
+
 function closeModal(){
   modal.classList.remove('show');
   modalVideo.src='';
@@ -203,12 +202,15 @@ function closeModal(){
 }
 closeModalBtn.addEventListener('click',closeModal);
 window.addEventListener('click',e=>{if(e.target===modal)closeModal();});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show'))closeModal();});
 
 // === SLIDER ===
 let currentSlide=0;
-const slides = document.querySelectorAll('.slide');
-function goToSlide(index){slides.forEach(s=>s.classList.remove('active'));currentSlide=index;slides[currentSlide].classList.add('active');}
-setInterval(()=>{goToSlide((currentSlide+1)%slides.length);},5000);
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.slider-dot');
+function goToSlide(idx){slides.forEach(s=>s.classList.remove('active'));dots.forEach(d=>d.classList.remove('active'));currentSlide=(idx+slides.length)%slides.length;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
+dots.forEach(dot=>dot.addEventListener('click',()=>goToSlide(parseInt(dot.dataset.slide,10))));
+setInterval(()=>{goToSlide(currentSlide+1);},5000);
 </script>
 </body>
 </html>
