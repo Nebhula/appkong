@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Biblioteca Literaria - Autor</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
 <style>
 /* === RESET / BASE === */
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -382,44 +382,22 @@ body {
 .btn-casadelibro { background:#3498db; } .btn-casadelibro:hover { background:#2980b9; }
 .btn-directo { background:#27ae60; } .btn-directo:hover { background:#1e8449; }
 
-/* MEJORA DEL RATING CON ESTRELLAS EN DORADO #f1c40f (EL MISMO COLOR DE TU DISEÑO) */
-.star-rating {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  height: 16px;
-  overflow: hidden;
+/* RATING STYLES (medias estrellas con máscara) */
+.modal-rating .star {
+  font-size: 18px;
+  color: #444;
   position: relative;
-  font-size: 0;
-  line-height: 0;
 }
-
-.star-fill,
-.star-empty {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f1c40f'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-  background-size: contain;
+.modal-rating .star.full { color: #f1c40f; }
+.modal-rating .star.half::before {
+  content: "\f005";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: #f1c40f;
   position: absolute;
-  top: 0;
   left: 0;
-}
-
-.star-fill {
-  z-index: 2;
-  background-color: transparent;
-  clip-path: inset(0 0 0 0);
-}
-
-.star-empty {
-  z-index: 1;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23555'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") no-repeat center;
-  background-size: contain;
-}
-
-.star-fill {
-  transition: width 0.3s ease;
+  width: 50%;
+  overflow: hidden;
 }
 
 /* RESPONSIVE */
@@ -598,22 +576,22 @@ body {
 
   <div class="slider-container">
     <div class="slide active">
-      <!-- Imagen optimizada con menor resolución -->
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Cpath d='M400,200 L500,150 L600,250 L550,300 L450,250 Z' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1" class="lazy-image">
+      <!-- Imagen optimizada con menor resolución (placeholder) -->
+      <img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Cpath d='M400,200 L500,150 L600,250 L550,300 L450,250 Z' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1" class="lazy-image">
       <div class="slide-overlay">
         <h3 class="slide-title">Descubre Nuevos Mundos</h3>
         <p class="slide-description">Explora nuestra colección de bestsellers y libros exclusivos para todos los gustos.</p>
       </div>
     </div>
     <div class="slide">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Ccircle cx='400' cy='200' r='100' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg" alt="Libro 2" class="lazy-image">
+      <img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Ccircle cx='400' cy='200' r='100' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg" alt="Libro 2" class="lazy-image">
       <div class="slide-overlay">
         <h3 class="slide-title">Clásicos Atemporales</h3>
         <p class="slide-description">Revive las obras maestras que han marcado generaciones enteras.</p>
       </div>
     </div>
     <div class="slide">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Crect x='300' y='150' width='200' height='100' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3" class="lazy-image">
+      <img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Crect x='300' y='150' width='200' height='100' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3" class="lazy-image">
       <div class="slide-overlay">
         <h3 class="slide-title">Fantasía y Aventura</h3>
         <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
@@ -631,7 +609,7 @@ body {
 <!-- SECCIÓN AUTOR AITOR -->
 <section class="author-section">
   <div class="author-container">
-    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Aitor García" class="author-image">
+    <img loading="lazy" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Aitor García" class="author-image">
     <div class="author-info">
       <h2 class="author-name">Aitor García</h2>
       <p class="author-bio">
@@ -681,14 +659,9 @@ body {
     </div>
     <div class="modal-content">
       <div class="modal-left">
-        <img id="modal-cover" src="" alt="Portada libro">
+        <img id="modal-cover" src="" alt="Portada libro" loading="lazy">
         <div class="modal-details">
-          <div class="modal-rating" id="modal-rating" aria-label="Calificación">
-            <div class="star-rating" data-rating="4.8">
-              <span class="star-fill" style="width: 96%;"></span>
-              <span class="star-empty"></span>
-            </div>
-          </div>
+          <div class="modal-rating" id="modal-rating"></div>
           <div class="detail-item"><span class="detail-label">Páginas:</span><span class="detail-value" id="modal-pages">320</span></div>
           <div class="detail-item"><span class="detail-label">ISBN:</span><span class="detail-value" id="modal-isbn">123-4567890123</span></div>
           <div class="detail-item"><span class="detail-label">Idioma:</span><span class="detail-value" id="modal-language">Español</span></div>
@@ -703,7 +676,7 @@ body {
           <p class="modal-description" id="modal-description">Descripción completa del libro...</p>
         </div>
         <div class="video-container">
-          <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
+          <iframe id="modal-video" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="modal-buttons">
           <a href="#" target="_blank" class="btn-amazon"><i class="fab fa-amazon"></i> Comprar en Amazon</a>
@@ -716,9 +689,9 @@ body {
 </div>
 
 <script>
-// =========================
-// DATOS DE LIBROS (con imágenes optimizadas)
-// =========================
+/* =========================
+   DATOS DE LIBROS (con imágenes optimizadas)
+   ========================= */
 const libros = [
   { 
     titulo:"Cien años de soledad", 
@@ -854,9 +827,9 @@ const realImages = [
   "https://images.pexels.com/photos/1166658/pexels-photo-1166658.jpeg"
 ];
 
-// =========================
-// RENDERIZADO DE LIBROS
-// =========================
+/* =========================
+   RENDERIZADO DE LIBROS
+   ========================= */
 const libraryContainer = document.getElementById('library');
 function renderLibrary() {
   libraryContainer.innerHTML = '';
@@ -864,11 +837,13 @@ function renderLibrary() {
     const card = document.createElement('a'); 
     card.href="#"; 
     card.className="card";
-    card.innerHTML=`<img src="${libro.portada}" data-src="${realImages[index % realImages.length]}" alt="${libro.titulo}" class="lazy-image">
+    card.innerHTML=`
+      <img loading="lazy" src="${libro.portada}" data-src="${realImages[index % realImages.length]}" alt="${libro.titulo}" class="lazy-image">
       <div class="card-overlay">
         <div class="card-title">${libro.titulo}</div>
         <div class="card-author">${libro.autor}</div>
-      </div>`;
+      </div>
+    `;
     card.addEventListener('click', e => {
       e.preventDefault(); 
       openBookModal(libro);
@@ -880,9 +855,9 @@ function renderLibrary() {
   lazyLoadImages();
 }
 
-// =========================
-// CARGA DIFERIDA DE IMÁGENES
-// =========================
+/* =========================
+   CARGA DIFERIDA DE IMÁGENES (MEJORADA)
+   ========================= */
 function lazyLoadImages() {
   const lazyImages = document.querySelectorAll('.lazy-image');
   
@@ -891,12 +866,16 @@ function lazyLoadImages() {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
-          img.src = img.dataset.src;
+          // Cambios: limpiar espacios en URL y asignar data-src si existe
+          if (img.dataset.src) {
+            img.src = img.dataset.src.trim();
+          }
+          img.removeAttribute('data-src');
           img.classList.remove('lazy-image');
           imageObserver.unobserve(img);
         }
       });
-    });
+    }, { rootMargin: '200px 0px', threshold: 0.01 }); // carga anticipada antes de entrar en viewport
 
     lazyImages.forEach(img => {
       imageObserver.observe(img);
@@ -904,15 +883,15 @@ function lazyLoadImages() {
   } else {
     // Fallback para navegadores que no soportan IntersectionObserver
     lazyImages.forEach(img => {
-      img.src = img.dataset.src;
+      if (img.dataset.src) img.src = img.dataset.src.trim();
       img.classList.remove('lazy-image');
     });
   }
 }
 
-// =========================
-// MODAL
-// =========================
+/* =========================
+   MODAL
+   ========================= */
 const modal = document.getElementById('bookModal');
 const modalCover = document.getElementById('modal-cover');
 const modalTitle = document.getElementById('modal-title');
@@ -924,8 +903,33 @@ const modalLanguage = document.getElementById('modal-language');
 const modalPublisher = document.getElementById('modal-publisher');
 const modalYear = document.getElementById('modal-year');
 const modalGenre = document.getElementById('modal-genre');
-const modalRatingContainer = document.getElementById('modal-rating');
+const modalRating = document.getElementById('modal-rating');
 const modalVideo = document.getElementById('modal-video');
+
+function renderRatingStars(rating) {
+  // Genera 5 elementos de estrella; aplica clase full/half/empty
+  const container = document.createElement('div');
+  container.className = 'modal-rating';
+  const full = Math.floor(rating);
+  const remainder = rating - full;
+  for (let i = 0; i < 5; i++) {
+    const iElem = document.createElement('i');
+    // usar font awesome classes, mantener accesibilidad
+    if (i < full) {
+      iElem.className = 'fa-solid fa-star star full';
+    } else if (i === full && remainder >= 0.25 && remainder < 0.75) {
+      // aproximación a media estrella
+      iElem.className = 'fa-regular fa-star star half';
+    } else if (i === full && remainder >= 0.75) {
+      // casi full -> mostrar full
+      iElem.className = 'fa-solid fa-star star full';
+    } else {
+      iElem.className = 'fa-regular fa-star star';
+    }
+    container.appendChild(iElem);
+  }
+  return container;
+}
 
 function openBookModal(libro) {
   // Cargar imagen real para el modal
@@ -941,23 +945,23 @@ function openBookModal(libro) {
   modalPublisher.textContent = libro.editorial;
   modalYear.textContent = libro.año;
   modalGenre.textContent = libro.genero;
-
-  // SISTEMA DE ESTRELLAS MEJORADO (precisión decimal) EN DORADO #f1c40f
-  const rating = libro.rating;
-  const fillWidth = Math.min(Math.max(rating, 0), 5) * 20; // 20% por estrella
-  const starFill = modalRatingContainer.querySelector('.star-fill');
-  starFill.style.width = `${fillWidth}%`;
-
-  // Actualizar atributo aria-label para accesibilidad
-  modalRatingContainer.setAttribute('aria-label', `Calificación: ${rating.toFixed(1)} de 5`);
-
-  modalVideo.src = libro.video;
+  
+  // Rating con medias estrellas
+  modalRating.innerHTML = '';
+  modalRating.appendChild(renderRatingStars(libro.rating));
+  
+  // Video
+  modalVideo.src = libro.video.trim();
   modal.classList.add('show');
   
   // Pausar video cuando se cierra el modal
   const iframe = modalVideo;
   const videoSrc = iframe.src;
-  modal.querySelector('.close').addEventListener('click', () => {
+  // remove previous close listeners by cloning button to avoid duplicates
+  const closeBtn = modal.querySelector('.close');
+  const newCloseBtn = closeBtn.cloneNode(true);
+  closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+  newCloseBtn.addEventListener('click', () => {
     modal.classList.remove('show');
     iframe.src = "";
     setTimeout(() => {
@@ -974,9 +978,9 @@ modal.addEventListener('click', (e) => {
   }
 });
 
-// =========================
-// SLIDER
-// =========================
+/* =========================
+   SLIDER
+   ========================= */
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.slider-dot');
 let currentSlide = 0;
@@ -988,10 +992,13 @@ function showSlide(n) {
     dots[i].classList.toggle('active', i === n);
   });
   
-  // Cargar imagen real para la diapositiva activa
+  // Cargar imagen real para la diapositiva activa (si no se ha cargado)
   const activeSlideImg = slides[n].querySelector('.lazy-image');
   if (activeSlideImg && activeSlideImg.classList.contains('lazy-image')) {
-    activeSlideImg.src = activeSlideImg.dataset.src;
+    if (activeSlideImg.dataset.src) {
+      activeSlideImg.src = activeSlideImg.dataset.src.trim();
+      activeSlideImg.removeAttribute('data-src');
+    }
     activeSlideImg.classList.remove('lazy-image');
   }
 }
@@ -1012,29 +1019,28 @@ dots.forEach(dot => {
   });
 });
 
-// =========================
-// PRELOADER Y CARGA INICIAL
-// =========================
+/* =========================
+   PRELOADER Y CARGA INICIAL
+   ========================= */
 window.addEventListener('load', function() {
   const loading = document.getElementById('loading');
-
-  // Precargar todas las imágenes reales ANTES de ocultar el loading
-  const preloadPromises = realImages.map(src => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.onload = resolve;
-      img.onerror = reject;
-      img.src = src;
-    });
+  
+  // Renderizar contenidos y comenzar lazy loading
+  renderLibrary();
+  startSlider();
+  
+  // Precargar imágenes para mejor experiencia (en background)
+  realImages.forEach(src => {
+    const img = new Image();
+    img.src = src.trim();
   });
 
-  // Mostrar contenido tras carga de imágenes o tras 500ms (máximo)
-  Promise.allSettled(preloadPromises).then(() => {
+  // Ocultar preloader cuando el browser haya pintado y se haya iniciado el lazy-load
+  // (no esperamos a descargar todas las imágenes grandes)
+  requestAnimationFrame(() => {
     setTimeout(() => {
       loading.classList.add('hidden');
-      renderLibrary();
-      startSlider();
-    }, 200); // Pequeña pausa para transición suave
+    }, 250); // pequeño retraso para suavizar la transición
   });
 });
 
