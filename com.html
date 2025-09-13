@@ -1,151 +1,208 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Autor - Biblioteca</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Biblioteca Literaria - Autor</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-* { box-sizing:border-box; margin:0; padding:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background:#0a1a2e; color:#fff; min-height:100vh; padding-bottom:40px; }
+/* === RESET / BASE === */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body {
+  background: linear-gradient(135deg, #0a1a2e 0%, #061120 100%);
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
 
-/* === HEADER === */
+/* === HEADER / SLIDER === */
+.header-container { position: relative; margin-bottom: 40px; }
 .top-menu {
   display:flex; justify-content:space-between; align-items:center;
-  padding:15px 30px; background:linear-gradient(to right,#0a1a2e,#061120); box-shadow:0 4px 12px rgba(0,0,0,0.5);
+  padding:15px 30px;
+  background: linear-gradient(to right, #0a1a2e 0%, #061120 100%);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 .logo { display:flex; align-items:center; gap:10px; }
 .logo h1 { color:#f1c40f; font-size:1.8rem; text-shadow:2px 2px 4px rgba(0,0,0,0.5); }
 .menu-icons { display:flex; gap:20px; }
-.menu-icon { color:#f1c40f; font-size:1.5rem; cursor:pointer; transition: transform .3s; }
-.menu-icon:hover { color:#fff; transform:translateY(-3px); }
+.menu-icon { color:#f1c40f; font-size:1.5rem; cursor:pointer; transition: transform .3s, color .3s; }
+.menu-icon:hover { color:#fff; transform: translateY(-3px); }
 
-/* === SLIDER === */
-.slider-container { position:relative; width:100%; height:400px; overflow:hidden; margin-bottom:30px; }
-.slide { position:absolute; width:100%; height:100%; opacity:0; transition:opacity 1s ease-in-out; }
-.slide.active { opacity:1; }
-.slide img { width:100%; height:100%; object-fit:cover; }
-.slide-overlay { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding:30px; }
+.slider-container { position:relative; width:100%; height:400px; overflow:hidden; }
+.slide { position:absolute; width:100%; height:100%; opacity:0; transition:opacity 1.2s ease-in-out; z-index:1; }
+.slide.active { opacity:1; z-index:2; }
+.slide img { width:100%; height:100%; object-fit:cover; display:block; }
+.slide-overlay {
+  position:absolute; bottom:0; left:0; right:0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding:30px; color:#fff;
+}
 .slide-title { font-size:2rem; color:#f1c40f; margin-bottom:10px; }
 .slide-description { font-size:1.1rem; max-width:600px; }
 
-.slider-nav { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:10px; }
-.slider-dot { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; }
+.slider-nav { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:3; }
+.slider-dot { width:12px; height:12px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; transition: transform .2s, background .2s; }
 .slider-dot.active { background:#f1c40f; transform:scale(1.2); }
 
-/* === GRID DE LIBROS === */
+/* === LIBROS / GRID === */
+.genre-row { margin-bottom:50px; padding:0 20px; }
+.genre-header {
+  display:flex; justify-content:space-between; align-items:center;
+  margin:0 10px 20px 10px; padding-bottom:10px; border-bottom:2px solid #f1c40f;
+}
+.genre-header h2 { font-size:1.8rem; color:#f1c40f; display:flex; align-items:center; gap:10px; }
+.ver-todo { color:#f1c40f; font-weight:bold; text-decoration:none; display:flex; align-items:center; gap:5px; transition:transform .3s; }
+.ver-todo:hover { transform: translateX(5px); text-decoration:underline; }
+
 .books-grid {
   display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap:20px;
-  padding: 0 20px;
+  padding:15px;
 }
+
 .card {
-  width:100%; border-radius:12px; overflow:hidden; position:relative; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3);
-  transition: all .3s ease; display:block; text-decoration:none; color:inherit;
+  width:100%; border-radius:12px; overflow:hidden; position:relative;
+  cursor:pointer; transition: all .3s ease; display:block; text-decoration:none; color:inherit;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
-.card img { width:100%; height:auto; aspect-ratio:2/3; object-fit:cover; transition: transform .5s; }
+.card img { width:100%; height: auto; aspect-ratio:2/3; object-fit:cover; display:block; transition: transform .5s; }
 .card-overlay {
-  position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  padding:15px; transform:translateY(100%); transition: transform .3s ease;
+  position:absolute; bottom:0; left:0; right:0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  padding:15px; z-index:2; transform: translateY(100%); transition: transform .3s ease;
 }
-.card-title { font-size:16px; font-weight:bold; color:#f1c40f; }
+.card-title { font-size:16px; font-weight:bold; margin-bottom:5px; color:#f1c40f; }
 .card-author { font-size:14px; opacity:0.9; }
+.card:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 12px 25px rgba(0,0,0,0.5); }
 .card:hover img { transform: scale(1.05); }
 .card:hover .card-overlay { transform: translateY(0); }
 
 /* === MODAL === */
-.modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); overflow-y:auto; padding:20px; z-index:1000; }
+.modal { display:none; position:fixed; inset:0; z-index:1000; background-color: rgba(0,0,0,0.95); overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 20px; }
+.modal::-webkit-scrollbar { display:none; }
 .modal.show { display:block; }
-.modal-container { width:100%; max-width:900px; margin:0 auto; background:#0a1a2e; color:#fff; border-radius:8px; display:flex; flex-direction:column; }
+.modal-container { width: 100%; max-width: 1200px; margin: 0 auto; background: #0a1a2e; color:#fff; border-radius:8px; display:flex; flex-direction:column; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
 .modal-header { padding:20px 30px; background:#061120; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #1a2b4a; }
-.modal-title { font-size:1.8rem; color:#f1c40f; }
-.close { font-size:30px; color:#f1c40f; cursor:pointer; background:none; border:none; }
-.modal-content { display:flex; flex-direction:row; flex-wrap:wrap; gap:20px; padding:20px; }
-.modal-left { flex:0 0 250px; text-align:center; }
-.modal-left img { width:100%; height:auto; aspect-ratio:2/3; border-radius:8px; box-shadow:0 5px 15px rgba(0,0,0,0.5); margin-bottom:20px; }
-.modal-right { flex:1; display:flex; flex-direction:column; gap:12px; }
-.detail-item { display:flex; justify-content:space-between; border-bottom:1px solid #1a2b4a; padding:5px 0; }
-.detail-label { font-weight:bold; color:#f1c40f; }
-.modal-description { line-height:1.6; font-size:1rem; }
-.modal-buttons { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
-.modal-buttons a { flex:1 1 100%; text-align:center; padding:10px 15px; border-radius:30px; font-weight:bold; color:#2c3e50; text-decoration:none; transition: all .25s; }
-.modal-buttons a.amazon { background:#ff9900; color:#fff; }
-.modal-buttons a.otra { background:#27ae60; color:#fff; }
-.modal-buttons a.directa { background:#2980b9; color:#fff; }
-.modal-buttons a:hover { opacity:0.9; transform:translateY(-2px); }
+.modal-title { font-size:1.8rem; color:#f1c40f; max-width:80%; word-wrap:break-word; }
+.close { font-size:30px; color:#f1c40f; font-weight:bold; cursor:pointer; background:none; border:none; transition: transform .25s; }
+.close:hover { transform: rotate(90deg); }
+.modal-content { display:flex; flex-direction:row; align-items:flex-start; gap:0; }
+.modal-left { flex:0 0 320px; padding:25px; display:flex; flex-direction:column; align-items:center; background:#061120; border-right:1px solid #1a2b4a; overflow: visible; }
+.modal-left img { width:100%; max-width:200px; height:auto; object-fit:cover; border-radius:8px; box-shadow:0 5px 15px rgba(0,0,0,0.5); margin-bottom:20px; }
+.modal-details { width:100%; }
+.detail-item { display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid #1a2b4a; }
+.detail-label { font-weight:bold; color:#f1c40f; font-size:0.95rem; }
+.detail-value { text-align:right; font-size:0.95rem; }
+.modal-right { flex:1; display:flex; flex-direction:column; padding:25px; gap:12px; overflow: visible; }
+.modal-subtitle { font-size:1.2rem; color:#e67e22; margin-bottom:10px; font-weight:normal; }
+.modal-description-container { overflow: visible; }
+.modal-description { line-height:1.6; font-size:1.05rem; margin-bottom:10px; }
+.video-container { margin: 15px 0; border-radius:8px; overflow:hidden; max-height:320px; background:#061120; }
+.video-container iframe { width:100%; height:100%; min-height:200px; border:none; }
 
-@media(max-width:768px){
-  .modal-content { flex-direction:column; }
-  .modal-left { width:100%; border-bottom:1px solid #1a2b4a; }
-  .books-grid { grid-template-columns:1fr; }
+/* BOTONES MODAL */
+.modal-buttons { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
+.modal-buttons a {
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:10px 18px; border-radius:30px; font-weight:bold; text-decoration:none;
+  transition: all .25s; color:#fff;
+}
+.btn-amazon { background:#ff9900; } .btn-amazon:hover { background:#e68a00; }
+.btn-casadelibro { background:#3498db; } .btn-casadelibro:hover { background:#2980b9; }
+.btn-directo { background:#27ae60; } .btn-directo:hover { background:#1e8449; }
+
+/* RESPONSIVE MODAL / GRID */
+@media (max-width: 1199px) { .modal-container { border-radius:0; max-width:100%; margin:0; } .modal-left { flex:unset; width:100%; border-right:none; border-bottom:1px solid #1a2b4a; padding:20px; text-align:center; } .modal-content { flex-direction:column; } .modal-right { padding:20px; } .modal-title { font-size:1.4rem; } .video-container iframe { min-height:180px; } }
+@media (max-width: 767px) {
+  .modal-buttons { flex-direction: column; gap:12px; }
+  .modal-buttons a { width:100%; padding:15px 0; font-size:1rem; }
 }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="top-menu">
-  <div class="logo"><i class="fas fa-book-reader"></i><h1>Biblioteca Premium</h1></div>
-  <div class="menu-icons">
-    <div class="menu-icon"><i class="fas fa-home"></i></div>
-    <div class="menu-icon"><i class="fas fa-book-open"></i></div>
-    <div class="menu-icon"><i class="fas fa-heart"></i></div>
-    <div class="menu-icon"><i class="fas fa-search"></i></div>
-    <div class="menu-icon"><i class="fas fa-user"></i></div>
+<!-- HEADER + SLIDER -->
+<div class="header-container">
+  <div class="top-menu">
+    <div class="logo"><i class="fas fa-book-reader"></i><h1>Biblioteca Premium</h1></div>
+    <div class="menu-icons">
+      <div class="menu-icon"><i class="fas fa-home"></i></div>
+      <div class="menu-icon"><i class="fas fa-book-open"></i></div>
+      <div class="menu-icon"><i class="fas fa-heart"></i></div>
+      <div class="menu-icon"><i class="fas fa-search"></i></div>
+      <div class="menu-icon"><i class="fas fa-user"></i></div>
+    </div>
+  </div>
+
+  <div class="slider-container">
+    <div class="slide active">
+      <img src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1">
+      <div class="slide-overlay">
+        <h3 class="slide-title">Descubre Nuevos Mundos</h3>
+        <p class="slide-description">Explora nuestra colección de bestsellers y libros exclusivos para todos los gustos.</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg" alt="Libro 2">
+      <div class="slide-overlay">
+        <h3 class="slide-title">Clásicos Atemporales</h3>
+        <p class="slide-description">Revive las obras maestras que han marcado generaciones enteras.</p>
+      </div>
+    </div>
+    <div class="slide">
+      <img src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3">
+      <div class="slide-overlay">
+        <h3 class="slide-title">Fantasía y Aventura</h3>
+        <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
+      </div>
+    </div>
+
+    <div class="slider-nav">
+      <div class="slider-dot active" data-slide="0"></div>
+      <div class="slider-dot" data-slide="1"></div>
+      <div class="slider-dot" data-slide="2"></div>
+    </div>
   </div>
 </div>
 
-<!-- SLIDER -->
-<div class="slider-container">
-  <div class="slide active">
-    <img src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1">
-    <div class="slide-overlay"><h3 class="slide-title">Descubre Nuevos Mundos</h3><p class="slide-description">Explora nuestra colección de bestsellers.</p></div>
-  </div>
-  <div class="slide">
-    <img src="https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg" alt="Libro 2">
-    <div class="slide-overlay"><h3 class="slide-title">Clásicos Atemporales</h3><p class="slide-description">Revive las obras maestras de siempre.</p></div>
-  </div>
-  <div class="slide">
-    <img src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3">
-    <div class="slide-overlay"><h3 class="slide-title">Fantasía y Aventura</h3><p class="slide-description">Sumérgete en universos épicos.</p></div>
-  </div>
-  <div class="slider-nav">
-    <div class="slider-dot active" data-slide="0"></div>
-    <div class="slider-dot" data-slide="1"></div>
-    <div class="slider-dot" data-slide="2"></div>
-  </div>
-</div>
-
-<!-- GRID DE LIBROS -->
-<div class="books-grid" id="booksGrid"></div>
+<!-- LIBROS AUTOR -->
+<div id="library"></div>
 
 <!-- MODAL -->
-<div id="bookModal" class="modal">
-  <div class="modal-container">
+<div id="bookModal" class="modal" aria-hidden="true">
+  <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-header">
       <h2 class="modal-title" id="modal-title">Título del libro</h2>
-      <button class="close">&times;</button>
+      <button class="close" aria-label="Cerrar modal">&times;</button>
     </div>
     <div class="modal-content">
       <div class="modal-left">
         <img id="modal-cover" src="" alt="Portada libro">
         <div class="modal-details">
-          <div class="detail-item"><span class="detail-label">Páginas:</span><span id="modal-pages">0</span></div>
-          <div class="detail-item"><span class="detail-label">ISBN:</span><span id="modal-isbn">000</span></div>
-          <div class="detail-item"><span class="detail-label">Idioma:</span><span id="modal-language">Español</span></div>
-          <div class="detail-item"><span class="detail-label">Editorial:</span><span id="modal-publisher">Editorial</span></div>
-          <div class="detail-item"><span class="detail-label">Año:</span><span id="modal-year">2023</span></div>
-          <div class="detail-item"><span class="detail-label">Género:</span><span id="modal-genre">Novela</span></div>
-          <div class="detail-item"><span class="detail-label">Rating:</span><span id="modal-rating">0/5</span></div>
+          <div class="modal-rating" id="modal-rating"></div>
+          <div class="detail-item"><span class="detail-label">Páginas:</span><span class="detail-value" id="modal-pages">320</span></div>
+          <div class="detail-item"><span class="detail-label">ISBN:</span><span class="detail-value" id="modal-isbn">123-4567890123</span></div>
+          <div class="detail-item"><span class="detail-label">Idioma:</span><span class="detail-value" id="modal-language">Español</span></div>
+          <div class="detail-item"><span class="detail-label">Editorial:</span><span class="detail-value" id="modal-publisher">Ejemplo Editorial</span></div>
+          <div class="detail-item"><span class="detail-label">Año:</span><span class="detail-value" id="modal-year">2023</span></div>
+          <div class="detail-item"><span class="detail-label">Género:</span><span class="detail-value" id="modal-genre">Novela</span></div>
         </div>
       </div>
       <div class="modal-right">
-        <p class="modal-description" id="modal-description">Descripción del libro...</p>
+        <h4 class="modal-subtitle" id="modal-subtitle">Subtítulo / Autor</h4>
+        <div class="modal-description-container">
+          <p class="modal-description" id="modal-description">Descripción completa del libro...</p>
+        </div>
+        <div class="video-container">
+          <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
         <div class="modal-buttons">
-          <a href="#" class="amazon">Comprar en Amazon</a>
-          <a href="#" class="otra">Comprar en Casa del Libro</a>
-          <a href="#" class="directa">Comprar Directa</a>
+          <a href="#" target="_blank" class="btn-amazon"><i class="fab fa-amazon"></i> Comprar en Amazon</a>
+          <a href="#" target="_blank" class="btn-casadelibro"><i class="fas fa-store"></i> Comprar Casa del Libro</a>
+          <a href="#" target="_blank" class="btn-directo"><i class="fas fa-shopping-cart"></i> Comprar Directo</a>
         </div>
       </div>
     </div>
@@ -153,61 +210,80 @@ body { background:#0a1a2e; color:#fff; min-height:100vh; padding-bottom:40px; }
 </div>
 
 <script>
-// LIBROS DE EJEMPLO
+// =========================
+// DATOS DE LIBROS
+// =========================
 const libros = [
-  { titulo:"Libro 1", autor:"Autor 1", portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Descripción del libro 1", paginas:300,isbn:"111", idioma:"Español", editorial:"Editorial 1", año:2020, genero:"Novela", rating:4.5 },
-  { titulo:"Libro 2", autor:"Autor 2", portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg", descripcion:"Descripción del libro 2", paginas:250,isbn:"222", idioma:"Español", editorial:"Editorial 2", año:2021, genero:"Novela", rating:4.2 },
-  { titulo:"Libro 3", autor:"Autor 3", portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Descripción del libro 3", paginas:400,isbn:"333", idioma:"Español", editorial:"Editorial 3", año:2019, genero:"Novela", rating:4.8 },
-  { titulo:"Libro 4", autor:"Autor 4", portada:"https://images.pexels.com/photos/207691/pexels-photo-207691.jpeg", descripcion:"Descripción del libro 4", paginas:320,isbn:"444", idioma:"Español", editorial:"Editorial 4", año:2022, genero:"Novela", rating:4.1 }
+  { titulo:"Cien años de soledad", autor:"Gabriel García Márquez", subtitulo:"Obra maestra del realismo mágico", genero:"Realismo Mágico",
+    portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg", descripcion:"Novela sobre la familia Buendía.", paginas:471, isbn:"978-8439721102", idioma:"Español", editorial:"Sudamericana", año:1967, rating:4.8, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"1984", autor:"George Orwell", subtitulo:"Distopía", genero:"Distopía",
+    portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Winston Smith y el Gran Hermano.", paginas:328, isbn:"978-0451524935", idioma:"Español", editorial:"Debolsillo", año:1949, rating:4.7, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"El Señor de los Anillos", autor:"J.R.R. Tolkien", subtitulo:"La comunidad del anillo", genero:"Fantasía Épica",
+    portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Frodo y la misión de destruir el Anillo Único.", paginas:576, isbn:"978-8445000660", idioma:"Español", editorial:"Minotauro", año:1954, rating:4.9, video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
 ];
 
-// RENDER GRID
-const booksGrid = document.getElementById('booksGrid');
-libros.forEach(libro=>{
-  const card = document.createElement('a');
-  card.href="#";
-  card.className="card";
-  card.innerHTML = `<img src="${libro.portada}" alt="${libro.titulo}"><div class="card-overlay"><div class="card-title">${libro.titulo}</div><div class="card-author">${libro.autor}</div></div>`;
-  card.addEventListener('click', e=>{ e.preventDefault(); openModal(libro); });
-  booksGrid.appendChild(card);
-});
+// =========================
+// RENDERIZADO DE LIBROS
+// =========================
+const libraryContainer = document.getElementById('library');
+function renderLibrary() {
+  libraryContainer.innerHTML = '';
+  const grid = document.createElement('div'); grid.className='books-grid';
+  libros.forEach(libro => {
+    const card = document.createElement('a'); card.href="#"; card.className="card";
+    card.innerHTML=`<img src="${libro.portada}" alt="${libro.titulo}"><div class="card-overlay"><div class="card-title">${libro.titulo}</div><div class="card-author">${libro.autor}</div></div>`;
+    card.addEventListener('click', e=>{e.preventDefault(); openBookModal(libro);});
+    grid.appendChild(card);
+  });
+  libraryContainer.appendChild(grid);
+}
 
+// =========================
 // MODAL
-const modal = document.getElementById('bookModal');
-const modalCover = document.getElementById('modal-cover');
-const modalTitle = document.getElementById('modal-title');
-const modalDescription = document.getElementById('modal-description');
-const modalPages = document.getElementById('modal-pages');
-const modalIsbn = document.getElementById('modal-isbn');
-const modalLanguage = document.getElementById('modal-language');
-const modalPublisher = document.getElementById('modal-publisher');
-const modalYear = document.getElementById('modal-year');
-const modalGenre = document.getElementById('modal-genre');
-const modalRating = document.getElementById('modal-rating');
-document.querySelector('.close').addEventListener('click', ()=>{ modal.classList.remove('show'); });
-window.addEventListener('click', e=>{ if(e.target===modal){ modal.classList.remove('show'); } });
+// =========================
+const modal=document.getElementById('bookModal');
+const modalCover=document.getElementById('modal-cover');
+const modalTitle=document.getElementById('modal-title');
+const modalSubtitle=document.getElementById('modal-subtitle');
+const modalDescription=document.getElementById('modal-description');
+const modalPages=document.getElementById('modal-pages');
+const modalISBN=document.getElementById('modal-isbn');
+const modalLanguage=document.getElementById('modal-language');
+const modalPublisher=document.getElementById('modal-publisher');
+const modalYear=document.getElementById('modal-year');
+const modalGenre=document.getElementById('modal-genre');
+const modalRating=document.getElementById('modal-rating');
+const modalVideo=document.getElementById('modal-video');
 
-function openModal(libro){
+function openBookModal(libro){
   modalCover.src=libro.portada;
   modalTitle.textContent=libro.titulo;
+  modalSubtitle.textContent=libro.subtitulo + " / " + libro.autor;
   modalDescription.textContent=libro.descripcion;
   modalPages.textContent=libro.paginas;
-  modalIsbn.textContent=libro.isbn;
+  modalISBN.textContent=libro.isbn;
   modalLanguage.textContent=libro.idioma;
   modalPublisher.textContent=libro.editorial;
   modalYear.textContent=libro.año;
   modalGenre.textContent=libro.genero;
-  modalRating.textContent=`${libro.rating}/5`;
+  modalRating.innerHTML='★'.repeat(Math.floor(libro.rating)) + '☆'.repeat(5-Math.floor(libro.rating));
+  modalVideo.src=libro.video;
   modal.classList.add('show');
 }
 
+modal.querySelector('.close').addEventListener('click', ()=>{modal.classList.remove('show'); modalVideo.src='';});
+
+// =========================
 // SLIDER
-let currentSlide=0;
+// =========================
 const slides=document.querySelectorAll('.slide');
 const dots=document.querySelectorAll('.slider-dot');
-function showSlide(index){ slides.forEach((s,i)=>s.classList.toggle('active',i===index)); dots.forEach((d,i)=>d.classList.toggle('active',i===index)); }
-dots.forEach(dot=>{ dot.addEventListener('click', ()=>{ currentSlide=parseInt(dot.dataset.slide); showSlide(currentSlide); }); });
-setInterval(()=>{ currentSlide=(currentSlide+1)%slides.length; showSlide(currentSlide); },5000);
+let currentSlide=0;
+function showSlide(n){slides.forEach((s,i)=>{s.classList.toggle('active',i===n); dots[i].classList.toggle('active',i===n);});}
+dots.forEach(dot=>{dot.addEventListener('click',()=>{currentSlide=parseInt(dot.dataset.slide); showSlide(currentSlide);});});
+setInterval(()=>{currentSlide=(currentSlide+1)%slides.length; showSlide(currentSlide);},7000);
+
+renderLibrary();
 </script>
 </body>
 </html>
