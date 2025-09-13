@@ -58,9 +58,11 @@ body {
 
 .books-grid {
   display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap:20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap:25px;
   padding:15px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .card {
@@ -115,10 +117,57 @@ body {
 .btn-directo { background:#27ae60; } .btn-directo:hover { background:#1e8449; }
 
 /* RESPONSIVE MODAL / GRID */
-@media (max-width: 1199px) { .modal-container { border-radius:0; max-width:100%; margin:0; } .modal-left { flex:unset; width:100%; border-right:none; border-bottom:1px solid #1a2b4a; padding:20px; text-align:center; } .modal-content { flex-direction:column; } .modal-right { padding:20px; } .modal-title { font-size:1.4rem; } .video-container iframe { min-height:180px; } }
-@media (max-width: 767px) {
+@media (min-width: 992px) {
+  .books-grid {
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas en pantallas grandes */
+  }
+}
+
+@media (max-width: 1199px) { 
+  .modal-container { border-radius:0; max-width:100%; margin:0; } 
+  .modal-left { flex:unset; width:100%; border-right:none; border-bottom:1px solid #1a2b4a; padding:20px; text-align:center; } 
+  .modal-content { flex-direction:column; } 
+  .modal-right { padding:20px; } 
+  .modal-title { font-size:1.4rem; } 
+  .video-container iframe { min-height:180px; } 
+}
+
+@media (max-width: 768px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles */
+    gap: 15px;
+  }
+  
   .modal-buttons { flex-direction: column; gap:12px; }
   .modal-buttons a { width:100%; padding:15px 0; font-size:1rem; }
+}
+
+@media (max-width: 480px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .card-title {
+    font-size: 14px;
+  }
+  
+  .card-author {
+    font-size: 12px;
+  }
+  
+  .slider-container {
+    height: 300px;
+  }
+  
+  .slide-title {
+    font-size: 1.5rem;
+  }
+  
+  .slide-description {
+    font-size: 0.9rem;
+  }
 }
 </style>
 </head>
@@ -169,7 +218,13 @@ body {
 </div>
 
 <!-- LIBROS AUTOR -->
-<div id="library"></div>
+<div class="genre-row">
+  <div class="genre-header">
+    <h2><i class="fas fa-book"></i> Libros del Autor</h2>
+    <a href="#" class="ver-todo">Ver todos <i class="fas fa-chevron-right"></i></a>
+  </div>
+  <div id="library" class="books-grid"></div>
+</div>
 
 <!-- MODAL -->
 <div id="bookModal" class="modal" aria-hidden="true">
@@ -219,7 +274,17 @@ const libros = [
   { titulo:"1984", autor:"George Orwell", subtitulo:"Distopía", genero:"Distopía",
     portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Winston Smith y el Gran Hermano.", paginas:328, isbn:"978-0451524935", idioma:"Español", editorial:"Debolsillo", año:1949, rating:4.7, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
   { titulo:"El Señor de los Anillos", autor:"J.R.R. Tolkien", subtitulo:"La comunidad del anillo", genero:"Fantasía Épica",
-    portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Frodo y la misión de destruir el Anillo Único.", paginas:576, isbn:"978-8445000660", idioma:"Español", editorial:"Minotauro", año:1954, rating:4.9, video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
+    portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Frodo y la misión de destruir el Anillo Único.", paginas:576, isbn:"978-8445000660", idioma:"Español", editorial:"Minotauro", año:1954, rating:4.9, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"Don Quijote de la Mancha", autor:"Miguel de Cervantes", subtitulo:"El ingenioso hidalgo", genero:"Novela Clásica",
+    portada:"https://images.pexels.com/photos/1166657/pexels-photo-1166657.jpeg", descripcion:"Las aventuras de Don Quijote y Sancho Panza.", paginas:863, isbn:"978-8424113968", idioma:"Español", editorial:"Editorial EDAF", año:1605, rating:4.8, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"Rayuela", autor:"Julio Cortázar", subtitulo:"Una novela contranovela", genero:"Novela Experimental",
+    portada:"https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg", descripcion:"La historia de Horacio Oliveira en París y Buenos Aires.", paginas:736, isbn:"978-8432216429", idioma:"Español", editorial:"Alfaguara", año:1963, rating:4.6, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"Ficciones", autor:"Jorge Luis Borges", subtitulo:"Colección de cuentos", genero:"Ficción",
+    portada:"https://images.pexels.com/photos/1370296/pexels-photo-1370296.jpeg", descripcion:"Relatos que exploran laberintos, espejos y realidades alternativas.", paginas:237, isbn:"978-8426413767", idioma:"Español", editorial:"Editorial Debolsillo", año:1944, rating:4.9, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"La Sombra del Viento", autor:"Carlos Ruiz Zafón", subtitulo:"El cementerio de los libros olvidados", genero:"Misterio",
+    portada:"https://images.pexels.com/photos/1370297/pexels-photo-1370297.jpeg", descripcion:"Daniel Sempere descubre un libro maldito en Barcelona.", paginas:565, isbn:"978-8408092311", idioma:"Español", editorial:"Planeta", año:2001, rating:4.7, video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  { titulo:"Crimen y Castigo", autor:"Fiódor Dostoyevski", subtitulo:"Novela psicológica", genero:"Clásico Ruso",
+    portada:"https://images.pexels.com/photos/1166658/pexels-photo-1166658.jpeg", descripcion:"Raskólnikov comete un crimen y sufre las consecuencias morales.", paginas:527, isbn:"978-8420665154", idioma:"Español", editorial:"Alianza Editorial", año:1866, rating:4.8, video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
 ];
 
 // =========================
@@ -228,14 +293,12 @@ const libros = [
 const libraryContainer = document.getElementById('library');
 function renderLibrary() {
   libraryContainer.innerHTML = '';
-  const grid = document.createElement('div'); grid.className='books-grid';
   libros.forEach(libro => {
     const card = document.createElement('a'); card.href="#"; card.className="card";
     card.innerHTML=`<img src="${libro.portada}" alt="${libro.titulo}"><div class="card-overlay"><div class="card-title">${libro.titulo}</div><div class="card-author">${libro.autor}</div></div>`;
     card.addEventListener('click', e=>{e.preventDefault(); openBookModal(libro);});
-    grid.appendChild(card);
+    libraryContainer.appendChild(card);
   });
-  libraryContainer.appendChild(grid);
 }
 
 // =========================
