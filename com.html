@@ -32,12 +32,12 @@ body { background: #0a1a2e; color:#fff; min-height:100vh; overflow-x:hidden; pad
 /* GRID DE LIBROS */
 .books-grid{
   display:grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columnas PC */
+  grid-template-columns: repeat(4, 1fr);
   gap:20px;
   padding:20px;
 }
-@media(max-width:1024px){.books-grid{grid-template-columns:repeat(2,1fr);}} /* tablet 2 columnas */
-@media(max-width:768px){.books-grid{grid-template-columns:1fr;}} /* móvil 1 columna */
+@media(max-width:1024px){.books-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:768px){.books-grid{grid-template-columns:1fr;}}
 
 .card{cursor:pointer;transition:all .3s ease;display:block;text-decoration:none;color:inherit;border-radius:8px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,0.3);background:#061120;}
 .card img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:6px;transition:transform .5s;}
@@ -54,20 +54,27 @@ body { background: #0a1a2e; color:#fff; min-height:100vh; overflow-x:hidden; pad
 .modal-title{font-size:1.8rem;color:#f1c40f;}
 .close{font-size:30px;color:#f1c40f;font-weight:bold;cursor:pointer;background:none;border:none;transition:transform .25s;}
 .close:hover{transform:rotate(90deg);}
-.modal-content{display:flex;flex-direction:column;padding:20px;gap:12px;}
-.modal-subtitle{font-size:1.2rem;color:#e67e22;font-weight:normal;}
-.modal-description{line-height:1.6;font-size:1rem;margin-bottom:10px;}
+.modal-content{display:flex;flex-direction:row;gap:0;}
+.modal-left{flex:0 0 320px;padding:25px;display:flex;flex-direction:column;align-items:center;background:#061120;border-right:1px solid #1a2b4a;overflow:visible;}
+.modal-left img{width:100%;max-width:200px;height:auto;object-fit:cover;border-radius:8px;margin-bottom:20px;}
+.modal-details{width:100%;}
+.detail-item{display:flex;justify-content:space-between;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #1a2b4a;}
+.detail-label{font-weight:bold;color:#f1c40f;font-size:0.95rem;}
+.detail-value{text-align:right;font-size:0.95rem;}
+.modal-right{flex:1;display:flex;flex-direction:column;padding:25px;gap:12px;}
+.modal-subtitle{font-size:1.2rem;color:#e67e22;margin-bottom:10px;font-weight:normal;}
+.modal-description{line-height:1.6;font-size:1.05rem;margin-bottom:10px;}
 .video-container{margin:15px 0;border-radius:8px;overflow:hidden;background:#061120;}
 .video-container iframe{width:100%;height:200px;border:none;}
 .modal-buttons{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;}
 .modal-buttons a{
-  flex:1;
-  display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 0;font-weight:bold;border-radius:30px;text-decoration:none;transition: all .25s;
-}
+  flex:1;display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 0;font-weight:bold;border-radius:30px;text-decoration:none;transition:all .25s;}
 .modal-buttons a:nth-child(1){background:#f1c40f;color:#2c3e50;}
 .modal-buttons a:nth-child(2){background:#27ae60;color:#fff;}
 .modal-buttons a:nth-child(3){background:#e74c3c;color:#fff;}
 .modal-buttons a:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,0.3);}
+@media(max-width:768px){.modal-buttons{flex-direction:column;gap:10px;}.modal-buttons a{width:100%;}}
+@media(max-width:1199px){.modal-container{border-radius:0;max-width:100%;margin:0;}.modal-left{flex:unset;width:100%;border-right:none;border-bottom:1px solid #1a2b4a;padding:20px;text-align:center;}.modal-content{flex-direction:column;}.modal-right{padding:20px;}.video-container iframe{min-height:180px;}}
 </style>
 </head>
 <body>
@@ -88,12 +95,28 @@ body { background: #0a1a2e; color:#fff; min-height:100vh; overflow-x:hidden; pad
   <div class="slide active">
     <img src="https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg" alt="Libro 1">
     <div class="slide-overlay">
-      <h3 class="slide-title">Descubre todos los libros del autor</h3>
-      <p class="slide-description">Explora la colección completa en nuestro catálogo.</p>
+      <h3 class="slide-title">Descubre Nuevos Mundos</h3>
+      <p class="slide-description">Explora nuestra colección de bestsellers y libros exclusivos para todos los gustos.</p>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg" alt="Libro 2">
+    <div class="slide-overlay">
+      <h3 class="slide-title">Clásicos Atemporales</h3>
+      <p class="slide-description">Revive las obras maestras que han marcado generaciones enteras.</p>
+    </div>
+  </div>
+  <div class="slide">
+    <img src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3">
+    <div class="slide-overlay">
+      <h3 class="slide-title">Fantasía y Aventura</h3>
+      <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
     </div>
   </div>
   <div class="slider-nav">
     <div class="slider-dot active" data-slide="0"></div>
+    <div class="slider-dot" data-slide="1"></div>
+    <div class="slider-dot" data-slide="2"></div>
   </div>
 </div>
 
@@ -108,75 +131,106 @@ body { background: #0a1a2e; color:#fff; min-height:100vh; overflow-x:hidden; pad
       <button class="close">&times;</button>
     </div>
     <div class="modal-content">
-      <h4 class="modal-subtitle">Subtítulo / Autor</h4>
-      <p class="modal-description">Descripción completa del libro...</p>
-      <div class="video-container">
-        <iframe src="" frameborder="0" allowfullscreen></iframe>
+      <div class="modal-left">
+        <img id="modal-cover" src="" alt="Portada libro">
+        <div class="modal-details">
+          <div class="modal-rating" id="modal-rating"></div>
+          <div class="detail-item"><span class="detail-label">Páginas:</span><span class="detail-value" id="modal-pages"></span></div>
+          <div class="detail-item"><span class="detail-label">ISBN:</span><span class="detail-value" id="modal-isbn"></span></div>
+          <div class="detail-item"><span class="detail-label">Idioma:</span><span class="detail-value" id="modal-language"></span></div>
+          <div class="detail-item"><span class="detail-label">Editorial:</span><span class="detail-value" id="modal-publisher"></span></div>
+          <div class="detail-item"><span class="detail-label">Año:</span><span class="detail-value" id="modal-year"></span></div>
+          <div class="detail-item"><span class="detail-label">Género:</span><span class="detail-value" id="modal-genre"></span></div>
+        </div>
       </div>
-      <div class="modal-buttons">
-        <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar en Amazon</a>
-        <a href="#" target="_blank"><i class="fas fa-book"></i> Comprar en Casa del Libro</a>
-        <a href="#" target="_blank"><i class="fas fa-credit-card"></i> Comprar Directa</a>
+      <div class="modal-right">
+        <h4 class="modal-subtitle" id="modal-subtitle">Subtítulo / Autor</h4>
+        <p class="modal-description" id="modal-description"></p>
+        <div class="video-container">
+          <iframe id="modal-video" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="modal-buttons">
+          <a href="#" target="_blank"><i class="fas fa-shopping-cart"></i> Comprar en Amazon</a>
+          <a href="#" target="_blank"><i class="fas fa-book"></i> Comprar en La Casa del Libro</a>
+          <a href="#" target="_blank"><i class="fas fa-credit-card"></i> Comprar Directo</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-// === LIBROS DE EJEMPLO ===
-const libros = [
-  {titulo:"Libro 1", autor:"Autor Ejemplo", subtitulo:"Subtítulo 1", portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Descripción larga del libro 1", video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"Libro 2", autor:"Autor Ejemplo", subtitulo:"Subtítulo 2", portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg", descripcion:"Descripción larga del libro 2", video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"Libro 3", autor:"Autor Ejemplo", subtitulo:"Subtítulo 3", portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg", descripcion:"Descripción larga del libro 3", video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
-  {titulo:"Libro 4", autor:"Autor Ejemplo", subtitulo:"Subtítulo 4", portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg", descripcion:"Descripción larga del libro 4", video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
-];
-
-// === RENDERIZAR GRID ===
-const booksGrid = document.getElementById('booksGrid');
-const modal = document.getElementById('bookModal');
-const closeModalBtn = document.querySelector('.close');
-const modalTitle = modal.querySelector('.modal-title');
-const modalSubtitle = modal.querySelector('.modal-subtitle');
-const modalDescription = modal.querySelector('.modal-description');
-const modalVideo = modal.querySelector('iframe');
-
-libros.forEach(lib=>{
-  const card = document.createElement('a');
-  card.className="card";
-  card.innerHTML=`<img src="${lib.portada}" alt="${lib.titulo}">
-                  <div class="card-overlay">
-                    <div class="card-title">${lib.titulo}</div>
-                    <div class="card-author">${lib.autor}</div>
-                  </div>`;
-  card.addEventListener('click',(e)=>{e.preventDefault(); openModal(lib);});
-  booksGrid.appendChild(card);
-});
-
-function openModal(lib){
-  modalTitle.innerText = lib.titulo;
-  modalSubtitle.innerText = `${lib.subtitulo} - ${lib.autor}`;
-  modalDescription.innerText = lib.descripcion;
-  modalVideo.src = lib.video;
-  modal.classList.add('show');
-  document.body.style.overflow='hidden';
-}
-
-function closeModal(){
-  modal.classList.remove('show');
-  modalVideo.src='';
-  document.body.style.overflow='';
-}
-closeModalBtn.addEventListener('click',closeModal);
-window.addEventListener('click',e=>{if(e.target===modal)closeModal();});
-window.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show'))closeModal();});
-
-// === SLIDER ===
+// SLIDER
 let currentSlide=0;
 const slides=document.querySelectorAll('.slide');
 const dots=document.querySelectorAll('.slider-dot');
-function goToSlide(idx){slides.forEach(s=>s.classList.remove('active'));dots.forEach(d=>d.classList.remove('active'));currentSlide=(idx+slides.length)%slides.length;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
+function goToSlide(i){slides.forEach(s=>s.classList.remove('active'));dots.forEach(d=>d.classList.remove('active'));currentSlide=(i+slides.length)%slides.length;slides[currentSlide].classList.add('active');dots[currentSlide].classList.add('active');}
 dots.forEach(dot=>dot.addEventListener('click',()=>goToSlide(parseInt(dot.dataset.slide,10))));
-setInterval(()=>{goToSlide(currentSlide+1);},5000);
+setInterval(()=>goToSlide(currentSlide+1),5000);
+
+// LIBROS EJEMPLO
+const libros=[
+  {titulo:"Libro 1",autor:"Autor A",subtitulo:"Subtitulo A",portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg",descripcion:"Descripción completa del libro 1",paginas:320,isbn:"123-4567890123",idioma:"Español",editorial:"Editorial A",año:2021,genero:"Novela",rating:4.5,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Libro 2",autor:"Autor B",subtitulo:"Subtitulo B",portada:"https://images.pexels.com/photos/1926988/pexels-photo-1926988.jpeg",descripcion:"Descripción completa del libro 2",paginas:250,isbn:"456-7890123456",idioma:"Español",editorial:"Editorial B",año:2020,genero:"Novela",rating:4.0,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Libro 3",autor:"Autor C",subtitulo:"Subtitulo C",portada:"https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg",descripcion:"Descripción completa del libro 3",paginas:410,isbn:"789-0123456789",idioma:"Español",editorial:"Editorial C",año:2019,genero:"Novela",rating:5.0,video:"https://www.youtube.com/embed/CTdm5tTu6pE"},
+  {titulo:"Libro 4",autor:"Autor D",subtitulo:"Subtitulo D",portada:"https://images.pexels.com/photos/1370298/pexels-photo-1370298.jpeg",descripcion:"Descripción completa del libro 4",paginas:300,isbn:"012-3456789012",idioma:"Español",editorial:"Editorial D",año:2022,genero:"Novela",rating:3.5,video:"https://www.youtube.com/embed/CTdm5tTu6pE"}
+];
+
+// RENDER GRID
+const booksGrid=document.getElementById('booksGrid');
+libros.forEach(lib=>{
+  const card=document.createElement('a'); card.className='card';
+  card.innerHTML=`<img src="${lib.portada}" alt="${lib.titulo}"><div class="card-overlay"><div class="card-title">${lib.titulo}</div><div class="card-author">${lib.autor}</div></div>`;
+  card.addEventListener('click',()=>openBookModal(lib));
+  booksGrid.appendChild(card);
+});
+
+// MODAL
+const modal=document.getElementById('bookModal');
+const modalCover=document.getElementById('modal-cover');
+const modalTitle=document.querySelector('.modal-title');
+const modalSubtitle=document.getElementById('modal-subtitle');
+const modalDescription=document.getElementById('modal-description');
+const modalPages=document.getElementById('modal-pages');
+const modalIsbn=document.getElementById('modal-isbn');
+const modalLanguage=document.getElementById('modal-language');
+const modalPublisher=document.getElementById('modal-publisher');
+const modalYear=document.getElementById('modal-year');
+const modalGenre=document.getElementById('modal-genre');
+const modalVideo=document.getElementById('modal-video');
+const modalRating=document.getElementById('modal-rating');
+const closeBtn=document.querySelector('.close');
+
+function openBookModal(lib){
+  modalCover.src=lib.portada;
+  modalTitle.innerText=lib.titulo;
+  modalSubtitle.innerText=`${lib.subtitulo} - ${lib.autor}`;
+  modalDescription.innerText=lib.descripcion;
+  modalPages.innerText=lib.paginas;
+  modalIsbn.innerText=lib.isbn;
+  modalLanguage.innerText=lib.idioma;
+  modalPublisher.innerText=lib.editorial;
+  modalYear.innerText=lib.año;
+  modalGenre.innerText=lib.genero;
+  modalVideo.src=lib.video;
+  
+  // Estrellas
+  modalRating.innerHTML='';
+  const fullStars=Math.floor(lib.rating);
+  const hasHalf=(lib.rating-fullStars)>=0.5;
+  for(let i=0;i<fullStars;i++) modalRating.innerHTML+='<i class="fas fa-star"></i>';
+  if(hasHalf) modalRating.innerHTML+='<i class="fas fa-star-half-alt"></i>';
+  const empty=5-fullStars-(hasHalf?1:0);
+  for(let i=0;i<empty;i++) modalRating.innerHTML+='<i class="far fa-star"></i>';
+  modalRating.innerHTML+=`<span style="margin-left:10px;">${lib.rating.toFixed(1)}/5</span>`;
+  
+  modal.classList.add('show'); document.body.style.overflow='hidden';
+}
+
+function closeModal(){modal.classList.remove('show');modalVideo.src='';document.body.style.overflow='';}
+closeBtn.addEventListener('click',closeModal);
+window.addEventListener('click',e=>{if(e.target===modal) closeModal();});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('show')) closeModal();});
 </script>
 </body>
 </html>
