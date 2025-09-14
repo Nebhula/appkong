@@ -80,7 +80,7 @@ body {
 .slider-container { 
   position:relative; 
   width:100%; 
-  height:500px; /* ✅ AUMENTADO A 800PX — AHORA SÍ SE VE LA IMAGEN ENTERA */
+  height:500px;
   overflow:hidden; 
   background: #061120;
 }
@@ -94,7 +94,7 @@ body {
   background: #1a2b4a;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   text-align: center;
   padding: 0 40px;
@@ -105,14 +105,11 @@ body {
 .slide img { 
   width:100%; 
   height:100%; 
-  object-fit:cover; 
+  object-fit: cover; 
   display:block;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-height: 100%;
-  min-width: 100%;
+  top: 0;
+  left: 0;
   z-index: 1;
 }
 .slide-overlay {
@@ -120,7 +117,7 @@ body {
   background: transparent;
   color:#fff;
   z-index:3;
-  padding: 40px;
+  padding: 40px 40px 80px;
   max-width: 800px;
   text-align: center;
 }
@@ -362,11 +359,6 @@ body {
   transform: translateY(0); 
 }
 
-
-
-
-
-  
 /* === MODAL === */
 .modal { 
   display:none; 
@@ -442,9 +434,8 @@ body {
   display:flex; 
   flex-direction:column; 
   width:100%;
-  height: calc(100dvh - 80px); /* ✅ Altura exacta: pantalla menos header */
+  height: calc(100dvh - 80px);
   gap:0;
-  overflow: hidden;
 }
 
 .modal-left { 
@@ -512,17 +503,28 @@ body {
   color:#555;
 }
 
-/* ✅ ¡CAMBIO CLAVE! — Ahora .modal-right NO ES FLEX, ES UN CONTENEDOR CON ALTURA FIJA Y SCROLL FORZADO */
 .modal-right { 
   width:100%;
   padding:20px;
   background:#fff;
-  overflow-y: auto; /* ✅ ¡ESTO HACE EL SCROLL! */
-  height: calc(100dvh - 150px); /* ✅ Altura fija: pantalla - header (80px) - izquierda (≈70px) */
+  overflow-y: auto;
+  height: 100%;
   max-height: calc(100dvh - 150px);
-  scrollbar-width: none;
+  scrollbar-width: thin;
 }
-.modal-right::-webkit-scrollbar { display: none; }
+.modal-right::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-right::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-right::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+.modal-right::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.2);
+}
 
 .modal-subtitle { 
   font-size:1.3rem; 
@@ -559,7 +561,6 @@ body {
   object-fit: cover;
 }
 
-/* BOTONES MODAL */
 .modal-buttons { 
   display:flex; 
   gap:12px; 
@@ -620,7 +621,6 @@ body {
   
   .modal-right {
     padding: 15px;
-    height: calc(100dvh - 140px); /* Ajustado para móvil */
     max-height: calc(100dvh - 140px);
   }
   
@@ -629,13 +629,14 @@ body {
     text-align: center;
   }
 }
+
 /* === FOOTER === */
 .footer {
   background: #0a1a2e;
   color: #fff;
   padding: 60px 20px 30px;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 0;
 }
 .footer-logo {
   font-size: 2rem;
@@ -673,7 +674,7 @@ body {
   margin-top: 30px;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE GENERAL */
 @media (min-width: 768px) {
   .books-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -693,20 +694,6 @@ body {
   .author-name:after {
     left: 0;
     transform: none;
-  }
-  
-  .modal-content {
-    flex-direction: row;
-  }
-  
-  .modal-left {
-    width: 40%;
-    border-right: 1px solid #eee;
-    border-bottom: none;
-  }
-  
-  .modal-right {
-    width: 60%;
   }
   
   .top-menu {
@@ -792,15 +779,6 @@ body {
   
   .card-author {
     font-size: 12px;
-  }
-  
-  .modal-buttons {
-    flex-direction: column;
-  }
-  
-  .modal-buttons a {
-    width: 100%;
-    text-align: center;
   }
   
   .author-image {
@@ -1266,6 +1244,7 @@ function openBookModal(libro) {
   
   renderRatingStars(libro.rating);
   
+  // CORREGIDO: Elimina espacios extra en URL
   modalVideo.src = libro.video.trim();
   modal.classList.add('show');
   
