@@ -55,11 +55,12 @@ body {
   font-size: 1.2rem;
 }
 
-/* === HEADER / SLIDER === */
+/* === HEADER === */
 .header-container {
   background: #0a1a2e;
   position: relative;
   margin-bottom: 40px;
+  padding: 20px 0;
 }
 .top-menu {
   display: flex;
@@ -67,9 +68,10 @@ body {
   align-items: center;
   padding: 15px 20px;
   background: transparent;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   position: relative;
   z-index: 10;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .logo { display:flex; align-items:center; gap:10px; }
 .logo h1 { color:#f1c40f; font-size:1.5rem; text-shadow:2px 2px 4px rgba(0,0,0,0.5); }
@@ -77,112 +79,213 @@ body {
 .menu-icon { color:#f1c40f; font-size:1.3rem; cursor:pointer; transition: transform .3s, color .3s; }
 .menu-icon:hover { color:#fff; transform: translateY(-3px); }
 
-.slider-container { 
-  position:relative; 
-  width:100%; 
-  height:500px;
-  overflow:hidden; 
-  background: #061120;
-}
-.slide { 
-  position:absolute; 
-  width:100%; 
-  height:100%; 
-  opacity:0; 
-  transition:opacity 1.2s ease-in-out; 
-  z-index:1; 
-  background: #1a2b4a;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  text-align: center;
-  padding: 0 40px;
-  position: relative;
-  overflow: hidden;
-}
-.slide.active { opacity:1; z-index:2; }
-.slide img { 
-  width:100%; 
-  height:100%; 
-  object-fit: cover; 
-  display:block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-}
-.slide-overlay {
-  position:relative;
-  background: transparent;
-  color:#fff;
-  z-index:3;
-  padding: 40px 40px 80px;
-  max-width: 800px;
-  text-align: center;
-}
-.slide-title { 
-  font-size: 2.5rem; 
-  color:#f1c40f; 
-  margin-bottom:15px; 
-  font-weight:700;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-  letter-spacing: -0.5px;
-}
-.slide-description { 
-  font-size: 1.3rem; 
-  max-width: 700px; 
-  margin-bottom: 30px;
-  line-height: 1.7;
-  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
-  font-weight: 300;
-}
-.btn-buy {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(241, 196, 15, 0.5);
-  color: #f1c40f;
-  font-weight: 700;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 1rem;
-  transition: all 0.4s ease;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-  letter-spacing: 0.5px;
-}
-.btn-buy:hover {
-  background: rgba(255,255,255,0.2);
-  border-color: #f1c40f;
-  transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+/* === SECCIÓN DESTACADOS CON CARRUSEL HORIZONTAL === */
+.featured-section {
+  background: linear-gradient(to right, #0a1a2e, #1a2b4a);
+  padding: 60px 20px;
+  margin-bottom: 60px;
+  color: white;
 }
 
-.slider-nav { 
-  position:absolute; 
-  bottom:30px; 
-  left:50%; 
-  transform:translateX(-50%); 
-  display:flex; 
-  gap:12px; 
-  z-index:4; 
-  pointer-events: none;
+.featured-container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.slider-dot { 
-  width:12px; 
-  height:12px; 
-  border-radius:50%; 
-  background:rgba(255,255,255,0.3); 
-  cursor:pointer; 
-  transition: transform .2s, background .2s;
-  pointer-events: auto;
+
+.featured-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
-.slider-dot.active { 
-  background:#f1c40f; 
-  transform:scale(1.4); 
+
+.featured-header h2 {
+  font-size: 2.2rem;
+  color: #f1c40f;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.featured-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: #f1c40f;
+  border-radius: 2px;
+}
+
+.featured-header p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  color: #ccc;
+  line-height: 1.6;
+}
+
+/* CARRUSEL HORIZONTAL */
+.carousel-container {
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.carousel-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 25px;
+  padding: 15px 10px 30px;
+  scrollbar-width: thin;
+  scrollbar-color: #f1c40f #0a1a2e;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/* Personalización de la barra de desplazamiento para Webkit */
+.carousel-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.carousel-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.carousel-scroll::-webkit-scrollbar-thumb {
+  background: #f1c40f;
+  border-radius: 10px;
+}
+
+.carousel-scroll::-webkit-scrollbar-thumb:hover {
+  background: #e0b50c;
+}
+
+/* TARJETAS DEL CARRUSEL */
+.featured-book {
+  flex: 0 0 auto;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  scroll-snap-align: start;
+}
+
+.featured-book:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.featured-book-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.featured-book-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.featured-book:hover .featured-book-image img {
+  transform: scale(1.05);
+}
+
+.featured-book-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.featured-book-title {
+  font-size: 1.3rem;
+  color: #f1c40f;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.featured-book-author {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+.featured-book-description {
+  font-size: 0.9rem;
+  color: #eee;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.featured-book-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.featured-book-rating {
+  color: #f1c40f;
+  font-size: 0.9rem;
+}
+
+.featured-book-rating i {
+  margin-right: 2px;
+}
+
+.featured-book-year {
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+.featured-book-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+  background: rgba(241, 196, 15, 0.2);
+  color: #f1c40f;
+  border: 1px solid #f1c40f;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.featured-book-btn:hover {
+  background: #f1c40f;
+  color: #0a1a2e;
+}
+
+/* Indicador de scroll */
+.scroll-indicator {
+  text-align: center;
+  margin-top: 15px;
+  color: #f1c40f;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
 }
 
 /* === SECCIÓN AUTOR === */
@@ -275,7 +378,7 @@ body {
 }
 .books-header {
   text-align: center;
-  margin-bottom: 0px;
+  margin-bottom: 40px;
 }
 .books-header h2 {
   font-size: 2rem;
@@ -651,18 +754,6 @@ body {
     font-size: 1.5rem;
   }
   
-  .slider-container {
-    height: 850px;
-  }
-  
-  .slide-title {
-    font-size: 3rem;
-  }
-  
-  .slide-description {
-    font-size: 1.4rem;
-  }
-  
   /* Modal responsive para tablets y desktop */
   .modal-main-content {
     flex-direction: row;
@@ -765,26 +856,6 @@ body {
     font-size: 1.3rem;
   }
   
-  .slider-container {
-    height: 400px;
-  }
-  
-  .slide-title {
-    font-size: 1.8rem;
-    line-height: 1.2;
-  }
-  
-  .slide-description {
-    font-size: 1rem;
-    margin-bottom: 20px;
-  }
-  
-  .btn-buy {
-    padding: 10px 24px;
-    font-size: 0.9rem;
-    gap: 6px;
-  }
-  
   /* Modal responsive para móviles */
   .modal {
     padding: 10px;
@@ -821,6 +892,14 @@ body {
   .modal-left img {
     max-width: 180px;
   }
+  
+  .featured-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .featured-book {
+    width: 280px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -847,6 +926,18 @@ body {
   .modal-buttons {
     flex-direction: column;
   }
+  
+  .featured-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .featured-book {
+    width: 260px;
+  }
+  
+  .featured-book-image {
+    height: 180px;
+  }
 }
 </style>
 </head>
@@ -858,7 +949,7 @@ body {
   <div class="loading-text">Cargando biblioteca...</div>
 </div>
 
-<!-- HEADER + SLIDER -->
+<!-- HEADER -->
 <div class="header-container">
   <div class="top-menu">
     <div class="logo"><i class="fas fa-book-reader"></i><h1>Biblioteca Premium</h1></div>
@@ -870,54 +961,178 @@ body {
       <div class="menu-icon"><i class="fas fa-user"></i></div>
     </div>
   </div>
+</div>
 
-  <div class="slider-container">
-    <!-- SLIDE 1 -->
-    <div class="slide active">
-      <img loading="lazy" src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="Cien años de soledad" class="lazy-image">
-      <div class="slide-overlay">
-        <h3 class="slide-title">Descubre Nuevos Mundos</h3>
-        <p class="slide-description">Explora nuestra colección de bestsellers y libros exclusivos para todos los gustos.</p>
-        <a href="#" class="btn-buy"><i class="fas fa-shopping-cart"></i> Comprar</a>
-      </div>
+<!-- SECCIÓN DESTACADOS CON CARRUSEL HORIZONTAL -->
+<section class="featured-section">
+  <div class="featured-container">
+    <div class="featured-header">
+      <h2>Obras Destacadas</h2>
+      <p>Descubre las obras más emblemáticas de nuestro autor que han marcado generaciones y dejado una huella imborrable en la literatura contemporánea.</p>
     </div>
-
-    <!-- SLIDE 2 -->
-    <div class="slide">
-      <img loading="lazy" src="https://images.unsplash.com/photo-1506880018633-aed9dcfbcfcd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80" alt="1984" class="lazy-image">
-      <div class="slide-overlay">
-        <h3 class="slide-title">Clásicos Atemporales</h3>
-        <p class="slide-description">Revive las obras maestras que han marcado generaciones enteras.</p>
-        <a href="#" class="btn-buy"><i class="fas fa-shopping-cart"></i> Comprar</a>
+    
+    <div class="carousel-container">
+      <div class="carousel-scroll">
+        <!-- Libro destacado 1 -->
+        <div class="featured-book">
+          <div class="featured-book-image">
+            <img src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="Cien años de soledad">
+          </div>
+          <div class="featured-book-content">
+            <h3 class="featured-book-title">Cien años de soledad</h3>
+            <p class="featured-book-author">Gabriel García Márquez</p>
+            <p class="featured-book-description">Una obra maestra del realismo mágico que narra la historia de la familia Buendía en el mítico pueblo de Macondo.</p>
+            <div class="featured-book-meta">
+              <div class="featured-book-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>4.8</span>
+              </div>
+              <div class="featured-book-year">1967</div>
+            </div>
+            <a href="#" class="featured-book-btn">Ver detalles</a>
+          </div>
+        </div>
+        
+        <!-- Libro destacado 2 -->
+        <div class="featured-book">
+          <div class="featured-book-image">
+            <img src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="1984">
+          </div>
+          <div class="featured-book-content">
+            <h3 class="featured-book-title">1984</h3>
+            <p class="featured-book-author">George Orwell</p>
+            <p class="featured-book-description">Una inquietante visión de un futuro totalitario donde el Gran Hermano controla cada aspecto de la vida.</p>
+            <div class="featured-book-meta">
+              <div class="featured-book-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span>4.9</span>
+              </div>
+              <div class="featured-book-year">1949</div>
+            </div>
+            <a href="#" class="featured-book-btn">Ver detalles</a>
+          </div>
+        </div>
+        
+        <!-- Libro destacado 3 -->
+        <div class="featured-book">
+          <div class="featured-book-image">
+            <img src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="El Señor de los Anillos">
+          </div>
+          <div class="featured-book-content">
+            <h3 class="featured-book-title">El Señor de los Anillos</h3>
+            <p class="featured-book-author">J.R.R. Tolkien</p>
+            <p class="featured-book-description">La épica aventura de Frodo Bolsón en su misión para destruir el Anillo Único en el Monte del Destino.</p>
+            <div class="featured-book-meta">
+              <div class="featured-book-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <span>5.0</span>
+              </div>
+              <div class="featured-book-year">1954</div>
+            </div>
+            <a href="#" class="featured-book-btn">Ver detalles</a>
+          </div>
+        </div>
+        
+        <!-- Libro destacado 4 -->
+        <div class="featured-book">
+          <div class="featured-book-image">
+            <img src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="Don Quijote de la Mancha">
+          </div>
+          <div class="featured-book-content">
+            <h3 class="featured-book-title">Don Quijote de la Mancha</h3>
+            <p class="featured-book-author">Miguel de Cervantes</p>
+            <p class="featured-book-description">Las aventuras de Don Quijote y Sancho Panza. Considerada la primera novela moderna y una de las mejores obras.</p>
+            <div class="featured-book-meta">
+              <div class="featured-book-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>4.8</span>
+              </div>
+              <div class="featured-book-year">1605</div>
+            </div>
+            <a href="#" class="featured-book-btn">Ver detalles</a>
+          </div>
+        </div>
+        
+        <!-- Libro destacado 5 -->
+        <div class="featured-book">
+          <div class="featured-book-image">
+            <img src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="Rayuela">
+          </div>
+          <div class="featured-book-content">
+            <h3 class="featured-book-title">Rayuela</h3>
+            <p class="featured-book-author">Julio Cortázar</p>
+            <p class="featured-book-description">La historia de Horacio Oliveira en París y Buenos Aires. Una obra innovadora que puede leerse de múltiples maneras.</p>
+            <div class="featured-book-meta">
+              <div class="featured-book-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <span>4.6</span>
+              </div>
+              <div class="featured-book-year">1963</div>
+            </div>
+            <a href="#" class="featured-book-btn">Ver detalles</a>
+          </div>
+        </div>
+        
+        <!-- Libro destacado 6 -->
+        <div class="featured-book">
+          <div class="featured-book-image">
+            <img src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="La Sombra del Viento">
+          </div>
+          <div class="featured-book-content">
+            <h3 class="featured-book-title">La Sombra del Viento</h3>
+            <p class="featured-book-author">Carlos Ruiz Zafón</p>
+            <p class="featured-book-description">Daniel Sempere descubre un libro maldito en el Barcelona de posguerra. Una novela de misterio y amor por los libros.</p>
+            <div class="featured-book-meta">
+              <div class="featured-book-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>4.7</span>
+              </div>
+              <div class="featured-book-year">2001</div>
+            </div>
+            <a href="#" class="featured-book-btn">Ver detalles</a>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <!-- SLIDE 3 -->
-    <div class="slide">
-      <img loading="lazy" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80" alt="El Señor de los Anillos" class="lazy-image">
-      <div class="slide-overlay">
-        <h3 class="slide-title">Fantasía y Aventura</h3>
-        <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
-        <a href="#" class="btn-buy"><i class="fas fa-shopping-cart"></i> Comprar</a>
+      
+      <div class="scroll-indicator">
+        <i class="fas fa-arrows-alt-h"></i> Desliza para ver más obras
       </div>
-    </div>
-
-    <div class="slider-nav">
-      <div class="slider-dot active" data-slide="0"></div>
-      <div class="slider-dot" data-slide="1"></div>
-      <div class="slider-dot" data-slide="2"></div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- SECCIÓN AUTOR -->
 <section class="author-section">
   <div class="author-container">
-    <img loading="lazy" src="https://images.pexels.com/photos-220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Aitor García" class="author-image">
+    <img loading="lazy" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Aitor García" class="author-image">
     <div class="author-info">
       <h2 class="author-name">Aitor García</h2>
       <p class="author-bio">
-        Escritor contemporáneo de narrativa fantástica y realismo mágico. Sus novelas han sido traducidas a más de 12 idiomas y galardonadas internacionalmente.
+        Escritor contemporáneo de narrativa fantástica y realismo mágico. Sus novelas han sido traducidas a más de 12 idiomas y galardonadas internacionalmente. Con una prosa evocadora y personajes profundos, García ha logrado conectar con lectores de todas las generaciones.
       </p>
       <div class="author-details">
         <div class="author-detail">
@@ -932,6 +1147,10 @@ body {
           <span class="detail-value">15+</span>
           <span class="detail-label">Años de experiencia</span>
         </div>
+        <div class="author-detail">
+          <span class="detail-value">1M+</span>
+          <span class="detail-label">Lectores</span>
+        </div>
       </div>
     </div>
   </div>
@@ -940,7 +1159,7 @@ body {
 <!-- LIBROS -->
 <section class="books-section">
   <div class="books-header">
-    <h2>Obras publicadas</h2><br/><br/><br/>
+    <h2>Obras publicadas</h2>
   </div>
   <div id="library" class="books-grid"></div>
 </section>
@@ -1296,43 +1515,16 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-/* =========================
-   SLIDER
-   ========================= */
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.slider-dot');
-let currentSlide = 0;
-let slideInterval;
-
-function showSlide(n) {
-  slides.forEach((s, i) => {
-    s.classList.toggle('active', i === n);
-    dots[i].classList.toggle('active', i === n);
-  });
-  
-  const activeSlideImg = slides[n].querySelector('.lazy-image');
-  if (activeSlideImg && activeSlideImg.classList.contains('lazy-image')) {
-    if (activeSlideImg.dataset.src) {
-      activeSlideImg.src = activeSlideImg.dataset.src.trim();
-      activeSlideImg.removeAttribute('data-src');
+// Añadir funcionalidad a los botones de "Ver detalles" en la sección destacada
+document.querySelectorAll('.featured-book-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    // Encontrar el libro correspondiente y abrir el modal
+    const bookTitle = this.closest('.featured-book-content').querySelector('.featured-book-title').textContent;
+    const libro = libros.find(l => l.titulo === bookTitle);
+    if (libro) {
+      openBookModal(libro);
     }
-    activeSlideImg.classList.remove('lazy-image');
-  }
-}
-
-function startSlider() {
-  slideInterval = setInterval(() => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-  }, 5000);
-}
-
-dots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    clearInterval(slideInterval);
-    currentSlide = parseInt(dot.dataset.slide);
-    showSlide(currentSlide);
-    startSlider();
   });
 });
 
@@ -1343,7 +1535,6 @@ window.addEventListener('load', function() {
   const loading = document.getElementById('loading');
   
   renderLibrary();
-  startSlider();
   
   realImages.forEach(src => {
     const img = new Image();
@@ -1360,7 +1551,6 @@ window.addEventListener('load', function() {
 if (document.readyState === 'complete') {
   document.getElementById('loading').classList.add('hidden');
   renderLibrary();
-  startSlider();
 }
 </script>
 </body>
