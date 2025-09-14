@@ -368,8 +368,6 @@ body {
 
 
 
-
-
 /* === MODAL === */
 .modal { 
   display:none; 
@@ -379,6 +377,7 @@ body {
   background-color: rgba(0,0,0,0.95); 
   overflow-y: auto;
   padding: 0;
+  margin: 0;
 }
 .modal::-webkit-scrollbar { display:none; }
 .modal.show { display:block; }
@@ -458,7 +457,8 @@ body {
   background:#fafafa; 
   border-bottom:1px solid #eee;
   overflow: visible;
-  flex-shrink: 0; /* ✅ No se reduce */
+  flex-shrink: 0;
+  max-height: 400px; /* ✅ Límite para evitar que se haga enorme */
 }
 .modal-left img { 
   width:100%; 
@@ -493,7 +493,7 @@ body {
   width:100%; 
   margin-top: 20px;
   padding: 0 20px;
-  flex-shrink: 0; /* ✅ No se reduce */
+  flex-shrink: 0;
 }
 .detail-item { 
   display:flex; 
@@ -514,14 +514,15 @@ body {
 }
 
 .modal-right { 
-  flex: 1; /* ✅ OCUPA TODO EL ESPACIO RESTANTE */
+  flex: 1; 
   display:flex; 
   flex-direction:column; 
   padding:20px;
   background:#fff;
-  overflow-y: auto; /* ✅ ¡ESTO ES LO QUE HACE EL SCROLL! */
+  overflow-y: auto; /* ✅ ¡ESTE ES EL BOTÓN MÁGICO! */
   scrollbar-width: none;
-  height: 100%; /* ✅ FORZAMOS LA ALTURA PARA QUE EL SCROLL FUNCIONE EN PC */
+  height: 100%; /* ✅ FORZADO PARA QUE EL SCROLL FUNCIONE EN PC */
+  min-height: 0; /* ✅ ¡CLAVE PARA QUE NO SE ROMPA EN FLEXBOX! */
 }
 .modal-right::-webkit-scrollbar { display: none; }
 .modal-subtitle { 
@@ -540,6 +541,7 @@ body {
   margin:0;
   padding: 0 20px;
   max-width: 100%;
+  word-wrap: break-word;
 }
 .video-container { 
   margin: 20px 0;
@@ -566,7 +568,7 @@ body {
   margin-top:20px;
   margin-bottom: 40px;
   padding: 0 20px;
-  flex-shrink: 0; /* ✅ NO SE REDUCE */
+  flex-shrink: 0;
 }
 .modal-buttons a {
   display:inline-flex; 
