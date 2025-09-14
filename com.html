@@ -599,4 +599,460 @@ body {
       </div>
     </div>
     <div class="slide">
-      <img loading="lazy" src="data:image/svg+xml
+      <img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Crect x='300' y='150' width='200' height='100' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3" class="lazy-image">
+      <div class="slide-overlay">
+        <h3 class="slide-title">Fantasía y Aventura</h3>
+        <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
+      </div>
+    </div>
+
+    <div class="slider-nav">
+      <div class="slider-dot active" data-slide="0"></div>
+      <div class="slider-dot" data-slide="1"></div>
+      <div class="slider-dot" data-slide="2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN AUTOR AITOR -->
+<section class="author-section">
+  <div class="author-container">
+    <img loading="lazy" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Aitor García" class="author-image">
+    <div class="author-info">
+      <h2 class="author-name">Aitor García</h2>
+      <p class="author-bio">
+        Aitor García es un reconocido autor contemporáneo especializado en narrativa fantástica y realismo mágico. 
+        Con más de 15 años de experiencia en el mundo literario, sus obras han sido traducidas a 12 idiomas y 
+        han recibido numerosos premios internacionales. Su estilo único combina elementos de la tradición literaria 
+        clásica con innovadoras técnicas narrativas que cautivan a lectores de todas las edades.
+      </p>
+      <p class="author-bio">
+        Además de su labor como escritor, Aitor imparte talleres de escritura creativa y colabora regularmente 
+        con diversas revistas literarias. Su pasión por la literatura se manifiesta en cada una de sus obras, 
+        donde explora la complejidad del alma humana a través de historias profundas y personajes memorables.
+      </p>
+      <div class="author-details">
+        <div class="author-detail">
+          <span class="detail-value">12</span>
+          <span class="detail-label">Obras publicadas</span>
+        </div>
+        <div class="author-detail">
+          <span class="detail-value">8</span>
+          <span class="detail-label">Premios literarios</span>
+        </div>
+        <div class="author-detail">
+          <span class="detail-value">15+</span>
+          <span class="detail-label">Años de experiencia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIBROS AUTOR -->
+<div class="genre-row">
+  <div class="genre-header">
+    <h2><i class="fas fa-book"></i> Libros de Aitor García</h2>
+    <a href="#" class="ver-todo">Ver todos <i class="fas fa-chevron-right"></i></a>
+  </div>
+  <div id="library" class="books-grid"></div>
+</div>
+
+<!-- MODAL -->
+<div id="bookModal" class="modal" aria-hidden="true">
+  <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-title">Título del libro</h2>
+      <button class="close" aria-label="Cerrar modal">&times;</button>
+    </div>
+    <div class="modal-content">
+      <div class="modal-left">
+        <img id="modal-cover" src="" alt="Portada libro" loading="lazy">
+        
+        <!-- ✅ ESTRELLAS ELEGANTES — FUERA DE LA FICHA TÉCNICA, ENCIMA DEL TÍTULO -->
+        <div class="modal-rating" id="modal-rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+        </div>
+        <span class="rating-text" id="rating-text">4.8 / 5</span>
+
+        <div class="modal-details">
+          <div class="detail-item"><span class="detail-label">Páginas:</span><span class="detail-value" id="modal-pages">320</span></div>
+          <div class="detail-item"><span class="detail-label">ISBN:</span><span class="detail-value" id="modal-isbn">123-4567890123</span></div>
+          <div class="detail-item"><span class="detail-label">Idioma:</span><span class="detail-value" id="modal-language">Español</span></div>
+          <div class="detail-item"><span class="detail-label">Editorial:</span><span class="detail-value" id="modal-publisher">Ejemplo Editorial</span></div>
+          <div class="detail-item"><span class="detail-label">Año:</span><span class="detail-value" id="modal-year">2023</span></div>
+          <div class="detail-item"><span class="detail-label">Género:</span><span class="detail-value" id="modal-genre">Novela</span></div>
+        </div>
+      </div>
+      <div class="modal-right">
+        <h4 class="modal-subtitle" id="modal-subtitle">Subtítulo / Autor</h4>
+        <div class="modal-description-container">
+          <p class="modal-description" id="modal-description">Descripción completa del libro...</p>
+        </div>
+        <div class="video-container">
+          <iframe id="modal-video" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="modal-buttons">
+          <a href="#" target="_blank" class="btn-amazon"><i class="fab fa-amazon"></i> Comprar en Amazon</a>
+          <a href="#" target="_blank" class="btn-casadelibro"><i class="fas fa-store"></i> Comprar Casa del Libro</a>
+          <a href="#" target="_blank" class="btn-directo"><i class="fas fa-shopping-cart"></i> Comprar Directo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   DATOS DE LIBROS (con imágenes optimizadas)
+   ========================= */
+const libros = [
+  { 
+    titulo:"Cien años de soledad", 
+    autor:"Gabriel García Márquez", 
+    subtitulo:"Obra maestra del realismo mágico", 
+    genero:"Realismo Mágico",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"Novela sobre la familia Buendía en el pueblo ficticio de Macondo. Considerada una obra maestra de la literatura hispanoamericana y universal.", 
+    paginas:471, 
+    isbn:"978-8439721102", 
+    idioma:"Español", 
+    editorial:"Sudamericana", 
+    año:1967, 
+    rating:4.8, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"1984", 
+    autor:"George Orwell", 
+    subtitulo:"Distopía", 
+    genero:"Distopía",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"Winston Smith vive en un estado totalitario bajo el control del Gran Hermano. Una visión aterradora de un futuro controlado por la vigilancia constante.", 
+    paginas:328, 
+    isbn:"978-0451524935", 
+    idioma:"Español", 
+    editorial:"Debolsillo", 
+    año:1949, 
+    rating:4.7, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"El Señor de los Anillos", 
+    autor:"J.R.R. Tolkien", 
+    subtitulo:"La comunidad del anillo", 
+    genero:"Fantasía Épica",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"Frodo Bolsón y la misión de destruir el Anillo Único en el Monte del Destino. Una épica aventura en la Tierra Media.", 
+    paginas:576, 
+    isbn:"978-8445000660", 
+    idioma:"Español", 
+    editorial:"Minotauro", 
+    año:1954, 
+    rating:4.9, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"Don Quijote de la Mancha", 
+    autor:"Miguel de Cervantes", 
+    subtitulo:"El ingenioso hidalgo", 
+    genero:"Novela Clásica",
+    portada:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300' fill='%231a2b4a'%3E%3Crect width='200' height='300' fill='%231a2b4a'/%3E%3Ctext x='100' y='150' font-family='Arial' font-size='15' fill='%23f1c40f' text-anchor='middle'%3EDon Quijote%3C/text%3E%3C/svg%3E", 
+    descripcion:"Las aventuras de Don Quijote y Sancho Panza. Considerada la primera novela moderna y una de las mejores obras de la literatura universal.", 
+    paginas:863, 
+    isbn:"978-8424113968", 
+    idioma:"Español", 
+    editorial:"Editorial EDAF", 
+    año:1605, 
+    rating:4.8, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"Rayuela", 
+    autor:"Julio Cortázar", 
+    subtitulo:"Una novela contranovela", 
+    genero:"Novela Experimental",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"La historia de Horacio Oliveira en París y Buenos Aires. Una obra innovadora que puede leerse de múltiples maneras.", 
+    paginas:736, 
+    isbn:"978-8432216429", 
+    idioma:"Español", 
+    editorial:"Alfaguara", 
+    año:1963, 
+    rating:4.6, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"Ficciones", 
+    autor:"Jorge Luis Borges", 
+    subtitulo:"Colección de cuentos", 
+    genero:"Ficción",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"Relatos que exploran laberintos, espejos y realidades alternativas. Una de las obras cumbres de la literatura del siglo XX.", 
+    paginas:237, 
+    isbn:"978-8426413767", 
+    idioma:"Español", 
+    editorial:"Editorial Debolsillo", 
+    año:1944, 
+    rating:4.9, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"La Sombra del Viento", 
+    autor:"Carlos Ruiz Zafón", 
+    subtitulo:"El cementerio de los libros olvidados", 
+    genero:"Misterio",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"Daniel Sempere descubre un libro maldito en el Barcelona de posguerra. Una novela de misterio y amor por los libros.", 
+    paginas:565, 
+    isbn:"978-8408092311", 
+    idioma:"Español", 
+    editorial:"Planeta", 
+    año:2001, 
+    rating:4.7, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  },
+  { 
+    titulo:"Crimen y Castigo", 
+    autor:"Fiódor Dostoyevski", 
+    subtitulo:"Novela psicológica", 
+    genero:"Clásico Ruso",
+    portada:"https://m.media-amazon.com/images/I/61lJydEa4RL.jpg", 
+    descripcion:"Raskólnikov comete un crimen y sufre las consecuencias morales. Un profundo análisis de la psicología humana.", 
+    paginas:527, 
+    isbn:"978-8420665154", 
+    idioma:"Español", 
+    editorial:"Alianza Editorial", 
+    año:1866, 
+    rating:4.8, 
+    video:"https://www.youtube.com/embed/CTdm5tTu6pE"
+  }
+];
+
+// URLs de imágenes reales para carga diferida
+const realImages = [
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
+  "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg"
+];
+
+/* =========================
+   RENDERIZADO DE LIBROS
+   ========================= */
+const libraryContainer = document.getElementById('library');
+function renderLibrary() {
+  libraryContainer.innerHTML = '';
+  libros.forEach((libro, index) => {
+    const card = document.createElement('a'); 
+    card.href="#"; 
+    card.className="card";
+    card.innerHTML=`<img loading="lazy" src="${libro.portada}" data-src="${realImages[index % realImages.length]}" alt="${libro.titulo}" class="lazy-image">
+      <div class="card-overlay">
+        <div class="card-title">${libro.titulo}</div>
+        <div class="card-author">${libro.autor}</div>
+      </div>`;
+    card.addEventListener('click', e => {
+      e.preventDefault(); 
+      openBookModal(libro);
+    });
+    libraryContainer.appendChild(card);
+  });
+  
+  // Iniciar carga diferida de imágenes
+  lazyLoadImages();
+}
+
+/* =========================
+   CARGA DIFERIDA DE IMÁGENES (MEJORADA)
+   ========================= */
+function lazyLoadImages() {
+  const lazyImages = document.querySelectorAll('.lazy-image');
+  
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          if (img.dataset.src) {
+            img.src = img.dataset.src.trim();
+          }
+          img.removeAttribute('data-src');
+          img.classList.remove('lazy-image');
+          imageObserver.unobserve(img);
+        }
+      });
+    }, { rootMargin: '200px 0px', threshold: 0.01 });
+
+    lazyImages.forEach(img => {
+      imageObserver.observe(img);
+    });
+  } else {
+    lazyImages.forEach(img => {
+      if (img.dataset.src) img.src = img.dataset.src.trim();
+      img.classList.remove('lazy-image');
+    });
+  }
+}
+
+/* =========================
+   MODAL
+   ========================= */
+const modal = document.getElementById('bookModal');
+const modalCover = document.getElementById('modal-cover');
+const modalTitle = document.getElementById('modal-title');
+const modalSubtitle = document.getElementById('modal-subtitle');
+const modalDescription = document.getElementById('modal-description');
+const modalPages = document.getElementById('modal-pages');
+const modalISBN = document.getElementById('modal-isbn');
+const modalLanguage = document.getElementById('modal-language');
+const modalPublisher = document.getElementById('modal-publisher');
+const modalYear = document.getElementById('modal-year');
+const modalGenre = document.getElementById('modal-genre');
+const modalRating = document.getElementById('modal-rating');
+const ratingText = document.getElementById('rating-text');
+const modalVideo = document.getElementById('modal-video');
+
+function renderRatingStars(rating) {
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating - fullStars >= 0.5;
+  
+  // Limpiar estrellas existentes
+  modalRating.innerHTML = '';
+  
+  for (let i = 0; i < 5; i++) {
+    const star = document.createElement('i');
+    if (i < fullStars) {
+      star.className = 'fas fa-star';
+    } else if (i === fullStars && hasHalfStar) {
+      star.className = 'fas fa-star-half-alt';
+    } else {
+      star.className = 'far fa-star';
+    }
+    modalRating.appendChild(star);
+  }
+  
+  ratingText.textContent = `${rating.toFixed(1)} / 5`;
+}
+
+function openBookModal(libro) {
+  const bookIndex = libros.findIndex(l => l.titulo === libro.titulo);
+  modalCover.src = realImages[bookIndex % realImages.length];
+  
+  modalTitle.textContent = libro.titulo;
+  modalSubtitle.textContent = libro.subtitulo + " / " + libro.autor;
+  modalDescription.textContent = libro.descripcion;
+  modalPages.textContent = libro.paginas;
+  modalISBN.textContent = libro.isbn;
+  modalLanguage.textContent = libro.idioma;
+  modalPublisher.textContent = libro.editorial;
+  modalYear.textContent = libro.año;
+  modalGenre.textContent = libro.genero;
+  
+  renderRatingStars(libro.rating);
+  
+  modalVideo.src = libro.video.trim();
+  modal.classList.add('show');
+  
+  // Pausar video cuando se cierra el modal
+  const iframe = modalVideo;
+  const videoSrc = iframe.src;
+  
+  const closeBtn = modal.querySelector('.close');
+  const newCloseBtn = closeBtn.cloneNode(true);
+  closeBtn.parentNode.replaceChild(newCloseBtn, closeBtn);
+  
+  newCloseBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+    iframe.src = "";
+    setTimeout(() => {
+      iframe.src = videoSrc;
+    }, 300);
+  });
+}
+
+// Cerrar modal al hacer clic fuera del contenido
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.remove('show');
+    modalVideo.src = "";
+  }
+});
+
+/* =========================
+   SLIDER
+   ========================= */
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.slider-dot');
+let currentSlide = 0;
+let slideInterval;
+
+function showSlide(n) {
+  slides.forEach((s, i) => {
+    s.classList.toggle('active', i === n);
+    dots[i].classList.toggle('active', i === n);
+  });
+  
+  const activeSlideImg = slides[n].querySelector('.lazy-image');
+  if (activeSlideImg && activeSlideImg.classList.contains('lazy-image')) {
+    if (activeSlideImg.dataset.src) {
+      activeSlideImg.src = activeSlideImg.dataset.src.trim();
+      activeSlideImg.removeAttribute('data-src');
+    }
+    activeSlideImg.classList.remove('lazy-image');
+  }
+}
+
+function startSlider() {
+  slideInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }, 5000);
+}
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    clearInterval(slideInterval);
+    currentSlide = parseInt(dot.dataset.slide);
+    showSlide(currentSlide);
+    startSlider();
+  });
+});
+
+/* =========================
+   PRELOADER Y CARGA INICIAL
+   ========================= */
+window.addEventListener('load', function() {
+  const loading = document.getElementById('loading');
+  
+  renderLibrary();
+  startSlider();
+  
+  realImages.forEach(src => {
+    const img = new Image();
+    img.src = src.trim();
+  });
+
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      loading.classList.add('hidden');
+    }, 250);
+  });
+});
+
+if (document.readyState === 'complete') {
+  document.getElementById('loading').classList.add('hidden');
+  renderLibrary();
+  startSlider();
+}
+</script>
+</body>
+</html>
