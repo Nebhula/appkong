@@ -9,11 +9,10 @@
 /* === RESET / BASE === */
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 body {
-  background: #0a1a2e;
-  color: #fff;
+  background: #fff;
+  color: #333;
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 40px;
 }
 
 /* === LOADING INDICATOR === */
@@ -23,7 +22,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #061120;
+  background: #0a1a2e;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -57,12 +56,18 @@ body {
 }
 
 /* === HEADER / SLIDER === */
-.header-container { position: relative; margin-bottom: 40px; }
-.top-menu {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:15px 20px;
+.header-container {
   background: #0a1a2e;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  position: relative;
+  margin-bottom: 40px;
+}
+.top-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: transparent;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   position: relative;
   z-index: 10;
 }
@@ -75,7 +80,7 @@ body {
 .slider-container { 
   position:relative; 
   width:100%; 
-  height:300px; 
+  height:500px; /* ✅ AUMENTADO PARA QUE SE VEA LA IMAGEN ENTERA */
   overflow:hidden; 
   background: #061120;
 }
@@ -87,6 +92,12 @@ body {
   transition:opacity 1.2s ease-in-out; 
   z-index:1; 
   background: #1a2b4a;
+  display:flex;
+  flex-direction:column;
+  justify-content:center; /* ✅ CENTRADO VERTICALMENTE */
+  align-items:center; /* ✅ CENTRADO HORIZONTALMENTE */
+  text-align:center;
+  padding: 0 40px;
 }
 .slide.active { opacity:1; z-index:2; }
 .slide img { 
@@ -94,36 +105,100 @@ body {
   height:100%; 
   object-fit:cover; 
   display:block;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:1;
 }
 .slide-overlay {
-  position:absolute; bottom:0; left:0; right:0;
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  padding:20px; color:#fff;
+  position:relative;
+  background: transparent; /* ✅ TRANSPARENTE TOTAL */
+  color:#fff;
+  z-index:3;
+  padding: 40px;
+  max-width: 800px;
+  text-align: center;
 }
-.slide-title { font-size:1.5rem; color:#f1c40f; margin-bottom:8px; }
-.slide-description { font-size:0.9rem; max-width:600px; }
+.slide-title { 
+  font-size: 2.5rem; 
+  color:#f1c40f; 
+  margin-bottom:15px; 
+  font-weight:700;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  letter-spacing: -0.5px;
+}
+.slide-description { 
+  font-size: 1.3rem; 
+  max-width: 700px; 
+  margin-bottom: 30px;
+  line-height: 1.7;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+  font-weight: 300;
+}
+.btn-buy {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: rgba(255,255,255,0.1); /* ✅ FONDO TRANSPARENTE CON BRILLO */
+  backdrop-filter: blur(10px); /* ✅ EFECTO DE BLUR SUTIL */
+  border: 1px solid rgba(241, 196, 15, 0.5);
+  color: #f1c40f;
+  font-weight: 700;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.4s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  letter-spacing: 0.5px;
+}
+.btn-buy:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: #f1c40f;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
 
-.slider-nav { position:absolute; bottom:15px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:3; }
-.slider-dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.5); cursor:pointer; transition: transform .2s, background .2s; }
-.slider-dot.active { background:#f1c40f; transform:scale(1.2); }
+.slider-nav { 
+  position:absolute; 
+  bottom:30px; 
+  left:50%; 
+  transform:translateX(-50%); 
+  display:flex; 
+  gap:12px; 
+  z-index:4; 
+  pointer-events: none;
+}
+.slider-dot { 
+  width:12px; 
+  height:12px; 
+  border-radius:50%; 
+  background:rgba(255,255,255,0.3); 
+  cursor:pointer; 
+  transition: transform .2s, background .2s;
+  pointer-events: auto;
+}
+.slider-dot.active { 
+  background:#f1c40f; 
+  transform:scale(1.4); 
+}
 
 /* === SECCIÓN AUTOR === */
 .author-section {
-  padding: 40px 20px;
-  background: linear-gradient(to right, #0a1a2e, #061120);
-  margin: 0 auto 40px;
+  padding: 80px 20px;
+  background: #fff;
+  margin: 0 auto 60px;
   max-width: 1200px;
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  text-align: center;
 }
-
 .author-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 25px;
 }
-
 .author-image {
   width: 180px;
   height: 180px;
@@ -132,20 +207,16 @@ body {
   border: 4px solid #f1c40f;
   box-shadow: 0 0 20px rgba(241, 196, 15, 0.3);
 }
-
 .author-info {
-  text-align: center;
   max-width: 800px;
 }
-
 .author-name {
   font-size: 2.2rem;
-  color: #f1c40f;
-  margin-bottom: 15px;
+  color: #0a1a2e;
+  margin-bottom: 10px;
   position: relative;
   display: inline-block;
 }
-
 .author-name:after {
   content: '';
   position: absolute;
@@ -156,14 +227,15 @@ body {
   height: 3px;
   background: #f1c40f;
 }
-
 .author-bio {
   font-size: 1.1rem;
   line-height: 1.7;
-  color: #e0e0e0;
+  color: #555;
   margin-bottom: 20px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
 .author-details {
   display: flex;
   flex-wrap: wrap;
@@ -171,60 +243,77 @@ body {
   gap: 20px;
   margin-top: 20px;
 }
-
 .author-detail {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(26, 43, 74, 0.7);
+  background: #f8f9fa;
   padding: 15px;
   border-radius: 8px;
   min-width: 150px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
 }
-
 .detail-value {
   font-size: 1.5rem;
   font-weight: bold;
   color: #f1c40f;
   margin-bottom: 5px;
 }
-
 .detail-label {
   font-size: 0.9rem;
-  color: #a0a0a0;
+  color: #888;
 }
 
-/* === LIBROS / GRID === */
-.genre-row { margin-bottom:40px; padding:0 15px; }
-.genre-header {
-  display:flex; justify-content:space-between; align-items:center;
-  margin:0 10px 15px 10px; padding-bottom:8px; border-bottom:2px solid #f1c40f;
+/* === LIBROS === */
+.books-section {
+  background: #fff;
+  padding: 80px 20px;
+  margin: 0 auto 60px;
+  max-width: 1200px;
 }
-.genre-header h2 { font-size:1.5rem; color:#f1c40f; display:flex; align-items:center; gap:10px; }
-.ver-todo { color:#f1c40f; font-weight:bold; text-decoration:none; display:flex; align-items:center; gap:5px; transition:transform .3s; font-size: 0.9rem; }
-.ver-todo:hover { transform: translateX(5px); text-decoration:underline; }
+.books-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.books-header h2 {
+  font-size: 2rem;
+  color: #0a1a2e;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+.books-header h2:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: #f1c40f;
+  border-radius: 2px;
+}
 
 .books-grid {
   display:grid;
   grid-template-columns: repeat(2, 1fr);
-  gap:15px;
-  padding:10px;
+  gap:20px;
+  padding:0 15px;
   max-width: 1200px;
   margin: 0 auto;
 }
-
 .card {
   width:100%; 
-  border-radius:8px; 
+  border-radius:12px; 
   overflow:hidden; 
   position:relative;
   cursor:pointer; 
-  transition: all .3s ease; 
+  transition: all .4s ease; 
   display:block; 
   text-decoration:none; 
   color:inherit;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  background: #1a2b4a;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  background: #fff;
   aspect-ratio: 2/3;
 }
 .card img { 
@@ -232,18 +321,41 @@ body {
   height: 100%; 
   object-fit:cover; 
   display:block; 
-  transition: transform .5s;
+  transition: transform .6s;
 }
 .card-overlay {
-  position:absolute; bottom:0; left:0; right:0;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  padding:12px; z-index:2; transform: translateY(100%); transition: transform .3s ease;
+  position:absolute; 
+  bottom:0; 
+  left:0; 
+  right:0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding:20px; 
+  z-index:2; 
+  transform: translateY(100%); 
+  transition: transform .4s ease;
 }
-.card-title { font-size:14px; font-weight:bold; margin-bottom:4px; color:#f1c40f; }
-.card-author { font-size:12px; opacity:0.9; }
-.card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.5); }
-.card:hover img { transform: scale(1.05); }
-.card:hover .card-overlay { transform: translateY(0); }
+.card-title { 
+  font-size:16px; 
+  font-weight:bold; 
+  margin-bottom:6px; 
+  color:#f1c40f;
+  line-height:1.3;
+}
+.card-author { 
+  font-size:14px; 
+  opacity:0.9;
+  color:#ddd;
+}
+.card:hover { 
+  transform: translateY(-8px); 
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15); 
+}
+.card:hover img { 
+  transform: scale(1.03); 
+}
+.card:hover .card-overlay { 
+  transform: translateY(0); 
+}
 
 /* === MODAL === */
 .modal { 
@@ -251,49 +363,53 @@ body {
   position:fixed; 
   inset:0; 
   z-index:1000; 
-  background-color: rgba(0,0,0,0.95); 
+  background-color: rgba(0,0,0,0.85); 
   overflow-y: auto; 
-  -webkit-overflow-scrolling: touch; 
-  padding: 15px; 
+  padding: 20px;
 }
 .modal::-webkit-scrollbar { display:none; }
 .modal.show { display:block; }
 .modal-container { 
   width: 100%; 
   max-width: 1000px; 
-  margin: 0 auto; 
-  background: #0a1a2e; 
-  color:#fff; 
-  border-radius:8px; 
+  margin: 40px auto; 
+  background: #fff; 
+  color:#333; 
+  border-radius:16px; 
   display:flex; 
   flex-direction:column; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2); 
   overflow: hidden;
+  position: relative;
 }
 .modal-header { 
-  padding:15px 20px; 
-  background:#061120; 
+  padding:25px 30px; 
+  background:#f8f9fa; 
   display:flex; 
   justify-content:space-between; 
   align-items:center; 
-  border-bottom:1px solid #1a2b4a; 
+  border-bottom:1px solid #eee; 
 }
 .modal-title { 
-  font-size:1.5rem; 
-  color:#f1c40f; 
+  font-size:1.8rem; 
+  color:#0a1a2e; 
   max-width:80%; 
   word-wrap:break-word; 
+  font-weight:700;
 }
 .close { 
-  font-size:24px; 
-  color:#f1c40f; 
+  font-size:28px; 
+  color:#888; 
   font-weight:bold; 
   cursor:pointer; 
   background:none; 
   border:none; 
-  transition: transform .25s; 
+  transition: transform .25s, color .25s; 
 }
-.close:hover { transform: rotate(90deg); }
+.close:hover { 
+  transform: rotate(90deg); 
+  color:#f1c40f;
+}
 .modal-content { 
   display:flex; 
   flex-direction:column; 
@@ -302,80 +418,88 @@ body {
 }
 .modal-left { 
   width:100%; 
-  padding:20px; 
+  padding:30px; 
   display:flex; 
   flex-direction:column; 
   align-items:center; 
-  background:#061120; 
-  border-bottom:1px solid #1a2b4a; 
+  background:#fafafa; 
+  border-bottom:1px solid #eee; 
 }
 .modal-left img { 
   width:100%; 
-  max-width:180px; 
+  max-width:200px; 
   height:auto; 
   object-fit:cover; 
-  border-radius:8px; 
-  box-shadow:0 5px 15px rgba(0,0,0,0.5); 
-  margin-bottom:15px; 
+  border-radius:12px; 
+  box-shadow:0 8px 20px rgba(0,0,0,0.1); 
+  margin-bottom:20px; 
 }
-
-/* === NUEVO RATING CON ESTRELLAS ELEGANTES (fuera de la ficha técnica) === */
 .modal-rating {
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin: 12px 0;
-  font-size: 1.4rem;
+  gap: 6px;
+  margin: 15px 0;
+  font-size: 1.6rem;
   color: #f1c40f;
 }
-
 .modal-rating i {
   transition: transform 0.2s ease;
 }
-
 .modal-rating i:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
-
 .rating-text {
-  font-size: 0.9rem;
-  color: #ccc;
-  margin-left: 8px;
+  font-size: 1rem;
+  color: #777;
+  margin-left: 10px;
   font-weight: 500;
 }
-
 .modal-details { width:100%; }
 .detail-item { 
   display:flex; 
   justify-content:space-between; 
-  margin-bottom:10px; 
-  padding-bottom:10px; 
-  border-bottom:1px solid #1a2b4a; 
+  margin-bottom:12px; 
+  padding-bottom:12px; 
+  border-bottom:1px solid #eee; 
 }
-.detail-label { font-weight:bold; color:#f1c40f; font-size:0.9rem; }
-.detail-value { text-align:right; font-size:0.9rem; }
+.detail-label { 
+  font-weight:bold; 
+  color:#0a1a2e; 
+  font-size:0.95rem; 
+}
+.detail-value { 
+  text-align:right; 
+  font-size:0.95rem; 
+  color:#555;
+}
 
 .modal-right { 
   width:100%; 
   display:flex; 
   flex-direction:column; 
-  padding:20px; 
-  gap:10px; 
+  padding:30px; 
+  gap:15px; 
+  background:#fff;
 }
 .modal-subtitle { 
-  font-size:1.1rem; 
+  font-size:1.3rem; 
   color:#e67e22; 
-  margin-bottom:8px; 
+  margin-bottom:10px; 
   font-weight:normal; 
 }
-.modal-description-container {  }
-.modal-description { line-height:1.6; font-size:1rem; margin-bottom:10px; }
+.modal-description-container { }
+.modal-description { 
+  line-height:1.7; 
+  font-size:1.05rem; 
+  margin-bottom:15px; 
+  color:#444;
+}
 .video-container { 
-  margin: 12px 0; 
-  border-radius:8px; 
+  margin: 15px 0; 
+  border-radius:12px; 
   overflow:hidden; 
-  max-height:250px; 
-  background:#061120; 
+  max-height:280px; 
+  background:#f8f9fa; 
   position: relative;
   aspect-ratio: 16/9;
 }
@@ -388,26 +512,71 @@ body {
 /* BOTONES MODAL */
 .modal-buttons { 
   display:flex; 
-  gap:10px; 
+  gap:12px; 
   flex-wrap:wrap; 
-  margin-top:10px; 
+  margin-top:15px; 
 }
 .modal-buttons a {
   display:inline-flex; 
   align-items:center; 
   justify-content:center; 
-  gap:6px;
-  padding:8px 15px; 
+  gap:8px;
+  padding:12px 24px; 
   border-radius:30px; 
   font-weight:bold; 
   text-decoration:none;
-  transition: all .25s; 
+  transition: all .3s; 
   color:#fff;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .btn-amazon { background:#ff9900; } .btn-amazon:hover { background:#e68a00; }
 .btn-casadelibro { background:#3498db; } .btn-casadelibro:hover { background:#2980b9; }
 .btn-directo { background:#27ae60; } .btn-directo:hover { background:#1e8449; }
+
+/* === FOOTER === */
+.footer {
+  background: #0a1a2e;
+  color: #fff;
+  padding: 60px 20px 30px;
+  text-align: center;
+  margin-top: 80px;
+}
+.footer-logo {
+  font-size: 2rem;
+  color: #f1c40f;
+  margin-bottom: 15px;
+}
+.footer-text {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 25px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+.footer-links a {
+  color: #bbb;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s;
+}
+.footer-links a:hover {
+  color: #f1c40f;
+}
+.footer-copyright {
+  font-size: 0.85rem;
+  color: #777;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+  margin-top: 30px;
+}
 
 /* RESPONSIVE */
 @media (min-width: 768px) {
@@ -423,6 +592,7 @@ body {
   
   .author-info {
     text-align: left;
+    margin-left: 40px;
   }
   
   .author-name:after {
@@ -436,7 +606,7 @@ body {
   
   .modal-left {
     width: 40%;
-    border-right: 1px solid #1a2b4a;
+    border-right: 1px solid #eee;
     border-bottom: none;
   }
   
@@ -461,43 +631,43 @@ body {
   }
   
   .slider-container {
-    height: 400px;
+    height: 550px;
   }
   
   .slide-title {
-    font-size: 2rem;
+    font-size: 3rem;
   }
   
   .slide-description {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
   }
 }
 
 @media (min-width: 992px) {
   .books-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 15px;
+    gap: 25px;
+    padding: 0 20px;
   }
   
   .card {
-    border-radius: 12px;
+    border-radius: 16px;
   }
   
   .card-overlay {
-    padding: 15px;
+    padding: 25px;
   }
   
   .card-title {
-    font-size: 16px;
+    font-size: 18px;
   }
   
   .card-author {
-    font-size: 14px;
+    font-size: 15px;
   }
   
   .author-section {
-    padding: 60px 40px;
+    padding: 100px 40px;
   }
   
   .author-image {
@@ -508,21 +678,25 @@ body {
   .author-name {
     font-size: 2.5rem;
   }
+  
+  .books-header h2 {
+    font-size: 2.3rem;
+  }
 }
 
 @media (max-width: 480px) {
   .books-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 8px;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 10px;
   }
   
   .card-title {
-    font-size: 12px;
+    font-size: 14px;
   }
   
   .card-author {
-    font-size: 10px;
+    font-size: 12px;
   }
   
   .modal-buttons {
@@ -535,8 +709,8 @@ body {
   }
   
   .author-image {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
   }
   
   .author-name {
@@ -552,12 +726,44 @@ body {
   }
   
   .author-detail {
-    min-width: 120px;
+    min-width: 110px;
     padding: 10px;
   }
   
   .detail-value {
     font-size: 1.3rem;
+  }
+  
+  .slider-container {
+    height: 350px;
+  }
+  
+  .slide-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  
+  .slide-description {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  .btn-buy {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+  
+  .modal-header {
+    padding: 20px 20px;
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+  
+  .close {
+    font-size: 24px;
   }
 }
 </style>
@@ -584,25 +790,33 @@ body {
   </div>
 
   <div class="slider-container">
+    <!-- SLIDE 1 -->
     <div class="slide active">
-      <img loading="lazy" src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="Libro 1" class="lazy-image">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80" alt="Cien años de soledad" class="lazy-image">
       <div class="slide-overlay">
         <h3 class="slide-title">Descubre Nuevos Mundos</h3>
         <p class="slide-description">Explora nuestra colección de bestsellers y libros exclusivos para todos los gustos.</p>
+        <a href="#" class="btn-buy"><i class="fas fa-shopping-cart"></i> Comprar</a>
       </div>
     </div>
+
+    <!-- SLIDE 2 -->
     <div class="slide">
-      <img loading="lazy" src="https://m.media-amazon.com/images/I/61lJydEa4RL.jpg" alt="Libro 2" class="lazy-image">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1506880018633-aed9dcfbcfcd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80" alt="1984" class="lazy-image">
       <div class="slide-overlay">
         <h3 class="slide-title">Clásicos Atemporales</h3>
         <p class="slide-description">Revive las obras maestras que han marcado generaciones enteras.</p>
+        <a href="#" class="btn-buy"><i class="fas fa-shopping-cart"></i> Comprar</a>
       </div>
     </div>
+
+    <!-- SLIDE 3 -->
     <div class="slide">
-      <img loading="lazy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400' viewBox='0 0 800 400' fill='%231a2b4a'%3E%3Crect width='800' height='400' fill='%231a2b4a'/%3E%3Crect x='300' y='150' width='200' height='100' fill='%230a1a2e'/%3E%3C/svg%3E" data-src="https://images.pexels.com/photos/459791/pexels-photo-459791.jpeg" alt="Libro 3" class="lazy-image">
+      <img loading="lazy" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1600&q=80" alt="El Señor de los Anillos" class="lazy-image">
       <div class="slide-overlay">
         <h3 class="slide-title">Fantasía y Aventura</h3>
         <p class="slide-description">Sumérgete en universos épicos llenos de magia y personajes inolvidables.</p>
+        <a href="#" class="btn-buy"><i class="fas fa-shopping-cart"></i> Comprar</a>
       </div>
     </div>
 
@@ -614,22 +828,14 @@ body {
   </div>
 </div>
 
-<!-- SECCIÓN AUTOR AITOR -->
+<!-- SECCIÓN AUTOR -->
 <section class="author-section">
   <div class="author-container">
     <img loading="lazy" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Aitor García" class="author-image">
     <div class="author-info">
       <h2 class="author-name">Aitor García</h2>
       <p class="author-bio">
-        Aitor García es un reconocido autor contemporáneo especializado en narrativa fantástica y realismo mágico. 
-        Con más de 15 años de experiencia en el mundo literario, sus obras han sido traducidas a 12 idiomas y 
-        han recibido numerosos premios internacionales. Su estilo único combina elementos de la tradición literaria 
-        clásica con innovadoras técnicas narrativas que cautivan a lectores de todas las edades.
-      </p>
-      <p class="author-bio">
-        Además de su labor como escritor, Aitor imparte talleres de escritura creativa y colabora regularmente 
-        con diversas revistas literarias. Su pasión por la literatura se manifiesta en cada una de sus obras, 
-        donde explora la complejidad del alma humana a través de historias profundas y personajes memorables.
+        Escritor contemporáneo de narrativa fantástica y realismo mágico. Sus novelas han sido traducidas a más de 12 idiomas y galardonadas internacionalmente.
       </p>
       <div class="author-details">
         <div class="author-detail">
@@ -649,14 +855,13 @@ body {
   </div>
 </section>
 
-<!-- LIBROS AUTOR -->
-<div class="genre-row">
-  <div class="genre-header">
-    <h2><i class="fas fa-book"></i> Libros de Aitor García</h2>
-    <a href="#" class="ver-todo">Ver todos <i class="fas fa-chevron-right"></i></a>
+<!-- LIBROS -->
+<section class="books-section">
+  <div class="books-header">
+    <h2>PUBLICACIONES DEL AUTOR</h2>
   </div>
   <div id="library" class="books-grid"></div>
-</div>
+</section>
 
 <!-- MODAL -->
 <div id="bookModal" class="modal" aria-hidden="true">
@@ -668,8 +873,6 @@ body {
     <div class="modal-content">
       <div class="modal-left">
         <img id="modal-cover" src="" alt="Portada libro" loading="lazy">
-        
-        <!-- ✅ ESTRELLAS ELEGANTES — FUERA DE LA FICHA TÉCNICA, ENCIMA DEL TÍTULO -->
         <div class="modal-rating" id="modal-rating">
           <i class="fas fa-star"></i>
           <i class="fas fa-star"></i>
@@ -678,7 +881,7 @@ body {
           <i class="fas fa-star"></i>
         </div>
         <span class="rating-text" id="rating-text">4.8 / 5</span>
-
+        
         <div class="modal-details">
           <div class="detail-item"><span class="detail-label">Páginas:</span><span class="detail-value" id="modal-pages">320</span></div>
           <div class="detail-item"><span class="detail-label">ISBN:</span><span class="detail-value" id="modal-isbn">123-4567890123</span></div>
@@ -706,9 +909,22 @@ body {
   </div>
 </div>
 
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo"><i class="fas fa-book-reader"></i></div>
+  <p class="footer-text">Biblioteca Premium es una plataforma dedicada a la exploración profunda de la literatura contemporánea y clásica. Descubre historias que trascienden el tiempo.</p>
+  <div class="footer-links">
+    <a href="#">Sobre nosotros</a>
+    <a href="#">Contacto</a>
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+  </div>
+  <p class="footer-copyright">© 2025 Biblioteca Premium. Todos los derechos reservados.</p>
+</footer>
+
 <script>
 /* =========================
-   DATOS DE LIBROS (con imágenes optimizadas)
+   DATOS DE LIBROS
    ========================= */
 const libros = [
   { 
@@ -761,7 +977,7 @@ const libros = [
     autor:"Miguel de Cervantes", 
     subtitulo:"El ingenioso hidalgo", 
     genero:"Novela Clásica",
-    portada:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300' fill='%231a2b4a'%3E%3Crect width='200' height='300' fill='%231a2b4a'/%3E%3Ctext x='100' y='150' font-family='Arial' font-size='15' fill='%23f1c40f' text-anchor='middle'%3EDon Quijote%3C/text%3E%3C/svg%3E", 
+    portada:"image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='300' viewBox='0 0 200 300' fill='%231a2b4a'%3E%3Crect width='200' height='300' fill='%231a2b4a'/%3E%3Ctext x='100' y='150' font-family='Arial' font-size='15' fill='%23f1c40f' text-anchor='middle'%3EDon Quijote%3C/text%3E%3C/svg%3E", 
     descripcion:"Las aventuras de Don Quijote y Sancho Panza. Considerada la primera novela moderna y una de las mejores obras de la literatura universal.", 
     paginas:863, 
     isbn:"978-8424113968", 
@@ -833,7 +1049,6 @@ const libros = [
   }
 ];
 
-// URLs de imágenes reales para carga diferida
 const realImages = [
   "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
   "https://m.media-amazon.com/images/I/61lJydEa4RL.jpg",
@@ -866,13 +1081,11 @@ function renderLibrary() {
     });
     libraryContainer.appendChild(card);
   });
-  
-  // Iniciar carga diferida de imágenes
   lazyLoadImages();
 }
 
 /* =========================
-   CARGA DIFERIDA DE IMÁGENES (MEJORADA)
+   CARGA DIFERIDA DE IMÁGENES
    ========================= */
 function lazyLoadImages() {
   const lazyImages = document.querySelectorAll('.lazy-image');
@@ -925,7 +1138,6 @@ function renderRatingStars(rating) {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating - fullStars >= 0.5;
   
-  // Limpiar estrellas existentes
   modalRating.innerHTML = '';
   
   for (let i = 0; i < 5; i++) {
@@ -962,7 +1174,6 @@ function openBookModal(libro) {
   modalVideo.src = libro.video.trim();
   modal.classList.add('show');
   
-  // Pausar video cuando se cierra el modal
   const iframe = modalVideo;
   const videoSrc = iframe.src;
   
@@ -979,7 +1190,6 @@ function openBookModal(libro) {
   });
 }
 
-// Cerrar modal al hacer clic fuera del contenido
 modal.addEventListener('click', (e) => {
   if (e.target === modal) {
     modal.classList.remove('show');
